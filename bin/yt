@@ -4,6 +4,7 @@
 #
 # youtube-dl, which is awesome:
 #   https://rg3.github.io/youtube-dl/
+#   https://youtube-dl.org/
 #
 
 cd ~/Desktop && youtube-dl "$@"
