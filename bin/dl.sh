@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 #
+# Download 720p video
+#
 set -e
 
 cd ~/Downloads
@@ -7,8 +9,9 @@ cd ~/Downloads
 title="$(youtube-dl -e "$@")"
 id="$(youtube-dl --get-id "$@")"
 
-exec youtube-dl -f 251 "$@"
-exec youtube-dl -f 399 "$@" || exec youtube-dl -f 137 "$@"
+youtube-dl -f 251 "$@"
+youtube-dl -f 399 "$@" || youtube-dl -f 137 "$@"
 
-exec ffmpeg -i "$title-$id.mp4" -i "$title-$id.webm" -c copy "$title-$id.mkv" && cp "$title-$id.mkv" ~/Videos
+ffmpeg -i "$title-$id.mp4" -i "$title-$id.webm" -c copy "$title-$id.mkv" && cp "$title-$id.mkv" ~/Videos
 
+rm -r "$title-$id.mp4" "$title-$id.webm"
