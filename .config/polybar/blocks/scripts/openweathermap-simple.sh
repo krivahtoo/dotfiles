@@ -41,7 +41,7 @@ get_icon() {
     echo $icon
 }
 
-KEY="beb3a02d95424020044d4deeef5ae37a"
+KEY="OPEN_WEATHER_TOKEN"
 CITY="Nairobi"
 UNITS="metric"
 SYMBOL="°"
