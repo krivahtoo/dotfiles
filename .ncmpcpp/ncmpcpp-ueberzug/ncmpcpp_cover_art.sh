@@ -4,8 +4,8 @@
 # SETTINGS
 music_library="$HOME/Music"
 fallback_image="$HOME/.ncmpcpp/ncmpcpp-ueberzug/img/fallback.png"
-padding_top=3
-padding_bottom=2
+padding_top=5
+padding_bottom=1
 padding_right=1
 max_width=0
 reserved_playlist_cols=30
@@ -27,6 +27,8 @@ main() {
     find_cover_image        >/dev/null 2>&1
     display_cover_image     2>/dev/null
     detect_window_resizes   >/dev/null 2>&1
+    # Notify current playing song
+    notify-send 'Now Playing' "$(mpc --format '<b>%title%</b>\n<i>By</i>: %artist%' current)" -t 2000 -a 'Music' --icon=/tmp/mpd_cover.jpg
 }
 
 # ==== Main functions =========================================================

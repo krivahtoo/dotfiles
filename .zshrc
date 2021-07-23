@@ -98,7 +98,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export PATH=$PATH:$HOME/.bin:$HOME/go/bin
+export PATH=$PATH:$HOME/.bin:$HOME/go/bin:$HOME/.local/bin
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -109,11 +109,29 @@ export PATH=$PATH:$HOME/.bin:$HOME/go/bin
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias c=clear
+alias ip='ip -color=auto'
+alias grep='grep --color=auto'
+alias ls='exa --icons'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# Have less display colours
+# from: https://wiki.archlinux.org/index.php/Color_output_in_console#man
+export LESS_TERMCAP_mb=$'\e[1;31m'     # begin bold
+export LESS_TERMCAP_md=$'\e[1;33m'     # begin blink
+export LESS_TERMCAP_so=$'\e[01;44;37m' # begin reverse video
+export LESS_TERMCAP_us=$'\e[01;37m'    # begin underline
+export LESS_TERMCAP_me=$'\e[0m'        # reset bold/blink
+export LESS_TERMCAP_se=$'\e[0m'        # reset reverse video
+export LESS_TERMCAP_ue=$'\e[0m'        # reset underline
+export GROFF_NO_SGR=1                  # for konsole and gnome-terminal
 
-export VISUAL=nano
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 export GPG_TTY=$(tty)
+
+eval "$(zoxide init zsh)"
+
+
+source /home/krivah/.config/broot/launcher/bash/br
