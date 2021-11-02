@@ -1,3 +1,74 @@
+#
+#
+#  █  █▀ █▄▄▄▄ ▄█     ▄   ██    ▄  █ 
+#  █▄█   █  ▄▀ ██      █  █ █  █   █ 
+#  █▀▄   █▀▀▌  ██ █     █ █▄▄█ ██▀▀█ 
+#  █  █  █  █  ▐█  █    █ █  █ █   █ 
+#    █     █    ▐   █  █     █    █  
+#   ▀     ▀          █▐     █    ▀   
+#                    ▐     ▀         
+#
+# A customized starship.toml for the starship prompt.
+#
+#
+
+format = '$all'
+scan_timeout = 30
+command_timeout = 2000
+add_newline = false
+
+# [battery]
+# threshold = 10
+# style = 'red bold'
+
+[character]
+format = '$symbol '
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+vicmd_symbol = '[❮](bold green)'
+disabled = false
+
+[cmd_duration]
+min_time = 2000
+format = 'took [$duration]($style) '
+style = 'yellow bold'
+show_milliseconds = false
+disabled = false
+show_notifications = true
+min_time_to_notify = 45000
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+fish_style_pwd_dir_length = 1
+use_logical_path = true
+format = '[$path]($style)[$read_only]($read_only_style) '
+style = 'cyan bold'
+disabled = false
+read_only = ' '
+read_only_style = 'red'
+truncation_symbol = ''
+home_symbol = '~'
+
+[directory.substitutions]
+
+# [git_metrics]
+# format = '[+$added]($added_style)/[-$deleted]($deleted_style) '
+# disabled = false
+
+[git_status]
+style = '8 bold'
+ahead = "⇡${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+behind = "⇣${count}"
+staged = '[⧾\($count\)](green)'
+stashed = '[↰](65)'
+conflicted = '[⥯](160)'
+deleted = '[✘](red)'
+renamed = '[»](100)'
+modified = '[!](202)'
+untracked = '[?](197)'
+
 [aws]
 symbol = "  "
 
@@ -6,9 +77,6 @@ symbol = " "
 
 [dart]
 symbol = " "
-
-[directory]
-read_only = " "
 
 [docker_context]
 symbol = " "
