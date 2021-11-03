@@ -95,6 +95,8 @@ from collections import deque
 import os
 import re
 
+import dbus
+
 from ranger.api.commands import Command
 
 
@@ -1670,6 +1672,7 @@ class filter_stack(Command):
         filter_stack clear
         filter_stack show
     """
+
     def execute(self):
         from ranger.core.filter_stack import SIMPLE_FILTERS, FILTER_COMBINATORS
 
@@ -1757,14 +1760,150 @@ class reset_previews(Command):
 
     Reset the file previews.
     """
+
     def execute(self):
         self.fm.previews = {}
         self.fm.ui.need_redraw = True
 
+class fd_search(Command):
+    """
+    :fd_search [-d<depth>] <query>
+    Executes "fd -d<depth> <query>" in the current directory and focuses the
+    first match. <depth> defaults to 1, i.e. only the contents of the current
+    directory.
+
+    See https://github.com/sharkdp/fd
+    """
+
+    SEARCH_RESULTS = deque()
+
+    def execute(self):
+        import re
+        import subprocess
+        from ranger.ext.get_executables import get_executables
+
+        self.SEARCH_RESULTS.clear()
+
+        if 'fdfind' in get_executables():
+            fd = 'fdfind'
+        elif 'fd' in get_executables():
+            fd = 'fd'
+        else:
+            self.fm.notify("Couldn't find fd in the PATH.", bad=True)
+            return
+
+        if self.arg(1):
+            if self.arg(1)[:2] == '-d':
+                depth = self.arg(1)
+                target = self.rest(2)
+            else:
+                depth = '-d1'
+                target = self.rest(1)
+        else:
+            self.fm.notify(":fd_search needs a query.", bad=True)
+            return
+
+        hidden = ('--hidden' if self.fm.settings.show_hidden else '')
+        exclude = "--no-ignore-vcs --exclude '.git' --exclude '*.py[co]' --exclude '__pycache__'"
+        command = '{} --follow {} {} {} --print0 {}'.format(
+            fd, depth, hidden, exclude, target
+        )
+        fd = self.fm.execute_command(command, universal_newlines=True, stdout=subprocess.PIPE)
+        stdout, _ = fd.communicate()
+
+        if fd.returncode == 0:
+            results = filter(None, stdout.split('\0'))
+            if not self.fm.settings.show_hidden and self.fm.settings.hidden_filter:
+                hidden_filter = re.compile(self.fm.settings.hidden_filter)
+                results = filter(lambda res: not hidden_filter.search(os.path.basename(res)), results)
+            results = map(lambda res: os.path.abspath(os.path.join(self.fm.thisdir.path, res)), results)
+            self.SEARCH_RESULTS.extend(sorted(results, key=str.lower))
+            if len(self.SEARCH_RESULTS) > 0:
+                self.fm.notify('Found {} result{}.'.format(len(self.SEARCH_RESULTS),
+                                                           ('s' if len(self.SEARCH_RESULTS) > 1 else '')))
+                self.fm.select_file(self.SEARCH_RESULTS[0])
+            else:
+                self.fm.notify('No results found.')
+
+class fd_next(Command):
+    """
+    :fd_next
+    Selects the next match from the last :fd_search.
+    """
+
+    def execute(self):
+        if len(fd_search.SEARCH_RESULTS) > 1:
+            fd_search.SEARCH_RESULTS.rotate(-1)  # rotate left
+            self.fm.select_file(fd_search.SEARCH_RESULTS[0])
+        elif len(fd_search.SEARCH_RESULTS) == 1:
+            self.fm.select_file(fd_search.SEARCH_RESULTS[0])
+
+class fd_prev(Command):
+    """
+    :fd_prev
+    Selects the next match from the last :fd_search.
+    """
+
+    def execute(self):
+        if len(fd_search.SEARCH_RESULTS) > 1:
+            fd_search.SEARCH_RESULTS.rotate(1)  # rotate right
+            self.fm.select_file(fd_search.SEARCH_RESULTS[0])
+        elif len(fd_search.SEARCH_RESULTS) == 1:
+            self.fm.select_file(fd_search.SEARCH_RESULTS[0])
+
+class share(Command):
+    """:share [device_id]
+
+    Send file via kdeconnect.
+    """
+
+    def execute(self):
+        device_id = self.arg(1)
+        file_name = self.fm.thisfile.path
+        device_name = dbus.Interface(
+            object=dbus.SessionBus().get_object("org.kde.kdeconnect", "/modules/kdeconnect"),
+            dbus_interface="org.kde.kdeconnect.daemon"
+        ).deviceNames()[device_id]
+        self.fm.notify("Sending "+ file_name +" to " + device_name)
+        self._send_file(file_name, device_id)
+
+    # The tab method is called when you press tab, and should return a list of
+    # suggestions that the user will tab through.
+    # tabnum is 1 for <TAB> and -1 for <S-TAB> by default
+    def tab(self, tabnum):
+        items = dbus.Interface(
+            object=dbus.SessionBus().get_object("org.kde.kdeconnect", "/modules/kdeconnect"),
+            dbus_interface="org.kde.kdeconnect.daemon"
+        ).devices()
+        return [self.arg(0)+" "+i for i in items]
+
+    def _get_proxy(self):
+        pass
+
+    def _send_file(self, file_name, device_id):
+        dbus.Interface(
+            object=dbus.SessionBus().get_object("org.kde.kdeconnect", "/modules/kdeconnect/devices/%s/share" % device_id),
+            dbus_interface="org.kde.kdeconnect.device.share"
+        ).shareUrl("file://%s" % file_name)
+
+class wget(Command):
+    """:wget [url]
+
+    Download file to current dir with wget
+    """
+
+    def execute(self):
+        import pyperclip
+        if self.arg(1):
+            url = self.rest(2)
+        else:
+            url = pyperclip.paste()
+
+        self.fm.execute_command("wget %s" % url)
+
 
 # Version control commands
 # --------------------------------
-
 
 class stage(Command):
     """
