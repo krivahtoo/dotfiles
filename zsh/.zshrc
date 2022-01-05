@@ -98,7 +98,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export PATH=$HOME/.bin:$HOME/go/bin:$HOME/.local/bin:$HOME/.nimble/bin:$PATH
+export PATH=$HOME/go/bin:$HOME/.local/bin:$HOME/.nimble/bin:$PATH
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

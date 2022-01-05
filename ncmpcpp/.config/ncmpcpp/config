@@ -367,6 +367,7 @@ visualizer_look = ●▮
 ## part of progressbar.
 ##
 #progressbar_look = =>
+progressbar_look = ─⊙ 
 #
 ## Available values: database, playlist.
 ##
