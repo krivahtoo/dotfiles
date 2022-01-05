@@ -78,6 +78,8 @@ map('n', '<leader>7', '<Cmd>BufferLineGoToBuffer 7<CR>', opts)
 map('n', '<leader>8', '<Cmd>BufferLineGoToBuffer 8<CR>', opts)
 map('n', '<leader>9', '<Cmd>BufferLineGoToBuffer 9<CR>', opts)
 
+map('n', '<leader>+', ':vertical resize +5<CR>', opts)
+map('n', '<leader>-', ':vertical resize -5<CR>', opts)
 
 map('n', '<leader>r', ':RunCode<CR>', opts_echo)
 map('n', '<leader>rf', ':RunFile<CR>', opts_echo)

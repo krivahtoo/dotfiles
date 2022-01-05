@@ -86,6 +86,7 @@ cmp.setup({
         cmp_git = "[Git]",
         crates = "[Crates]",
         gh_issues = "[Issues]",
+        path = "[Path]",
       })[entry.source.name]
       return vim_item
     end
