@@ -19,10 +19,12 @@ feh --bg-fill ~/Pictures/Backgrounds/super.jpg
 $HOME/.config/polybar/launch.sh --blocks &
 
 #### AUTOSTART ####
+killall -q sxhkd
 sxhkd &
 picom &
 clipmenud &
 # lxsession --noxsettings --noautostart &
+killall -q mpd-notification
 mpd-notification &
 nitrogen --restore &
 dunst &
