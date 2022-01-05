@@ -1,6 +1,6 @@
 # Dotfiles
 
-My Arch setup config
+My Arch setup config managed using [stow](https://www.gnu.org/software/stow/)
 
 Config for
 
@@ -29,5 +29,7 @@ Then
 
 ```sh
 cd ~/.dotfiles
-./install.sh
+# import config for each app using stow
+# eg
+stow nvim
 ```
