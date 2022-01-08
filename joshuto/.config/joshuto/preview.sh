@@ -174,6 +174,7 @@ handle_image() {
         # video/*)
         #     # Thumbnail
         #     ffmpegthumbnailer -i "${FILE_PATH}" -o "${IMAGE_CACHE_PATH}" -s 0 && exit 6
+        #     ffmpegthumbnailer -q10 -s0 -i Black.Panther.2018.720p.BluRay.H264.AAC-RARBG.mp4 -o test.png -f
         #     exit 1;;
 
         ## PDF
@@ -337,6 +338,17 @@ handle_mime() {
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
 
+        image/png | image/jpeg)
+            dimension=" Size `exiftool "$FILE_PATH" | grep '^Image Size' | awk '{print $4}'`"
+            tags=$(tmsu_tag_list)
+            echo "$dimension"
+            echo "$tags"
+            meta_file="$(get_preview_meta_file $FILE_PATH)"
+            # let y_offset=2
+            let y_offset=`printf "${tags}" | sed -n '=' | wc -l`+2
+            echo "y-offset $y_offset" > "$meta_file"
+            exit 4;;
+
         ## Image
         image/*)
             # cat "${FILE_PATH}" && exit 5
@@ -346,7 +358,8 @@ handle_mime() {
             exit 1;;
 
         ## Video and audio
-        video/* | audio/*)
+        # video/* | audio/*)
+        audio/*)
             mediainfo "${FILE_PATH}" && exit 5
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
