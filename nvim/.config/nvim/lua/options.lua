@@ -3,13 +3,6 @@ local g = vim.g
 
 vim.cmd [[syntax enable]]
 
-vim.cmd [[
-  sign define DiagnosticSignError text=  texthl=DiagnosticSignError linehl= numhl=
-  sign define DiagnosticSignWarning text=  texthl=DiagnosticSignWarning linehl= numhl=
-  sign define DiagnosticSignInformation text=𥉉 texthl=DiagnosticSignInformation linehl= numhl=
-  sign define DiagnosticSignHint text=  texthl=DiagnosticSignHint linehl= numhl=
-]]
-
 o.guifont = 'JetBrainsMono Nerd Font:h10,codicon:h10'
 o.encoding = 'utf-8'
 o.number = true
@@ -49,4 +42,15 @@ o.wrap = true --Wrap lines
 o.cursorcolumn = true
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
+o.foldtext = 'v:lua.NeatFoldText()' -- Set text of folds
+
+--- @return string fold_text a neat template for the summary of what is on a fold
+function NeatFoldText()
+  return string.format(
+    '    %s   %d lines',
+    vim.api.nvim_buf_get_lines(0, vim.v.foldstart - 1, vim.v.foldstart, true)[1],
+    vim.v.foldend - vim.v.foldstart + 1
+  )
+end -- ‡
+
 

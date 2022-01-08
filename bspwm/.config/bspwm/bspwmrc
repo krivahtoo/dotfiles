@@ -22,6 +22,7 @@ $HOME/.config/polybar/launch.sh --blocks &
 killall -q sxhkd
 sxhkd &
 picom &
+conky &
 clipmenud &
 # lxsession --noxsettings --noautostart &
 killall -q mpd-notification

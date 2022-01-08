@@ -6,6 +6,14 @@ local opts_echo = { noremap = true }
 map("n", "n", "nzz", opts)
 map("n", "N", "Nzz", opts)
 
+-- Copy to clipboard
+map("n", "<leader>y", "+y", opts)
+map("n", "<leader>Y", "+y$", opts)
+
+-- Paste from clipboard
+map("n", "<leader>p", "a<C-r>+<Esc>", opts)
+map("n", "<leader>P", "A<C-r>+<Esc>", opts)
+
 map('n', '[b', ':BufferLineCycleNext<CR>', opts)
 map('n', 'b]', ':BufferLineCyclePrev<CR>', opts)
 
@@ -33,6 +41,7 @@ map('n', '<leader>tt', '<cmd>ToggleTerm<cr>', opts)
 map('n', '<leader>tl', '<cmd>TroubleToggle lsp_workspace_diagnostics<cr>', opts)
 map('n', '<leader>tc', '<cmd>TodoTrouble<cr>', opts)
 
+map('n', '<leader>bb', '<Cmd>BufferLinePick<CR>', opts)
 map('n', '<leader>bn', '<cmd>BufferLineCycleNext<cr>', opts)
 map('n', '<leader>bp', '<cmd>BufferLineCyclePrev<cr>', opts)
 

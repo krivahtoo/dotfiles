@@ -1,5 +1,26 @@
 local nvim_lsp = require'lspconfig'
 
+local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- Enable underline, use default values
+    underline = true,
+    -- Enable virtual text, override spacing to 4
+    virtual_text = {
+      spacing = 4,
+      prefix = ' ',
+    },
+    -- Use a function to dynamically turn signs off
+    -- and on, using buffer local variables
+    signs = true,
+  }
+)
+
 local on_attach = function(client, bufnr)
   require'lsp_signature'.on_attach()
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')

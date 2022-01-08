@@ -87,6 +87,7 @@ cmp.setup({
         crates = "[Crates]",
         gh_issues = "[Issues]",
         path = "[Path]",
+        copilot = "[Copilot]",
       })[entry.source.name]
       return vim_item
     end
