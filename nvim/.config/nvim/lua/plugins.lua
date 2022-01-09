@@ -31,8 +31,11 @@ return require('packer').startup({function(use)
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-git',
+      'hrsh7th/cmp-calc',
+      'hrsh7th/cmp-emoji',
       'David-Kunz/cmp-npm',
       'hrsh7th/cmp-cmdline',
+      'uga-rosa/cmp-dictionary',
       'hrsh7th/cmp-copilot'
     },
     config = function()
@@ -81,13 +84,10 @@ return require('packer').startup({function(use)
   use 'simrat39/symbols-outline.nvim'
 
   -- Snippets
-  use {
-    'hrsh7th/vim-vsnip',
-    requires = {
-      'hrsh7th/vim-vsnip-integ'
-    }
-  }
+  use { 'L3MON4D3/LuaSnip' }
+  use { 'saadparwaiz1/cmp_luasnip' }
   use 'rafamadriz/friendly-snippets'
+  use 'honza/vim-snippets'
 
   use {
     'nvim-telescope/telescope.nvim',
@@ -279,14 +279,10 @@ return require('packer').startup({function(use)
     end
   }
   use {
-    'CRAG666/code_runner.nvim',
-    requires = 'nvim-lua/plenary.nvim',
-    config = function()
-      require'code_runner'.setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
+    'michaelb/sniprun',
+    run = 'bash ./install.sh',
+    cofig = function()
+      require'krivah.sniprun'
     end
   }
   use {
@@ -296,7 +292,13 @@ return require('packer').startup({function(use)
       require'krivah.notify'
     end
   }
-  use 'github/copilot.vim'
+  use {
+    'github/copilot.vim',
+    config = function()
+      vim.cmd [[imap <silent><script><expr> <C-J> copilot#Accept("\<CR>")]]
+      vim.cmd [[let g:copilot_no_tab_map = v:true]]
+    end
+  }
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'ggandor/lightspeed.nvim'
   use 'kazhala/close-buffers.nvim'

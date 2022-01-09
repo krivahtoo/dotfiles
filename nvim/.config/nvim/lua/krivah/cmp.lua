@@ -2,6 +2,7 @@
 local cmp = require'cmp'
 require'cmp_gh_source'
 require('cmp-npm').setup({})
+local luasnip = require("luasnip")
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -41,7 +42,7 @@ local kind_icons = {
 }
 
 -- Vs code icons
-if vim.g.nvui then
+-- if vim.g.nvui then
   kind_icons = {
     Text = '  ',
     Method = '  ',
@@ -69,7 +70,11 @@ if vim.g.nvui then
     Operator = '  ',
     TypeParameter = '  ',
   }
-end
+-- end
+
+require("luasnip.loaders.from_vscode").load({ paths = { packer_plugins['friendly-snippets'].path } })
+
+require("luasnip.loaders.from_snipmate").load({ path = { packer_plugins['vim-snippets'].path } })
 
 cmp.setup({
   formatting = {
@@ -94,10 +99,7 @@ cmp.setup({
   },
   snippet = {
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
-      -- require'snippy'.expand_snippet(args.body) -- For `snippy` users.
+      luasnip.lsp_expand(args.body)
     end,
   },
   mapping = {
@@ -111,8 +113,8 @@ cmp.setup({
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif vim.fn["vsnip#available"](1) == 1 then
-        feedkey("<Plug>(vsnip-expand-or-jump)", "")
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
       elseif has_words_before() then
         cmp.complete()
       else
@@ -120,18 +122,20 @@ cmp.setup({
       end
     end, { "i", "s" }),
 
-    ["<S-Tab>"] = cmp.mapping(function()
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-        feedkey("<Plug>(vsnip-jump-prev)", "")
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
       end
     end, { "i", "s" }),
   },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'copilot' },
-    { name = 'vsnip' }, -- For vsnip users.
+    { name = 'luasnip' },
     { name = 'crates' },
   }, {
     { name = 'buffer', keyword_length = 3 },
@@ -143,6 +147,9 @@ cmp.setup({
   experimental = {
     ghost_text = false,
     native_menu = false
+  },
+  completion = {
+    autocomplete = false, -- disable auto-completion.
   }
 })
 
@@ -161,4 +168,29 @@ cmp.setup.cmdline(':', {
     { name = 'cmdline', keyword_length = 3 }
   })
 })
+
+_G.vimrc = _G.vimrc or {}
+_G.vimrc.cmp = _G.vimrc.cmp or {}
+_G.vimrc.cmp.on_text_changed = function()
+  local line = vim.api.nvim_get_current_line()
+  local cursor = vim.api.nvim_win_get_cursor(0)[2]
+
+  local current = string.sub(line, cursor, cursor + 1)
+  if current == "." or current == "," or current == " " then
+    cmp.close()
+  end
+
+  local before_line = string.sub(line, 1, cursor + 1)
+  local after_line = string.sub(line, cursor + 1, -1)
+  if not string.match(before_line, '^%s+$') then
+    if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
+      cmp.complete()
+    end
+  end
+end
+vim.cmd([[
+  augroup vimrc
+    autocmd TextChanged,TextChangedI,TextChangedP * call luaeval('vimrc.cmp.on_text_changed()')
+  augroup END
+]])
 
