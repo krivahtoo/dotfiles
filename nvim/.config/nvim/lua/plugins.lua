@@ -228,6 +228,15 @@ return require('packer').startup({function(use)
     end
   }
   use {
+    'VonHeikemen/searchbox.nvim',
+    requires = {
+      {'MunifTanjim/nui.nvim'}
+    },
+    config = function()
+      require('krivah.searchbox')
+    end
+  }
+  use {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require('colorizer').setup()

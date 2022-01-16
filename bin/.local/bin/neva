@@ -1,6 +1,6 @@
 #!/usr/bin/env lua
 
----MIT License
+-- MIT License
 -- Copyright (c) 2021 Shohi Wang
 -- https://github.com/shohi/neva
 -- neva - a neovim version manager

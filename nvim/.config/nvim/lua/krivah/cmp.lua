@@ -1,8 +1,19 @@
 -- Setup nvim-cmp.
 local cmp = require'cmp'
+local luasnip = require("luasnip")
 require'cmp_gh_source'
 require('cmp-npm').setup({})
-local luasnip = require("luasnip")
+
+require("cmp_dictionary").setup({
+  dic = {
+    ["*"] = "/usr/share/dict/words",
+  },
+  -- The following are default values, so you don't need to write them if you don't want to change them
+  exact = -1, -- 2
+  async = false,
+  capacity = 5,
+  debug = false,
+})
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -72,6 +83,7 @@ local kind_icons = {
   }
 -- end
 
+-- Load all snippets
 require("luasnip.loaders.from_vscode").load({ paths = { packer_plugins['friendly-snippets'].path } })
 
 require("luasnip.loaders.from_snipmate").load({ path = { packer_plugins['vim-snippets'].path } })
@@ -93,6 +105,9 @@ cmp.setup({
         gh_issues = "[Issues]",
         path = "[Path]",
         copilot = "[Copilot]",
+        cmdline = "[Nvim cmds]",
+        calc = "[Calculator]",
+        dictionary = "[Dictionary]"
       })[entry.source.name]
       return vim_item
     end
@@ -136,10 +151,12 @@ cmp.setup({
     { name = 'nvim_lsp' },
     { name = 'copilot' },
     { name = 'luasnip' },
+    { name = 'dictionary', keyword_length = 3 },
     { name = 'crates' },
   }, {
-    { name = 'buffer', keyword_length = 3 },
+    { name = 'buffer', keyword_length = 2 },
     { name = 'path' },
+    { name = 'calc' },
     { name = 'npm' },
     { name = 'cmp_git' },
     { name = 'gh_issues' },
@@ -171,6 +188,7 @@ cmp.setup.cmdline(':', {
 
 _G.vimrc = _G.vimrc or {}
 _G.vimrc.cmp = _G.vimrc.cmp or {}
+-- Only autocomplete when there is no text after the cursor.
 _G.vimrc.cmp.on_text_changed = function()
   local line = vim.api.nvim_get_current_line()
   local cursor = vim.api.nvim_win_get_cursor(0)[2]

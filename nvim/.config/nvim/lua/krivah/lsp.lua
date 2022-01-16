@@ -14,7 +14,7 @@ vim.diagnostic.config {
   -- Enable virtual text, override spacing to 4
   virtual_text = {
     spacing = 4,
-    prefix = '',
+    prefix = '◈', -- ⛬ ► ◉ ◈
     format = function (diag)
       local sign = signs[severity_names[diag.severity]] or signs.Hint
       return string.format('%s %s', sign, diag.message)

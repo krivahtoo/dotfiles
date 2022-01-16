@@ -38,6 +38,8 @@ mapcommand = [
     # preview
 	{ keys = [ "J" ],		    command = "preview_cursor_move_down" },
 	{ keys = [ "K" ],		    command = "preview_cursor_move_up" },
+	{ keys = [ "{" ],		    command = "preview_cursor_move_up" },
+	{ keys = [ "}" ],		    command = "preview_cursor_move_down" },
 
 	# vim-like keybindings
 	{ keys = [ "j" ],		    command = "cursor_move_down" },

@@ -47,8 +47,12 @@ o.foldtext = 'v:lua.NeatFoldText()' -- Set text of folds
 --- @return string fold_text a neat template for the summary of what is on a fold
 function NeatFoldText()
   return string.format(
-    '    %s   %d lines',
+    '    %s ... %s  (%d lines)',
     vim.api.nvim_buf_get_lines(0, vim.v.foldstart - 1, vim.v.foldstart, true)[1],
+    vim.gsplit(
+      vim.trim(vim.api.nvim_buf_get_lines(0, vim.v.foldend - 1, vim.v.foldend, true)[1]),
+      ' '
+    )(),
     vim.v.foldend - vim.v.foldstart + 1
   )
 end -- ‡

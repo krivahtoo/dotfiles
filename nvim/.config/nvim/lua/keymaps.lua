@@ -6,13 +6,20 @@ local opts_echo = { noremap = true }
 map("n", "n", "nzz", opts)
 map("n", "N", "Nzz", opts)
 
+-- Remove search highlight
+map("n", "<F3>", ":noh<CR>", opts)
+
 -- Copy to clipboard
-map("n", "<leader>y", "+y", opts)
-map("n", "<leader>Y", "+y$", opts)
+map("n", "<leader>y", "\"+y", opts)
+map("n", "<leader>Y", "\"+y$", opts)
 
 -- Paste from clipboard
 map("n", "<leader>p", "a<C-r>+<Esc>", opts)
 map("n", "<leader>P", "A<C-r>+<Esc>", opts)
+
+-- Searchbox
+map('n', '<leader>ss', ':SearchBoxIncSearch<CR>', opts)
+map('n', '<leader>sS', ':SearchBoxIncSearch reverse=true<CR>', opts)
 
 map('n', '[b', ':BufferLineCycleNext<CR>', opts)
 map('n', 'b]', ':BufferLineCyclePrev<CR>', opts)
