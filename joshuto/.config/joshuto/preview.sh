@@ -45,12 +45,54 @@ IFS=$'\n'
 ## 7    | image      | Display the file directly as an image
 
 ## Script arguments
-FILE_PATH="${1}"         # Full path of the highlighted file
-PV_WIDTH="${2}"          # Width of the preview pane (number of fitting characters)
-## shellcheck disable=SC2034 # PV_HEIGHT is provided for convenience and unused
-PV_HEIGHT="${3}"         # Height of the preview pane (number of fitting characters)
-IMAGE_CACHE_PATH="${4}"  # Full path that should be used to cache image preview
-PV_IMAGE_ENABLED="${5}"  # 'True' if image previews are enabled, 'False' otherwise.
+# FILE_PATH="${1}"         # Full path of the highlighted file
+# PREVIEW_WIDTH="${2}"          # Width of the preview pane (number of fitting characters)
+## shellcheck disable=SC2034 # PREVIEW_HEIGHT is provided for convenience and unused
+# PREVIEW_HEIGHT="${3}"         # Height of the preview pane (number of fitting characters)
+# IMAGE_CACHE_PATH="${4}"  # Full path that should be used to cache image preview
+# PREVIEW_IMAGE_ENABLED="${5}"  # 'True' if image previews are enabled, 'False' otherwise.
+
+FILE_PATH=""
+PREVIEW_IMAGE_ENABLED=0
+PREVIEW_WIDTH=10
+PREVIEW_HEIGHT=10
+PREVIEW_X_COORD=0
+PREVIEW_Y_COORD=0
+IMAGE_CACHE_PATH=""
+
+while [ "$#" -gt 0 ]; do
+	case "$1" in
+		"--path")
+			shift
+			FILE_PATH="$1"
+			;;
+		"--preview-width")
+			shift
+			PREVIEW_WIDTH="$1"
+			;;
+		"--preview-height")
+			shift
+			PREVIEW_HEIGHT="$1"
+			;;
+		"--x-coord")
+			shift
+			PREVIEW_X_COORD="$1"
+			;;
+		"--y-coord")
+			shift
+			PREVIEW_Y_COORD="$1"
+			;;
+		"--preview-images")
+			shift
+			PREVIEW_IMAGE_ENABLED="$1"
+			;;
+		"--image-cache")
+			shift
+			IMAGE_CACHE_PATH="$1"
+			;;
+	esac
+	shift
+done
 
 FILE_EXTENSION="${FILE_PATH##*.}"
 FILE_EXTENSION_LOWER="$(printf "%s" "${FILE_EXTENSION}" | tr '[:upper:]' '[:lower:]')"
@@ -85,9 +127,9 @@ handle_extension() {
         pdf)
             ## Preview as text conversion
             pdftotext -l 10 -nopgbrk -q -- "${FILE_PATH}" - | \
-              fmt -w "${PV_WIDTH}" && exit 5
+              fmt -w "${PREVIEW_WIDTH}" && exit 5
             mutool draw -F txt -i -- "${FILE_PATH}" 1-10 | \
-              fmt -w "${PV_WIDTH}" && exit 5
+              fmt -w "${PREVIEW_WIDTH}" && exit 5
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
 
@@ -334,7 +376,7 @@ handle_mime() {
         ## DjVu
         image/vnd.djvu)
             ## Preview as text conversion (requires djvulibre)
-            djvutxt "${FILE_PATH}" | fmt -w "${PV_WIDTH}" && exit 5
+            djvutxt "${FILE_PATH}" | fmt -w "${PREVIEW_WIDTH}" && exit 5
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
 
@@ -353,7 +395,7 @@ handle_mime() {
         image/*)
             # cat "${FILE_PATH}" && exit 5
             ## Preview as text conversion
-            # img2txt --gamma=0.6 --width="${PV_WIDTH}" -- "${FILE_PATH}" && exit 4
+            # img2txt --gamma=0.6 --width="${PREVIEW_WIDTH}" -- "${FILE_PATH}" && exit 4
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
 
@@ -373,7 +415,7 @@ handle_fallback() {
 
 
 MIMETYPE="$( file --dereference --brief --mime-type -- "${FILE_PATH}" )"
-if [[ "${PV_IMAGE_ENABLED}" == 'True' ]]; then
+if [[ "${PREVIEW_IMAGE_ENABLED}" == 'True' ]]; then
     handle_image "${MIMETYPE}"
 fi
 handle_extension

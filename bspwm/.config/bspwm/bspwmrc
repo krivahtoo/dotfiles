@@ -29,7 +29,7 @@ killall -q mpd-notification
 mpd-notification &
 nitrogen --restore &
 dunst &
-$HOME/.bin/xsidle.sh betterlockscreen -l dimblur &
+$HOME/.local/bin/xsidle.sh betterlockscreen -l dimblur &
 
 #### MONITORS ####
 bspc monitor LVDS-1 -d I II III IV V VI VII VIII IX X

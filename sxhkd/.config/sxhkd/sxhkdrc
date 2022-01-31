@@ -190,7 +190,7 @@ ctrl + Escape
 
 # Take Screenshot
 Print
-  cd /tmp && scrot -t 40x40 -e 'mv $f ~/Pictures/Screenshots/ 2>/dev/null && notify-send "screenshot taken" -t 2000 -a "Scrot" --icon=/tmp/$m'
+  ~/.local/bin/screenshot.sh screen
 
 # Take Screenshot of the current window
 shift + Print
@@ -198,7 +198,11 @@ shift + Print
 
 # Take Screenshot of selected location
 ctrl + Print
-  cd /tmp && scrot -t 40x40 -s -e 'mv $f ~/Pictures/Screenshots/ 2>/dev/null && notify-send "screenshot taken" -t 2000 -a "Scrot" --icon=/tmp/$m'
+  ~/.local/bin/screenshot.sh select
+
+# Get text from image
+alt + Print
+  ~/.local/bin/screenshot.sh text
 
 # DE like emoji selector
 ctrl + period

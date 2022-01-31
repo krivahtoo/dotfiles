@@ -76,6 +76,15 @@ height = 200
 # Examples: width = 300 # constant width of 300 width = (0, 300) # width between 0 and 300
 width = 300
 
+# The number of notifications that can appear at one time.
+# When this limit is reached any additional notifications will be queued and displayed when the currently
+# displayed ones either time out or are manually dismissed.
+# The value 0 means no limit.
+# If indicate_hidden is true, then the specified limit is reduced by 1 and the last notification is a message
+# informing how many hidden notifications are waiting to be displayed.
+# See the indicate_hidden entry for more information.
+notification_limit = 8
+
 # The transparency of the window. range: [0; 100]
 # This option will only work if a compositing windowmanager is present (e.g. xcompmgr, compiz, etc..)
 transparency = 10
@@ -132,7 +141,7 @@ separator_color = frame
 # automatically after a crash.
 startup_notification = true
 
-max_icon_size = 40
+max_icon_size = 80
 
 # icon search path
 icon_path = "/usr/share/icons/Adwaita/scalable/status/:/usr/share/icons/Adwaita/scalable/devices/:/usr/share/icons/Adwaita/32x32/legacy/:/usr/share/icons/Adwaita/32x32/mimetypes/"
@@ -170,19 +179,19 @@ frame_color = "#596bfd"
 [urgency_low]
 # IMPORTANT: colors have to be defined in quotation marks.
 # Otherwise the '#' and following  would be interpreted as a comment.
-    background = "#090c1b"
-    foreground = "#bbbbbb"
-    timeout = 10
+  background = "#090c1b"
+  foreground = "#bbbbbb"
+  timeout = 3
 
 [urgency_normal]
-    background = "#090c1b"
-    foreground = "#bbbbbb"
-    timeout = 10
+  background = "#090c1b"
+  foreground = "#bbbbbb"
+  timeout = 5
 
 [urgency_critical]
-    background = "#83002e"
-    foreground = "#bbbbbb"
-    timeout = 0
+  background = "#83002e"
+  foreground = "#bbbbbb"
+  timeout = 0
 
 
 # Every section that isn't one of the above is interpreted as a rules
@@ -204,8 +213,23 @@ frame_color = "#596bfd"
 # fitting options for rules.
 
 [sound]
-    summary = "*"
-    script = noti.sh
+  summary = "*"
+  script = /home/krivah/.local/bin/notification.sh
+
+[music]
+  appname = "MPD"
+  alignment = left
+  format = "%b"
+
+[volume]
+  appname="Volume"
+  format = "%b %p"
+  timeout = 1
+
+[brightness]
+  appname="Brightness"
+  format = "%b %p"
+  timeout = 1
 
 #[espeak]
 #    summary = "*"
