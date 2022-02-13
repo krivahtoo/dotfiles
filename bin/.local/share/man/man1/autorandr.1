@@ -1,0 +1,140 @@
+.TH AUTORANDR 1
+.SH NAME
+autorandr \- automatically select a display configuration based on connected devices
+.SH SYNOPSIS
+.B autorandr
+[\fIOPTION\fR] [\fIPROFILE\fR] 
+.SH DESCRIPTION
+.PP
+This program automatically detects connected display hardware and then loads an appropriate X11 setup using xrandr. It also supports the use of display profiles for different hardware setups.
+.PP
+Autorandr also includes several virtual configurations including \fBoff\fR, \fBcommon\fR, \fBclone-largest\fR, \fBhorizontal\fR, and \fBvertical\fR. See the documentation for explanation of each.
+.SH OPTIONS
+.TP
+\fB\-h\fR, \fB\-\-help
+\fRDisplay help text and exit
+.TP
+\fB\-c\fR, \fB\-\-change
+\fRAutomatically load the first detected profile
+.TP
+\fB\-d\fR, \fB\-\-default \fIPROFILE
+\fRMake profile \fIPROFILE\fR the default profile. The default profile is used if no suitable profile can be identified. Else, the current configuration is kept.
+.TP
+\fB\-l\fR, \fB\-\-load \fIPROFILE
+\fRLoad profile \fIPROFILE
+.TP
+\fB\-s\fR, \fB\-\-save \fIPROFILE
+\fRSave the current setup to profile \fIPROFILE
+.TP
+\fB\-r\fR, \fB\-\-remove \fIPROFILE
+\fRRemove profile \fIPROFILE
+.TP
+.BR \-\-batch
+\fRRun autorandr for all users with active X11 sessions
+.TP
+.BR \-\-current
+List only the current (active) configuration(s)
+.TP
+.BR \-\-config
+Dump the variable values of your current xrandr setup
+.TP
+.BR \-\-cycle
+Cycle through all detected profiles
+.TP
+.BR \-\-debug
+Enable verbose output
+.TP
+.BR \-\-detected
+List only the detected (i.e. available) configuration(s)
+.TP
+.BR \-\-dry\-run
+Don't change anything, only print the xrandr commands
+.TP
+.BR \-\-fingerprint
+Fingerprint the current hardware setup
+.TP
+.BR \-\-match-edid
+Match displays based on edid instead of name
+.TP
+.BR \-\-ignore-lid
+By default, closed lids are considered as disconnected if other outputs are detected. This flag disables this behaviour.
+.TP
+.BR \-\-force
+Force loading or reloading of a profile
+.TP
+.BR \-\-list
+List all profiles
+.TP
+\fB\-\-skip\-options [\fIOPTION\fR] ...
+\fRSet a comma\-separated list of xrandr arguments to skip both in change detection and profile application. See \fBxrandr(1)\fR for xrandr arguments.
+.TP
+.BR \-\-version
+Show version information and exit
+.SH FILES
+Configuration files are searched for in the \fIautorandr
+\fRdirectory in the colon separated list of paths in \fI$XDG_CONFIG_DIRS
+\fR- or in \fI/etc/xdg
+\fRif that var is not set.  They are then looked for in \fI~/.autorandr
+\fRand if that doesn't exist, in \fI$XDG_CONFIG_HOME/autorandr
+\fRor in \fI~/.config/autorandr\fR if that var is unset.
+
+In each of those directories it looks for directories with \fIconfig\fR and
+\fIsetup\fR in them.  It is best to manage these files with the
+\fBautorandr\fR utility.
+
+.SH DEFAULT OPTIONS
+
+You can store default values for any option in an INI-file located at
+\fI~/.config/autorandr/settings.ini\fR. In a config section, you may
+place any default values in the form \fIoption-name=option-argument\fR.
+
+.SH HOOK SCRIPTS
+
+Three more scripts can be placed in the configuration directory:
+.TP
+\fIpostswitch\fR
+Executed after a mode switch has taken place. This can be used to notify
+window managers or other applications about the switch.
+.TP
+\fIpreswitch\fR
+Executed before a mode switch takes place.
+.TP
+\fIpostsave\fR
+Executed after a profile was stored or altered.
+.TP
+\fIpredetect\fR
+Executed before autorandr attempts to run xrandr.
+
+.PP
+These scripts must be executable and can be placed directly in the
+configuration directory, where they will always be executed, or in
+the profile subdirectories, where they will only be executed on changes
+regarding that specific profile.
+
+Instead (or in addition) to these scripts, you can also place as many
+executable files as you like in subdirectories called script_name.d
+(e.g. postswitch.d).
+.PP
+
+Some of autorandr's state is exposed as environment variables prefixed with
+\fIAUTORANDR_\fR, such as:
+\fIAUTORANDR_CURRENT_PROFILE\fR,
+\fIAUTORANDR_CURRENT_PROFILES\fR,
+\fIAUTORANDR_PROFILE_FOLDER\fR,
+and \fIAUTORANDR_MONITORS\fR
+with the intention that they can be used within the hook scripts.
+
+The one kink is that during \fIpreswitch\fR, \fIAUTORANDR_CURRENT_PROFILE\fR
+is reporting the upcoming profile rather
+than the current one.
+
+.SH AUTHOR
+\fRPhillip Berndt <phillip.berndt@googlemail.com>
+.br
+See https://github.com/phillipberndt/autorandr for a full list of contributors. 
+.SH REPORTING BUGS
+\fRReport issues upstream on GitHub:  https://github.com/phillipberndt/autorandr/issues
+.br
+\fRPlease attach the output of \fBxrandr --verbose\fR to your bug report if appropriate.
+.SH SEE ALSO
+\fRFor examples, advanced usage (including predefined per-profile & global hooks and wildcard EDID matching), and full documentation, see https://github.com/phillipberndt/autorandr.
