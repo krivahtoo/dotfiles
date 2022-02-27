@@ -14,6 +14,7 @@
 
 xrdb merge ~/.Xresources &
 xsetroot -cursor_name left_ptr &
+setxkbmap -option caps:ctrl_modifier &
 
 feh --bg-fill ~/Pictures/Backgrounds/super.jpg
 $HOME/.config/polybar/launch.sh --blocks &
