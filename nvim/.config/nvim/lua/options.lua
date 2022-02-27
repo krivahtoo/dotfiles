@@ -20,8 +20,8 @@ o.termguicolors = true
 o.wildignore = {
   '*.pyc', '**/__pycache__/*', '**/node_modules/*', '.coverage.*', '.eggs', '*.egg-info/'
 }
-o.list = true
-o.listchars = {eol = '¬', tab = '>·', trail = '~', extends = '>', precedes = '<', space = '␣'}
+o.list = false
+o.listchars = {eol = '¬', tab = '» ', trail = '~', extends = '≻', precedes = '≺', space = '␣'}
 o.wildignorecase = true
 o.timeoutlen = 500
 
@@ -43,11 +43,12 @@ o.cursorcolumn = true
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldtext = 'v:lua.NeatFoldText()' -- Set text of folds
+o.fillchars:append('fold:═')
 
 --- @return string fold_text a neat template for the summary of what is on a fold
 function NeatFoldText()
   return string.format(
-    '    %s ... %s  (%d lines)',
+    '╒═╡    %s ... %s  (%d lines)╞',
     vim.api.nvim_buf_get_lines(0, vim.v.foldstart - 1, vim.v.foldstart, true)[1],
     vim.gsplit(
       vim.trim(vim.api.nvim_buf_get_lines(0, vim.v.foldend - 1, vim.v.foldend, true)[1]),

@@ -4,7 +4,7 @@ local condition = require 'galaxyline.condition'
 local diagnostic = require 'galaxyline.providers.diagnostic'
 
 local gls = gl.section
-gl.short_line_list = { 'packer', 'NvimTree', 'Outline', 'LspTrouble' }
+gl.short_line_list = { 'packer', 'NvimTree', 'Outline', 'LspTrouble', 'toggleterm' }
 
 local colors = {
   bg = '#090c1b',
@@ -177,7 +177,12 @@ end
 
 local LspStatus = function()
   if #vim.lsp.get_active_clients() > 0 then
-    return require('lsp-status').status()
+    local temp = require('lsp-status').status()
+    -- trim string to fit 50 chars if it's too long
+    if string.len(temp) > 45 then
+      temp = string.sub(temp, 1, 45) .. '...'
+    end
+    return temp
   end
   return ''
 end
@@ -334,6 +339,8 @@ gls.left[10] = {
     -- provider = { LspCheckDiagnostics },
     provider = function() return '' end,
     highlight = { colors.middlegrey, colors.bg },
+    condition = is_buf_attached_to_lsp,
+    -- event = 'InsertEnter',
     separator = ' ',
     separator_highlight = { colors.section_bg, colors.bg },
   },
@@ -343,6 +350,8 @@ gls.left[11] = {
     provider = { 'DiagnosticError' },
     icon = '  ',
     highlight = { colors.red, colors.section_bg },
+    condition = is_buf_attached_to_lsp,
+    -- event = 'InsertEnter',
     -- separator = ' ',
     -- separator_highlight = {colors.bg, colors.bg}
   },
@@ -358,6 +367,8 @@ gls.left[12] = {
     provider = { 'DiagnosticWarn' },
     icon = '  ',
     highlight = { colors.orange, colors.section_bg },
+    condition = is_buf_attached_to_lsp,
+    -- event = 'InsertEnter',
     -- separator = ' ',
     -- separator_highlight = {colors.bg, colors.bg}
   },
@@ -373,6 +384,8 @@ gls.left[13] = {
     provider = 'DiagnosticHint',
     icon = '  ',
     highlight = {colors.purple, colors.section_bg},
+    condition = is_buf_attached_to_lsp,
+    -- event = 'InsertEnter',
     -- separator = ' ',
     -- separator_highlight = {_HEX_COLORS.bar.middle, _HEX_COLORS.bar.middle},
   },
@@ -382,6 +395,8 @@ gls.left[14] = {
     provider = { 'DiagnosticInfo' },
     icon = ' 𥉉 ',
     highlight = { colors.blue, colors.section_bg },
+    condition = is_buf_attached_to_lsp,
+    -- event = 'InsertEnter',
     separator = ' ',
     separator_highlight = {colors.section_bg, colors.bg}
   },
@@ -415,18 +430,18 @@ gls.left[16] = {
 --     },
 -- }
 gls.right[1] = {
-    ShowLspClient = {
-        provider = 'GetLspClient',
-        condition = function()
-            local tbl = {['dashboard'] = true, [''] = true}
-            if tbl[vim.bo.filetype] then return false end
-            return true
-        end,
-        icon = '  ',
-        highlight = {colors.middlegrey, colors.bg},
-        separator = ' ',
-        separator_highlight = {colors.section_bg, colors.bg}
-    }
+  ShowLspClient = {
+    provider = 'GetLspClient',
+    condition = function()
+      local tbl = {['dashboard'] = true, [''] = true}
+      if tbl[vim.bo.filetype] then return false end
+      return true
+    end,
+    icon = '  ',
+    highlight = {colors.middlegrey, colors.bg},
+    separator = ' ',
+    separator_highlight = {colors.section_bg, colors.bg}
+  }
 }
 --[[ gls.right[2] = {
     Space = {
@@ -451,34 +466,39 @@ gls.right[1] = {
     },
 } ]]
 gls.right[4] = {
-    FileType = {
-      provider = function()
-        if not buffer_not_empty() then
-          return ''
-        end
-        local icon = icons[vim.bo.fileformat] or ''
-        return string.format(' %s ', icon)
-      end,
-      condition = buffer_not_empty,
-      -- highlight = {colors.fg, colors.bg},
-      -- separator = sep.right,
-      -- separator_highlight = 'GalaxyViModeInv',
-        separator = ' ',
-        separator_highlight = { colors.section_bg, colors.bg },
-        highlight = { colors.fg, colors.section_bg },
-    },
-}
-gls.right[5] = {
-  FileEncode = {
-    provider = "FileEncode",
-    -- separator = separators.bRight,
+  FileType = {
+    provider = function()
+      if not buffer_not_empty() then
+        return ''
+      end
+      local icon = icons[vim.bo.fileformat] or ''
+      return string.format(' %s ', icon)
+    end,
+    condition = buffer_not_empty,
+    -- highlight = {colors.fg, colors.bg},
+    -- separator = sep.right,
+    -- separator_highlight = 'GalaxyViModeInv',
+    separator = ' ',
+    separator_highlight = { colors.section_bg, colors.bg },
     highlight = { colors.fg, colors.section_bg },
-  }
+  },
 }
+-- gls.right[5] = {
+--   FileEncode = {
+--     provider = "FileEncode",
+--     -- separator = separators.bRight,
+--     highlight = { colors.fg, colors.section_bg },
+--   }
+-- }
 gls.right[6] = {
   FileFormat = {
-    provider = "FileFormat",
-    separator = ' ',
+    -- provider = "FileFormat",
+    provider = function()
+      local line = vim.fn.line(".")
+      local column = vim.fn.col(".")
+      return string.format(" %d:%d ", line, column)
+    end,
+    separator = '|',
     separator_highlight = { colors.fg, colors.section_bg },
     highlight = { colors.fg, colors.section_bg },
   }
@@ -486,9 +506,9 @@ gls.right[6] = {
 gls.right[7] = {
   PerCent = {
     provider = 'LinePercent',
-    highlight = { colors.darkgrey, colors.blue },
-    separator = ' ',
-    separator_highlight = { colors.blue, colors.section_bg },
+    highlight = { colors.bg, colors.blue },
+    separator = ' ',
+    separator_highlight = { colors.bg, colors.blue },
   },
 }
 gls.right[8] = {

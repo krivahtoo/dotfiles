@@ -18,7 +18,10 @@ return require('packer').startup({function(use)
   -- LSP plugins
   use {
     'neovim/nvim-lspconfig',
-    requires = { 'ray-x/lsp_signature.nvim' },
+    requires = {
+      'ray-x/lsp_signature.nvim',
+      'jubnzv/virtual-types.nvim'
+    },
     config = function()
       require'krivah.lsp'
     end
@@ -81,10 +84,15 @@ return require('packer').startup({function(use)
   use {
     "ray-x/lsp_signature.nvim",
   }
-  use 'simrat39/symbols-outline.nvim'
+  -- use 'simrat39/symbols-outline.nvim'
 
   -- Snippets
-  use { 'L3MON4D3/LuaSnip' }
+  use {
+    'L3MON4D3/LuaSnip',
+    config = function()
+      require'krivah.luasnip'
+    end
+  }
   use { 'saadparwaiz1/cmp_luasnip' }
   use 'rafamadriz/friendly-snippets'
   use 'honza/vim-snippets'

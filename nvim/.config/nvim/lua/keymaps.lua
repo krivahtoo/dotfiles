@@ -2,6 +2,8 @@ local map = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 local opts_echo = { noremap = true }
 
+-- TODO: move to nvim builtin vim.keymap.set()
+
 -- center search results
 map("n", "n", "nzz", opts)
 map("n", "N", "Nzz", opts)
