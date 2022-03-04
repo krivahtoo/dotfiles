@@ -78,7 +78,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions aliases)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -102,7 +102,7 @@ function fzfcd {
   if [ -z ${target} ]; then
     target="."
   fi
-  moveto=$(find ${target} -maxdepth ${maxdepth:=5} -type d  | sed '/\.git/d' |fzf --select-1 --exit-0 ${fzfargs} )
+  moveto=$(fd ${target} -H -d ${maxdepth:=3} -t d | sed -e '/\.git/d' | fzf --select-1 --exit-0 ${fzfargs} )
   if [ ${moveto} ]; then
     cd ${moveto}
   fi
@@ -114,7 +114,7 @@ alias ${MYCD:=zd}=fzfcd
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
-export PATH=$HOME/go/bin:$HOME/.local/bin:$HOME/.nimble/bin:$PATH
+# export PATH=$HOME/go/bin:$HOME/.local/bin:$HOME/.nimble/bin:$PATH
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

@@ -17,6 +17,9 @@
 super + Escape
   pkill -USR1 -x sxhkd
 
+# close visible notifications
+~Escape
+  [[ `dunstctl count displayed` != \"0\" ]] && dunstctl close
 
 super + shift + Escape
   betterlockscreen -l dimblur
@@ -45,6 +48,17 @@ super + y
 # swap the current node and the biggest node
 super + g
   bspc node -s biggest
+
+# Smart resize, will grow or shrink depending on location.
+# Will always grow for floating nodes.
+super + ctrl + alt + {Left,Down,Up,Right}
+  n=10; \
+  { d1=left;   d2=right;  dx=-$n; dy=0;   \
+  , d1=bottom; d2=top;    dx=0;   dy=$n;  \
+  , d1=top;    d2=bottom; dx=0;   dy=-$n; \
+  , d1=right;  d2=left;   dx=$n;  dy=0;   \
+  } \
+  bspc node --resize $d1 $dx $dy || bspc node --resize $d2 $dx $dy
 
 
 # STATE/FLAGS
@@ -241,6 +255,7 @@ alt + ctrl + p
 #  ~/.dmenu/dmenu-trading.sh 
 
 # Volume/Music/Brigthnes Controls
+# XF86... keys
 
 # Music
 XF86Audio{Prev,Next,Play,Stop}
@@ -251,6 +266,15 @@ XF86Audio{LowerVolume,RaiseVolume,Mute}
   pamixer {-d 5,-i 5,-t}
 
 # Screen brightness
-XF86MonBrightness{Up,Down}
-  xbacklight {-inc 5,-dec 5}
+{_,shift + ,super + }XF86MonBrightness{Down,Up}
+  xbacklight {-1,-10,'=5',+1,+10,'=100'}
+
+# Power button
+# Make sure to change
+#   #HandlePowerKey=poweroff
+#  to
+#   HandlePowerKey=ignore
+# in /etc/systemd/logind.conf for this to work
+XF86PowerOff
+  power.sh
 
