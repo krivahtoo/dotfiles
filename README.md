@@ -4,19 +4,17 @@ My Arch setup config managed using [stow](https://www.gnu.org/software/stow/)
 
 Config for
 
-- Nvim
+- neovim
 - bspwm
 - picom
 - sxhkd
 - ncmpcpp
+- conky
+- qutebrowser
+- ...
 
 ## Screenshots
-![Screenshot 1](./images/screenshot1.png)
-![Screenshot 2](./images/screenshot2.png)
-![Screenshot 3](./images/screenshot3.png)
-
-## Terminal look
-![Terminal](./images/cli.png)
+![screenshot](https://user-images.githubusercontent.com/41364823/157059327-3be6351c-9447-4c09-8fb2-a2674c69b9ba.png)
 
 ## Setup
 Clone this repo to `~/.dotfiles`
