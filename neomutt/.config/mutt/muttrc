@@ -1,13 +1,17 @@
-set folder          = imaps://imap.example.com/
-set imap_user       = name@example.com
+set folder          = imaps://imap.gmail.com
+set imap_user       = "krivahtoo@gmail.com"
 # Get password from 'pass' password manager
-set imap_pass       = `pass name@example.com`
+set imap_pass       = `pass mail`
 set mailcap_path 	= ~/.mailcap
 mailboxes           = +INBOX
 
 # User
-set from = "name@example.com"
-set realname = "My Name"
+set realname = "Noah Too"
+set from = "krivahtoo@gmail.com"
+
+# Smtp settings
+set smtp_url = "smtps://krivahtoo@smtp.gmail.com"
+set smtp_pass = `pass mail`
 
 # Folders
 set spoolfile = +INBOX
@@ -36,17 +40,48 @@ set imap_keepalive = 300
 # How often to check for new mail (time in seconds).
 set mail_check = 120
 
+# Ensure TLS is enforced
+set ssl_force_tls=no
+
 set imap_check_subscribed
 
 set sort=threads
+# When sorting by threads, this variable controls how threads are sorted
+# in relation to other threads, and how the branches of the thread trees are sorted.
 set sort_aux=last-date-received
 set sidebar_visible = yes
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
+# Index page format. Default "%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
+set index_format="%4C %Z %{%b %d %R} %-15.15L (%?l?%4l&%4c?) %s"
+
+set editor="nvim"
 
 auto_view text/html
 
 alternative_order text/plain text/html
+
+# disable g binding to enable sequence binding
+bind attach,index,pager g noop
+
+macro index gd "<change-folder>$postponed<enter>" "go to drafts"
+macro index gs "<change-folder>$record<enter>" "go to sent"
+macro index gi "<change-folder>$spoolfile<Enter>" "go to inbox"
+macro index gt "<change-folder>$trash<enter>" "go to trash""
+
+# Vim like binds
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind pager gg top
+bind pager G bottom
+bind attach,index gg first-entry
+bind attach,index G last-entry
+
+# Sidebar binds
+bind index,pager \CP sidebar-prev                 # Ctrl-n to select next folder
+bind index,pager \CN sidebar-next                 # Ctrl-p to select previous folder
+bind index,pager \CO sidebar-open                 # Ctrl-o to open selected folder
+bind index,pager \CB sidebar-toggle-visible       # Ctrl-b to toggle visibility of the sidebar
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #

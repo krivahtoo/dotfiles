@@ -1,0 +1,16 @@
+# media
+video/*; mpv "%s"
+audio/ogg; mpv --speed=1.33 "%s"
+audio/mpeg; mpv --no-video "%s"
+image/*; feh "%s"
+
+# text
+text/html; elinks -dump -dump-color-mode 1; copiousoutput;
+# text/html; w3m "%s"
+# text/html; open -a Firefox "%s"
+text/plain; less "%s"
+
+application/pdf; zathura "%s"
+
+# fallback to vim
+text/*; vim "%s"
