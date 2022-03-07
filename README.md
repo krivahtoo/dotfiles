@@ -1,5 +1,3 @@
-# Dotfiles
-
 My Arch setup config managed using [stow](https://www.gnu.org/software/stow/)
 
 Config for
