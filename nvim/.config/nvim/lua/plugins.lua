@@ -319,6 +319,7 @@ return require('packer').startup({function(use)
   use 'jose-elias-alvarez/null-ls.nvim'
   use 'ggandor/lightspeed.nvim'
   use 'kazhala/close-buffers.nvim'
+  -- use 'baskerville/vim-sxhkdrc'
 end,
 config = {
   display = {
