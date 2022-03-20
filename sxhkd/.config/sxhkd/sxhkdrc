@@ -151,39 +151,22 @@ alt + Tab
 
 # APPLICATION KEYBINDINGS (Super + Alt + Key)
 
+# open apps using multiple chords
+super + alt + o ; {c,m,n,j,l,r,x}
+  st -e {cmus,neomutt,newsboat,joshuto,lynx,ranger,tmux}
+
 # terminal emulator
 super + Return
   st
-# launch aerc
-super + alt + a
-  st -e aerc
 # launch surf browser
 super + alt + b
   firefox
-# launch cmus
-super + alt + c
-  st -e cmus
 
 super + alt + d
   dolphin
-# launch neomutt email client
-super + alt + e
-  st -e neomutt
-# launch lynx web browser
-super + alt + l
-  st -e lynx 
-# launch irssi chat client
-super + alt + i
-  st -e irssi
 # launch ncmpcpp
 super + alt + m
   st -e ncmpcpp-ueberzug
-# launch newsboat feed reeder
-super + alt + n
-  st -e newsboat
-# launch ranger
-super + alt + r
-  st -e ranger
 
 # launch vscode/code-oss
 super + alt + v
@@ -198,13 +181,17 @@ super + alt + t
 super + alt + x
   st -e tmux
 
+# launch qutebrowser
+super + alt + q
+  qutebrowser
+
 # DE like launch
 ctrl + Escape
   st -e bashtop
 
 # Take Screenshot
 Print
-  ~/.local/bin/screenshot.sh screen
+  screenshot.sh screen
 
 # Take Screenshot of the current window
 shift + Print
@@ -212,11 +199,11 @@ shift + Print
 
 # Take Screenshot of selected location
 ctrl + Print
-  ~/.local/bin/screenshot.sh select
+  screenshot.sh select
 
 # Get text from image
 alt + Print
-  ~/.local/bin/screenshot.sh text
+  screenshot.sh text
 
 # DE like emoji selector
 ctrl + period
@@ -238,6 +225,10 @@ alt + ctrl + c
 # passmenu
 alt + ctrl + p
    exec passmenu 
+
+alt + ctrl + x
+  xcolor -s clipboard
+
 # edit common config files
 #alt + ctrl + e
 #   ~/.dmenu/dmenu-edit-configs.sh

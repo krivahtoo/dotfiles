@@ -77,14 +77,14 @@ dmenu.selforeground : #090c1b
 ! *color21:      base06
 
 *foreground:   #acb4c2
-*background:   #011627
+*background:   #001729
 *cursorColor:  #9ca1aa
 
 *color0:       #1d3b53
 *color1:       #fc514e
 *color2:       #a1cd5e
-*color3:       #e3d18a
-*color4:       #82aaff
+*color3:       #fdb86b
+*color4:       #61afef
 *color5:       #c792ea
 *color6:       #7fdbca
 *color7:       #a1aab8
