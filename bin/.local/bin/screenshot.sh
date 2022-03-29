@@ -13,6 +13,10 @@ case "$1" in
     cd /tmp && scrot -t 100x100 -e 'mv $f ~/Pictures/Screenshots/ 2>/dev/null && notify-send "screenshot taken" -t 2000 -a "Scrot" --icon=/tmp/$m' \
       && paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga
     ;;
+  window)
+    cd /tmp && scrot -t 100x100 -u -e 'mv $f ~/Pictures/Screenshots/ 2>/dev/null && notify-send "screenshot taken" -t 2000 -a "Scrot" --icon=/tmp/$m' \
+      && paplay /usr/share/sounds/freedesktop/stereo/screen-capture.oga
+    ;;
   text)
     imagefile="/tmp/sloppy.$RANDOM.png"
     text="/tmp/ocr"

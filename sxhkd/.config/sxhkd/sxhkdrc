@@ -156,17 +156,19 @@ super + alt + o ; {c,m,n,j,l,r,x}
   st -e {cmus,neomutt,newsboat,joshuto,lynx,ranger,tmux}
 
 # terminal emulator
-super + Return
-  st
+super  + {_,shift +} Return
+  {st, bspc rule -a \* -o state=floating && st}
+
 # launch surf browser
 super + alt + b
   firefox
 
 super + alt + d
   dolphin
+
 # launch ncmpcpp
 super + alt + m
-  st -e ncmpcpp-ueberzug
+  bspc rule -a \* -o state=floating && st -e ncmpcpp-ueberzug
 
 # launch vscode/code-oss
 super + alt + v
@@ -195,7 +197,7 @@ Print
 
 # Take Screenshot of the current window
 shift + Print
-  cd /tmp && scrot -t 40x40 -u -e 'mv $f ~/Pictures/Screenshots/ 2>/dev/null && notify-send "screenshot taken" -t 2000 -a "Scrot" --icon=/tmp/$m'
+  screenshot.sh window
 
 # Take Screenshot of selected location
 ctrl + Print
