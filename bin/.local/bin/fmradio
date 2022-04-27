@@ -1,0 +1,6 @@
+#!/bin/sh
+
+url=$(cat ~/.fmstations | dmenu -i -l 10 -p "FM Station" | awk '{print $2}' | tr -d '\n')
+
+pkill -f "$url" || mpv --really-quiet "$url"
+

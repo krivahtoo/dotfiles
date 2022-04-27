@@ -139,7 +139,7 @@ super + {Left,Down,Up,Right}
 
 # App launcher
 super + space
-  ~/.config/polybar/blocks/scripts/launcher.sh
+  rofi -modi run,drun,window -show drun -show-icons -sidebar-mode
 
 # App launcher 2
 super + z

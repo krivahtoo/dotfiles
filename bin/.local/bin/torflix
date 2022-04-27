@@ -1,0 +1,99 @@
+#!/bin/sh
+
+# Dependencies - peerflix, mpv, dmenu
+menu="dmenu -i -l 5"
+baseurl="https://1337x.to"
+cachedir="$HOME/.cache/torflix/"
+downloaddir="$HOME/Torrents/videos/"
+menulists="watch\ndownload\ncopy\nquit"
+# you can use other downloaders of your choice (like aria2c...) 
+downloader="transmission-remote -a"
+
+checkCacheDir(){
+    if [ ! -d "$cachedir" ]; then
+        mkdir -p "$cachedir"
+    fi
+}
+
+checkDownloadDir(){
+    if [ ! -d "$downloaddir" ]; then
+        mkdir -p "$downloadir"
+    fi
+}
+search(){
+    if [ -z $1 ]; then
+        query=$(dmenu -p "Search Torrent: " <&-)
+    else
+        query=$1
+    fi
+    query="$(sed 's/ /+/g' <<<$query)"
+}
+getDetails(){
+    #curl -s https://1337x.to/category-search/$query/Movies/1/ > $cachedir/tmp.html
+    curl -s $baseurl/search/$query/1/ > $cachedir/tmp.html
+    # Get Titles
+    grep -o '<a href="/torrent/.*</a>' $cachedir/tmp.html | sed 's/<[^>]*>//g' > $cachedir/titles.bw
+    result_count=$(wc -l $cachedir/titles.bw | awk '{print $1}')
+    if [ "$result_count" -lt 1 ]; then
+        notify-send "😔 No Result found. Try again 🔴"
+        exit 0
+    fi
+    #seeders and leechers
+    grep -o '<td class="coll-2 seeds.*</td>\|<td class="coll-3 leeches.*</td>' $cachedir/tmp.html | sed 's/<[^>]*>//g' | sed 'N;s/\n/ /' > $cachedir/seedleech.bw
+    #fileSize
+    grep -o '<td class="coll-4 size.*</td>' $cachedir/tmp.html | sed 's/<span class="seeds">.*<\/span>//g' | sed -e 's/<[^>]*>//g' > $cachedir/size.bw
+    #links
+    grep -E '/torrent/' $cachedir/tmp.html | sed -E 's#.*(/torrent/.*)/">.*/#\1#' | sed 's/td>//g' > $cachedir/links.bw
+    # Clearning up some data to display
+    sed 's/\./ /g; s/\-/ /g' $cachedir/titles.bw | sed 's/[^A-Za-z0-9 ]//g' | tr -s " " > $cachedir/tmp && mv $cachedir/tmp $cachedir/titles.bw
+    awk '{print NR " - ["$0"]"}' $cachedir/size.bw > $cachedir/tmp && mv $cachedir/tmp $cachedir/size.bw
+    awk '{print "[S:"$1 ", L:"$2"]" }' $cachedir/seedleech.bw > $cachedir/tmp && mv $cachedir/tmp $cachedir/seedleech.bw
+    # Getting the line number
+    LINE=$(paste -d\   $cachedir/size.bw $cachedir/seedleech.bw $cachedir/titles.bw | $menu | cut -d\- -f1 | awk '{$1=$1; print}')
+}
+
+searchLinks(){
+    notify-send "🔍 Searching Magnet seeds 🧲"
+    url=$(head -n $LINE $cachedir/links.bw | tail -n +$LINE)
+    fullURL="${baseurl}${url}/"
+    # Requesting page for magnet link
+    curl -s $fullURL > $cachedir/tmp.html
+    magnet=$(grep -Po "magnet:\?xt=urn:btih:[a-zA-Z0-9%&+=.\-]*" $cachedir/tmp.html | head -n 1) 
+}
+watchVideo(){
+    peerflix -k "$magnet"
+    notify-send "🎥 Enjoy Watching ☺️ "
+}
+downloadVideo(){
+    # "$downloader" "$magnet"
+    transmission-remote -a "$magnet"
+    notify-send "Video Downloaded"
+}
+copyToClipboard(){
+  echo "$magnet" | xsel
+  notify-send "Magnet copied to primary"
+}
+
+checkCacheDir
+search
+getDetails
+choose=$(printf "$menulists" | dmenu -p "Choose Option: " )
+if [ "$choose" = watch ]; then
+    searchLinks
+    watchVideo
+elif [ "$choose" = "download" ]; then
+    searchLinks
+    checkDownloadDir
+    cd $downloaddir
+    pwd
+    downloadVideo
+elif [ "$choose" = "copy" ]; then
+  searchLinks
+  copyToClipboard
+elif [ "$choose" = "quit" ]; then
+    exit 0
+else
+    notify-send "Invalid Choice"
+    exit 0
+fi 
+
