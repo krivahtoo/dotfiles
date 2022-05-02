@@ -109,7 +109,8 @@ return require('packer').startup({function(use)
     'nvim-treesitter/nvim-treesitter',
     requires = {
       'p00f/nvim-ts-rainbow',
-      'mfussenegger/nvim-ts-hint-textobject'
+      'mfussenegger/nvim-ts-hint-textobject',
+      'windwp/nvim-ts-autotag'
     },
     config = function()
       require'krivah.treesitter'
@@ -119,10 +120,10 @@ return require('packer').startup({function(use)
   use {
     'blackCauldron7/surround.nvim',
     config = function()
-      require"surround".setup {
-        mappings_style = "sandwich",
-        prefix = "<leader>s"
-      }
+      -- require"surround".setup {
+      --   mappings_style = "sandwich",
+      --   prefix = "<leader>s"
+      -- }
     end
   }
 
@@ -194,7 +195,7 @@ return require('packer').startup({function(use)
     'sindrets/diffview.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function()
-      require'krivah.diffview'
+      -- require'krivah.diffview'
     end
   }
 
@@ -220,6 +221,35 @@ return require('packer').startup({function(use)
     end
   }
 
+  -- Project
+  use {
+    'shaeinst/penvim',
+    config = function()
+      require("penvim").setup({
+        project_env = {
+          enable = true,
+          config_name = '.__nvim__.lua'
+        },
+        rooter = {
+          enable = true,
+          patterns = {'.__nvim__.lua', '.git', 'node_modules', '.sln', '.svn'}
+        },
+      })
+    end
+  }
+  use {
+    'rmagatti/auto-session',
+    config = function()
+      require('auto-session').setup {
+        log_level = 'info',
+        auto_session_suppress_dirs = {'~/', '~/Projects'}
+      }
+    end
+  }
+
+  -- Motion
+  use 'ggandor/lightspeed.nvim'
+
   -- Other
   use 'yamatsum/nvim-cursorline'
   use {
@@ -232,7 +262,7 @@ return require('packer').startup({function(use)
     "NTBBloodbath/rest.nvim",
     requires = { "nvim-lua/plenary.nvim" },
     config = function()
-      require'krivah.rest'
+      -- require'krivah.rest'
     end
   }
   use {
@@ -261,31 +291,22 @@ return require('packer').startup({function(use)
     end
   }
   use {
-    'rmagatti/auto-session',
-    config = function()
-      require('auto-session').setup {
-        log_level = 'info',
-        auto_session_suppress_dirs = {'~/', '~/Projects'}
-      }
-    end
-  }
-  use {
     'Saecki/crates.nvim',
     event = { "BufRead Cargo.toml" },
     requires = { { 'nvim-lua/plenary.nvim' } },
     config = function()
-      require'krivah.crates'
+      -- require'krivah.crates'
     end,
   }
-  use {
-    'fhill2/xplr.nvim',
-    run = function() require'xplr'.install({hide=true}) end,
-    requires = {{'nvim-lua/plenary.nvim'}, {'MunifTanjim/nui.nvim'}}
-  }
+  -- use {
+  --   'fhill2/xplr.nvim',
+  --   run = function() require'xplr'.install({hide=true}) end,
+  --   requires = {{'nvim-lua/plenary.nvim'}, {'MunifTanjim/nui.nvim'}}
+  -- }
   use {
     'stevearc/dressing.nvim',
     config = function()
-      require'krivah.dressing'
+      -- require'krivah.dressing'
     end
   }
   use { 'mhartington/formatter.nvim' }
@@ -298,7 +319,7 @@ return require('packer').startup({function(use)
   use {
     'michaelb/sniprun',
     run = 'bash ./install.sh',
-    cofig = function()
+    config = function()
       require'krivah.sniprun'
     end
   }
@@ -316,9 +337,8 @@ return require('packer').startup({function(use)
       vim.cmd [[let g:copilot_no_tab_map = v:true]]
     end
   }
-  use 'jose-elias-alvarez/null-ls.nvim'
-  use 'ggandor/lightspeed.nvim'
-  use 'kazhala/close-buffers.nvim'
+  -- use 'jose-elias-alvarez/null-ls.nvim'
+  -- use 'kazhala/close-buffers.nvim'
   -- use 'baskerville/vim-sxhkdrc'
 end,
 config = {
