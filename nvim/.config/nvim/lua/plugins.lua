@@ -20,7 +20,6 @@ return require('packer').startup({function(use)
     'neovim/nvim-lspconfig',
     requires = {
       'ray-x/lsp_signature.nvim',
-      'jubnzv/virtual-types.nvim'
     },
     config = function()
       require'krivah.lsp'
@@ -84,7 +83,13 @@ return require('packer').startup({function(use)
   use {
     "ray-x/lsp_signature.nvim",
   }
-  -- use 'simrat39/symbols-outline.nvim'
+  use {
+    'j-hui/fidget.nvim',
+    after = 'nvim-lspconfig',
+    config = function()
+      require'krivah.fidget'
+    end
+  }
 
   -- Snippets
   use {
@@ -132,7 +137,6 @@ return require('packer').startup({function(use)
     'NTBBloodbath/galaxyline.nvim',
     after = 'vim-nightfly-guicolors',
     requires = {
-      'nvim-lua/lsp-status.nvim',
       'kyazdani42/nvim-web-devicons'
     },
     config = function()
@@ -142,6 +146,7 @@ return require('packer').startup({function(use)
 
   use {
     'akinsho/nvim-bufferline.lua',
+    tag = "v2.*",
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       require'krivah.bufferline'
@@ -218,6 +223,17 @@ return require('packer').startup({function(use)
         -- or leave it empty to use the default settings
         -- refer to the configuration section below
       }
+    end
+  }
+
+  -- Debugging
+  use {
+    'theHamsta/nvim-dap-virtual-text',
+    requires = {
+      'mfussenegger/nvim-dap'
+    },
+    config = function()
+      require("nvim-dap-virtual-text").setup()
     end
   }
 
@@ -306,7 +322,7 @@ return require('packer').startup({function(use)
   use {
     'stevearc/dressing.nvim',
     config = function()
-      -- require'krivah.dressing'
+      require'krivah.dressing'
     end
   }
   use { 'mhartington/formatter.nvim' }

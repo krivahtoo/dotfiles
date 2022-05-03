@@ -25,19 +25,6 @@ vim.diagnostic.config {
   signs = true,
 }
 
-local lsp_status = require('lsp-status')
-lsp_status.register_progress()
-
-lsp_status.config {
-  kind_labels = {},
-  show_filename = true,
-  current_function = true,
-  indicator_separator = "",
-  indicator_ok = "",
-  status_symbol = "",
-  diagnostics = false
-}
-
 require'lsp_signature'.setup {
   debug = false, -- set to true to enable debug logging
   -- log_path = "debug_log_file_path", -- debug log path
@@ -77,9 +64,7 @@ require'lsp_signature'.setup {
 } -- no need to specify bufnr if you don't use toggle_key
 
 local on_attach = function(client, bufnr)
-  lsp_status.on_attach(client)
   require'lsp_signature'.on_attach()
-  require'virtualtypes'.on_attach(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 end
 

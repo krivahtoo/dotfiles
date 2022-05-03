@@ -401,14 +401,14 @@ gls.left[14] = {
     separator_highlight = {colors.section_bg, colors.bg}
   },
 }
-gls.left[15] = {
-  LspStatus = {
-    provider = { LspStatus },
-    -- separator = ' ',
-    -- separator_highlight = {colors.bg, colors.bg},
-    highlight = { colors.middlegrey, colors.bg },
-  },
-}
+-- gls.left[15] = {
+--   LspStatus = {
+--     provider = { LspStatus },
+--     -- separator = ' ',
+--     -- separator_highlight = {colors.bg, colors.bg},
+--     highlight = { colors.middlegrey, colors.bg },
+--   },
+-- }
 
 gls.left[16] = {
   Signature = {
