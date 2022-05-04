@@ -20,10 +20,6 @@ local has_words_before = function()
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local feedkey = function(key, mode)
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-end
-
 local kind_icons = {
   Text = "",
   Method = "",
@@ -117,7 +113,7 @@ cmp.setup({
       luasnip.lsp_expand(args.body)
     end,
   },
-  mapping = {
+  mapping = cmp.mapping.preset.insert({
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
@@ -125,7 +121,7 @@ cmp.setup({
     ['<C-y>'] = cmp.config.disable, -- If you want to remove the default `<C-y>` mapping, You can specify `cmp.config.disable` value.
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
 
-    ["<Tab>"] = cmp.mapping(function(fallback)
+    ["<Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expand_or_jumpable() then
@@ -135,9 +131,9 @@ cmp.setup({
       else
         fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
       end
-    end, { "i", "s" }),
+    end,
 
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
+    ["<S-Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif luasnip.jumpable(-1) then
@@ -145,21 +141,18 @@ cmp.setup({
       else
         fallback()
       end
-    end, { "i", "s" }),
-  },
+    end,
+  }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'copilot' },
-    { name = 'crates' },
-  }, {
     { name = 'buffer', keyword_length = 2 },
     { name = 'path' },
+  }, {
     { name = 'calc' },
     { name = 'npm' },
   }),
   experimental = {
-    ghost_text = false,
-    native_menu = false
+    ghost_text = false
   },
   completion = {
     autocomplete = false, -- disable auto-completion.
@@ -203,37 +196,38 @@ cmp.setup.filetype('gitcommit', {
 --   })
 -- })
 
-_G.vimrc = _G.vimrc or {}
-_G.vimrc.cmp = _G.vimrc.cmp or {}
--- Only autocomplete when there is no text after the cursor.
-_G.vimrc.cmp.on_text_changed = function()
-  local context = require 'cmp.config.context'
-  local line = vim.api.nvim_get_current_line()
-  local cursor = vim.api.nvim_win_get_cursor(0)[2]
-  if not context.in_treesitter_capture("comment")
-      and not context.in_syntax_group("Comment") then
-    return
-  end
-  local current = string.sub(line, cursor, cursor + 1)
-  if current == "." or current == "," or current == " " then
-    cmp.close()
-  end
 
-  local before_line = string.sub(line, 1, cursor + 1)
-  local after_line = string.sub(line, cursor + 1, -1)
-  if not string.match(before_line, '^%s+$') then
-    if after_line == "" or string.match(before_line, " $") or string.match(before_line, "%.$") then
-      -- cmp.complete()
+local id = vim.api.nvim_create_augroup("vimrc", {
+  clear = false
+})
+vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI", "TextChangedP" },{
+  pattern = "*",
+  group = id,
+  callback = function()
+    local context = require 'cmp.config.context'
+    local line = vim.api.nvim_get_current_line()
+    local cursor = vim.api.nvim_win_get_cursor(0)[2]
+    if not context.in_treesitter_capture("comment")
+        and not context.in_syntax_group("Comment") then
+      return
+    end
+    local current = string.sub(line, cursor, cursor + 1)
+    if current == "." or current == "," or current == " " then
+      cmp.close()
+    end
+
+    local before_line = string.sub(line, 1, cursor + 1)
+    local after_line = string.sub(line, cursor + 1, -1)
+    if not string.match(before_line, '^%s+$') then
+      if after_line == "" or string.match(before_line, " $")
+        or string.match(before_line, "%.$") then
+        -- cmp.complete()
+      end
     end
   end
-end
-vim.cmd([[
-  augroup vimrc
-    autocmd TextChanged,TextChangedI,TextChangedP * call luaeval('vimrc.cmp.on_text_changed()')
-  augroup END
-]])
+})
 
-_G.vimrc.cmp.lsp = function()
+vim.keymap.set('i', '<C-x><C-o>', function()
   cmp.complete({
     config = {
       sources = {
@@ -241,8 +235,8 @@ _G.vimrc.cmp.lsp = function()
       }
     }
   })
-end
-_G.vimrc.cmp.snippet = function()
+end)
+vim.keymap.set('i', '<C-x><C-s>', function()
   cmp.complete({
     config = {
       sources = {
@@ -250,8 +244,8 @@ _G.vimrc.cmp.snippet = function()
       }
     }
   })
-end
-_G.vimrc.cmp.dict = function()
+end)
+vim.keymap.set('i', '<C-x><C-d>', function()
   cmp.complete({
     config = {
       sources = {
@@ -259,11 +253,5 @@ _G.vimrc.cmp.dict = function()
       }
     }
   })
-end
-
-vim.cmd([[
-  inoremap <C-x><C-o> <Cmd>lua vimrc.cmp.lsp()<CR>
-  inoremap <C-x><C-s> <Cmd>lua vimrc.cmp.snippet()<CR>
-  inoremap <C-x><C-d> <Cmd>lua vimrc.cmp.dict()<CR>
-]])
+end)
 

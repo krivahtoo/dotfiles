@@ -38,12 +38,23 @@ o.tw = 500
 
 o.ai = true --Auto indent
 o.si = true --Smart indent
-o.wrap = true --Wrap lines
+o.wrap = false --Wrap lines
+o.laststatus = 3
+o.cursorline = true
 o.cursorcolumn = true
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldtext = 'v:lua.NeatFoldText()' -- Set text of folds
-o.fillchars:append('fold:═')
+o.fillchars = {
+  horiz = '━',
+  horizup = '┻',
+  horizdown = '┳',
+  vert = '┃',
+  vertleft = '┫',
+  vertright = '┣',
+  verthoriz = '╋',
+  fold = '═',
+}
 
 --- @return string fold_text a neat template for the summary of what is on a fold
 function NeatFoldText()

@@ -77,7 +77,10 @@ return require('packer').startup({function(use)
   use {
     'kosayoda/nvim-lightbulb',
     config = function()
-      vim.api.nvim_exec([[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]], false)
+      vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI"},{
+        pattern = "*",
+        callback = require'nvim-lightbulb'.update_lightbulb
+      })
     end
   }
   use {
@@ -267,7 +270,7 @@ return require('packer').startup({function(use)
   use 'ggandor/lightspeed.nvim'
 
   -- Other
-  use 'yamatsum/nvim-cursorline'
+  use { 'xiyaowong/nvim-cursorword' }
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
