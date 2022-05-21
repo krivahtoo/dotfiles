@@ -21,63 +21,65 @@ local has_words_before = function()
 end
 
 local kind_icons = {
-  Text = "",
-  Method = "",
-  Function = "",
-  Constructor = "",
-  Field = "",
-  Variable = "",
-  Class = "ﴯ",
-  Interface = "",
-  Module = "",
-  Property = "ﰠ",
-  Unit = "",
-  Value = "",
-  Enum = "",
-  Keyword = "",
-  Snippet = "",
-  Color = "",
-  File = "",
-  Reference = "",
-  Folder = "",
-  EnumMember = "",
-  Constant = "",
-  Struct = "",
-  Event = "",
-  Operator = "",
-  TypeParameter = ""
+  Text = ' ',
+  Method = ' ',
+  Function = ' ',
+  Constructor = ' ',
+  Field = ' ',
+  Variable = ' ',
+  Class = ' ',
+  Interface = ' ',
+  Module = ' ',
+  Property = ' ',
+  Unit = ' ',
+  Value = ' ',
+  Enum = ' ',
+  Keyword = ' ',
+  Snippet = ' ',
+  Color = ' ',
+  File = ' ',
+  Reference = ' ',
+  Folder = ' ',
+  EnumMember = ' ',
+  Constant = ' ',
+  Struct = ' ',
+  Event = ' ',
+  Operator = ' ',
+  TypeParameter = ' ',
 }
 
--- Vs code icons
--- if vim.g.nvui then
-  kind_icons = {
-    Text = '  ',
-    Method = '  ',
-    Function = '  ',
-    Constructor = '  ',
-    Field = '  ',
-    Variable = '  ',
-    Class = '  ',
-    Interface = '  ',
-    Module = '  ',
-    Property = '  ',
-    Unit = '  ',
-    Value = '  ',
-    Enum = '  ',
-    Keyword = '  ',
-    Snippet = '  ',
-    Color = '  ',
-    File = '  ',
-    Reference = '  ',
-    Folder = '  ',
-    EnumMember = '  ',
-    Constant = '  ',
-    Struct = '  ',
-    Event = '  ',
-    Operator = '  ',
-    TypeParameter = '  ',
-  }
--- end
+local sources = {
+  nvim_lua = " LUA",
+  nvim_lsp = " LSP",
+  tags = " TAG",
+  zsh = " ZSH",
+  fish = " FIS",
+  path = " PTH",
+  spell = " SPL",
+  dictionary = " DIC",
+  luasnip = " LSN",
+  nvim_lsp_signature_help = " SGH",
+  orgmode = " ORG",
+  treesitter = " TSR",
+  rg = " RIP",
+  omni = " OMN",
+  look = " LOK",
+  calc = " CAL",
+  emoji = " EMJ",
+  tmux = " TMX",
+  npm = " NPM",
+  cmp_git = " GIT",
+  latex_symbols = " TEX",
+  nvim_lsp_document_symbol = " DSM",
+  buffer = " BUF",
+  cmdline = " CMD",
+  gh_issues = " GHI",
+  cmdline_history = " CMH",
+  conventionalcommits = " CVC",
+  pandoc_references = " PAN",
+  digraphs = " DIG",
+  greek = "GRK",
+}
 
 -- Load all snippets
 require("luasnip.loaders.from_vscode").load({ paths = { packer_plugins['friendly-snippets'].path } })
@@ -90,21 +92,7 @@ cmp.setup({
       -- Kind icons
       vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
       -- Source
-      vim_item.menu = ({
-        buffer = "[Buffer]",
-        nvim_lsp = "[LSP]",
-        luasnip = "[LuaSnip]",
-        nvim_lua = "[Lua]",
-        latex_symbols = "[LaTeX]",
-        cmp_git = "[Git]",
-        crates = "[Crates]",
-        gh_issues = "[Issues]",
-        path = "[Path]",
-        copilot = "[Copilot]",
-        cmdline = "[Nvim cmds]",
-        calc = "[Calculator]",
-        dictionary = "[Dictionary]"
-      })[entry.source.name]
+      vim_item.menu = sources[entry.source.name]
       return vim_item
     end
   },
@@ -145,7 +133,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'buffer', keyword_length = 2 },
+    { name = 'buffer', keyword_length = 2, max_item_count = 10 },
     { name = 'path' },
   }, {
     { name = 'calc' },
@@ -240,7 +228,7 @@ vim.keymap.set('i', '<C-x><C-s>', function()
   cmp.complete({
     config = {
       sources = {
-        { name = 'luasnip' }
+        { name = 'luasnip', max_item_count = 15 }
       }
     }
   })
@@ -248,9 +236,11 @@ end)
 vim.keymap.set('i', '<C-x><C-d>', function()
   cmp.complete({
     config = {
-      sources = {
-        { name = 'dictionary', keyword_length = 3 },
-      }
+      sources = {{
+        name = 'dictionary',
+        keyword_length = 3,
+        max_item_count = 10
+      }}
     }
   })
 end)

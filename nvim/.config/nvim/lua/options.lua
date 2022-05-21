@@ -1,7 +1,8 @@
 local o = vim.opt
-local g = vim.g
 
 vim.cmd [[syntax enable]]
+
+vim.g.do_filetype_lua = 1
 
 o.guifont = 'JetBrainsMono Nerd Font:h10,codicon:h10'
 o.encoding = 'utf-8'
@@ -21,7 +22,15 @@ o.wildignore = {
   '*.pyc', '**/__pycache__/*', '**/node_modules/*', '.coverage.*', '.eggs', '*.egg-info/'
 }
 o.list = false
-o.listchars = {eol = '¬', tab = '» ', trail = '~', extends = '≻', precedes = '≺', space = '␣'}
+o.listchars = {
+  eol = '¬',
+  tab = '» ',
+  trail = '~',
+  extends = '≻',
+  precedes = '≺',
+  space = '␣',
+  lead = '·'
+}
 o.wildignorecase = true
 o.timeoutlen = 500
 

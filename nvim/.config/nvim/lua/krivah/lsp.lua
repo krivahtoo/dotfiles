@@ -10,7 +10,9 @@ end
 
 vim.diagnostic.config {
   -- Enable underline, use default values
-  underline = true,
+  underline = {
+    severity = vim.diagnostic.severity.ERROR
+  },
   -- Enable virtual text, override spacing to 4
   virtual_text = {
     spacing = 4,
@@ -23,6 +25,12 @@ vim.diagnostic.config {
   -- Use a function to dynamically turn signs off
   -- and on, using buffer local variables
   signs = true,
+  float = {
+    source = 'if_many',
+    border = 'single'
+  },
+  severity_sort = true,
+  update_in_insert = true
 }
 
 require'lsp_signature'.setup {
@@ -60,7 +68,7 @@ require'lsp_signature'.setup {
   shadow_blend = 36, -- if you using shadow as border use this set the opacity
   shadow_guibg = 'Black', -- if you using shadow as border use this set the color e.g. 'Green' or '#121315'
   timer_interval = 200, -- default timer check interval set to lower value if you want to reduce latency
-  toggle_key = nil -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
+  toggle_key = '<M-x>' -- toggle signature on and off in insert mode,  e.g. toggle_key = '<M-x>'
 } -- no need to specify bufnr if you don't use toggle_key
 
 local on_attach = function(client, bufnr)
@@ -74,7 +82,7 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protoco
 local servers = {
   'clangd', 'svelte', 'pyright', 'solargraph', 'cmake', 'texlab',
   'tsserver', 'vimls', 'vuels', 'rust_analyzer', 'nimls', 'bashls',
-  'emmet_ls', 'intelephense', 'tailwindcss', 'html', 'cssls'
+  'emmet_ls', 'intelephense', 'gopls'--, 'html', 'cssls'
 }
 
 for _, server in ipairs(servers) do
@@ -83,6 +91,11 @@ for _, server in ipairs(servers) do
     on_attach = on_attach
   }
 end
+
+-- nvim_lsp.tailwindcss.setup{
+--   capabilities = capabilities,
+--   on_attach = on_attach,
+-- }
 
 nvim_lsp.elixirls.setup{
   capabilities = capabilities,

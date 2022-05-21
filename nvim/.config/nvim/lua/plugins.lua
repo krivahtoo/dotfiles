@@ -125,15 +125,6 @@ return require('packer').startup({function(use)
     end,
     run = ':TSUpdate'
   }
-  use {
-    'blackCauldron7/surround.nvim',
-    config = function()
-      -- require"surround".setup {
-      --   mappings_style = "sandwich",
-      --   prefix = "<leader>s"
-      -- }
-    end
-  }
 
   -- ui status lines
   use({
@@ -150,6 +141,7 @@ return require('packer').startup({function(use)
   use {
     'akinsho/nvim-bufferline.lua',
     tag = "v2.*",
+    after = 'vim-nightfly-guicolors',
     requires = 'kyazdani42/nvim-web-devicons',
     config = function()
       require'krivah.bufferline'
@@ -157,7 +149,13 @@ return require('packer').startup({function(use)
   }
 
   -- Terminal
-  use {"akinsho/toggleterm.nvim"}
+  use {
+    "akinsho/toggleterm.nvim",
+    tag = 'v1.*',
+    config = function()
+      require("toggleterm").setup()
+    end
+  }
 
   -- File manager
   use {
@@ -268,9 +266,20 @@ return require('packer').startup({function(use)
 
   -- Motion
   use 'ggandor/lightspeed.nvim'
+  use {
+    'junegunn/fzf.vim',
+    requires = { 'junegunn/fzf' },
+    config = function()
+      vim.g.fzf_layout = { tmux = '-p90%,60%' }
+      vim.cmd('command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, fzf#vim#with_preview(), <bang>0)')
+    end
+  }
 
   -- Other
-  use { 'xiyaowong/nvim-cursorword' }
+  use {
+    'xiyaowong/nvim-cursorword',
+    after = 'vim-nightfly-guicolors'
+  }
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
@@ -317,20 +326,16 @@ return require('packer').startup({function(use)
       -- require'krivah.crates'
     end,
   }
-  -- use {
-  --   'fhill2/xplr.nvim',
-  --   run = function() require'xplr'.install({hide=true}) end,
-  --   requires = {{'nvim-lua/plenary.nvim'}, {'MunifTanjim/nui.nvim'}}
-  -- }
   use {
     'stevearc/dressing.nvim',
+    after = 'telescope.nvim',
     config = function()
       require'krivah.dressing'
     end
   }
-  use { 'mhartington/formatter.nvim' }
+  -- use { 'mhartington/formatter.nvim' }
   use {
-    'chentau/marks.nvim',
+    'chentoast/marks.nvim',
     config = function()
       require'krivah.marks'
     end
@@ -356,7 +361,12 @@ return require('packer').startup({function(use)
       vim.cmd [[let g:copilot_no_tab_map = v:true]]
     end
   }
-  -- use 'jose-elias-alvarez/null-ls.nvim'
+  use {
+    'jose-elias-alvarez/null-ls.nvim',
+    config = function()
+      require'krivah/null-ls'
+    end
+  }
   -- use 'kazhala/close-buffers.nvim'
   -- use 'baskerville/vim-sxhkdrc'
 end,

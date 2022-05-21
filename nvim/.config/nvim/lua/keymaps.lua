@@ -1,6 +1,8 @@
 local opts = { silent = true }
 
--- TODO: move to nvim builtin vim.keymap.set()
+local get_opts = function(desc)
+  return { silent = true, desc = desc }
+end
 
 -- center search results
 vim.keymap.set("n", "n", "nzz")
@@ -18,8 +20,21 @@ vim.keymap.set("n", "<leader>p", "a<C-r>+<Esc>", opts)
 vim.keymap.set("n", "<leader>P", "A<C-r>+<Esc>", opts)
 
 -- Searchbox
-vim.keymap.set('n', '<leader>ss', ':SearchBoxIncSearch<CR>', opts)
-vim.keymap.set('n', '<leader>sS', ':SearchBoxIncSearch reverse=true<CR>', opts)
+vim.keymap.set('n', '<leader>ss', function()
+  require('searchbox').incsearch()
+end, get_opts('Incremental search'))
+vim.keymap.set('n', '<leader>sS', function()
+  require('searchbox').incsearch({ reverse = true })
+end, get_opts('Reverse incremental search'))
+vim.keymap.set('n', '<leader>sr', function()
+  require('searchbox').replace({confirm = 'menu'})
+end, get_opts('Search and replace'))
+
+-- FZF
+vim.keymap.set('n', '<leader><Enter>', ':Buffers<CR>', opts)
+vim.keymap.set('n', '<C-p>', ':GitFiles<CR>', opts)
+vim.keymap.set('n', '<leader>sl', ':Lines<CR>', opts)
+vim.keymap.set('n', '<leader>sf', ':Files<CR>', opts)
 
 vim.keymap.set('n', '[b', ':BufferLineCycleNext<CR>', opts)
 vim.keymap.set('n', 'b]', ':BufferLineCyclePrev<CR>', opts)
@@ -54,12 +69,13 @@ vim.keymap.set('n', '<leader>bp', '<cmd>BufferLineCyclePrev<cr>', opts)
 
 vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>', opts)
 
-vim.keymap.set('n', '<leader>vd', vim.lsp.buf.definition, opts)
-vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, opts)
-vim.keymap.set('n', '<leader>vh', vim.lsp.buf.hover, opts)
-vim.keymap.set('n', '<leader>vi', vim.lsp.buf.implementation, opts)
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-vim.keymap.set('n', 'gr', vim.lsp.buf.rename, opts)
+vim.keymap.set('n', '<leader>vd', vim.lsp.buf.definition, get_opts('Go to definition'))
+vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, get_opts('View reference on quickfix'))
+vim.keymap.set('n', '<leader>vh', vim.lsp.buf.hover, get_opts('Hover'))
+vim.keymap.set('n', '<leader>vi', vim.lsp.buf.implementation, get_opts('View implementation'))
+vim.keymap.set('n', '<leader>vf', vim.lsp.buf.formatting, get_opts('Format buffer'))
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, get_opts('View code actions'))
+vim.keymap.set('n', 'gr', vim.lsp.buf.rename, get_opts('Lsp rename'))
 
 -- Lspsaga
 vim.keymap.set('n', 'gh', ':Lspsaga lsp_finder<CR>', opts)
@@ -73,18 +89,37 @@ vim.keymap.set('n', '<C-b>', function()
   require("lspsaga.action").smart_scroll_with_saga(-1)
 end, opts)
 vim.keymap.set('n', 'gs', ':Lspsaga signature_help<CR>', opts)
--- map('n', 'gr', ':Lspsaga rename<CR>', opts)
 vim.keymap.set('n', 'gd', ':Lspsaga preview_definition<CR>', opts)
+vim.keymap.set('n', 'gl', ':Lspsaga show_line_diagnostics<CR>', opts)
 
+-- Diagnostics
 vim.keymap.set('n', '<leader>cd', function()
   vim.diagnostic.open_float({ border = 'single' })
-end, opts)
+end, get_opts('Open line diagnostics'))
 vim.keymap.set('n', '<leader>cc', function()
   vim.diagnostic.open_float({
     scope = 'cursor',
     border = 'single'
   })
-end, opts)
+end, get_opts('Open cursor diagnostics'))
+
+-- Quickfix and loclist
+vim.keymap.set('n', '<leader>vc', function()
+  vim.diagnostic.setqflist({
+    severity = vim.diagnostic.severity.ERROR
+  })
+end, get_opts('Add diagnostics to qflist'))
+vim.keymap.set('n', '<leader>vl', function()
+  vim.diagnostic.setloclist({
+    severity = vim.diagnostic.severity.ERROR
+  })
+end, get_opts('Add diagnostics to loclist'))
+vim.keymap.set('n', '<leader>vx', function()
+  vim.cmd [[call setqflist([])]]
+end, get_opts('Clear qflist'))
+vim.keymap.set('n', '<leader>vv', ':cw<CR>', opts)
+vim.keymap.set('n', '[v', ':cprevious<CR>', opts)
+vim.keymap.set('n', ']v', ':cnext<CR>', opts)
 
 vim.keymap.set('n', '[e', ':Lspsaga diagnostic_jump_next<CR>', opts)
 vim.keymap.set('n', ']e', ':Lspsaga diagnostic_jump_prev<CR>', opts)
@@ -117,5 +152,17 @@ vim.keymap.set('n', '<leader>rp', ':RunProject<CR>', opts)
 vim.keymap.set('n', '<leader>crf', ':CRFiletype<CR>', opts)
 vim.keymap.set('n', '<leader>crp', ':CRProjects<CR>', opts)
 
-vim.keymap.set('v', 'm', require("tsht").nodes, opts)
+vim.keymap.set('n', '<S-Tab>', '<C-w>w', opts)
 
+-- Prevent x and the delete key from overriding what's in the clipboard.
+vim.keymap.set('n', 'x', '"_x', opts)
+vim.keymap.set('n', 'X', '"_x', opts)
+vim.keymap.set('n', '<Del>', '"_x', opts)
+
+vim.keymap.set('n', '<F7>', ':set list!<CR>', opts)
+
+-- Keep cursor at the bottom of the visual selection after you yank it.
+vim.keymap.set('v', 'y', 'ygv<Esc>')
+
+vim.keymap.set('v', 'm', require("tsht").nodes, get_opts('Select ts node'))
+vim.keymap.set('n', '<leader>m', require("tsht").nodes, get_opts('Select ts node'))

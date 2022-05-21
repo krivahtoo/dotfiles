@@ -120,7 +120,6 @@ require'nvim-tree'.setup {
     height = 30,
     -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
     side = 'left',
-    -- if true the tree will resize itself after opening a file
     mappings = {
       -- custom only false will merge the list with the default mappings
       -- if true, it will only use your list to set the mappings
@@ -128,7 +127,27 @@ require'nvim-tree'.setup {
       -- list of mappings to set on the tree manually
       list = {}
     }
-  }
+  },
+  actions = {
+    use_system_clipboard = true,
+    change_dir = {
+      enable = true,
+      global = false,
+      restrict_above_cwd = false,
+    },
+    open_file = {
+      quit_on_open = true,
+      resize_window = false,
+      window_picker = {
+        enable = true,
+        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+        exclude = {
+          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
+          buftype = { "nofile", "terminal", "help" },
+        },
+      },
+    },
+  },
 }
 
 
