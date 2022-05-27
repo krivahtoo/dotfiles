@@ -78,7 +78,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions aliases)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions aliases zsh-interactive-cd)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -96,13 +96,17 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='mvim'
 # fi
 
+######
+# FZF
+######
+
 function fzfcd {
   target=$1
   fzfargs=${@:3}
   if [ -z ${target} ]; then
     target="."
   fi
-  moveto=$(fd ${target} -H -d ${maxdepth:=3} -t d | sed -e '/\.git/d' | fzf --select-1 --exit-0 ${fzfargs} )
+  moveto=$(fd ${target} -H -d ${maxdepth:=3} -t d | sed -e '/\.git/d' | fzf-tmux -p '90%,60%' --select-1 --exit-0 ${fzfargs} )
   if [ ${moveto} ]; then
     cd ${moveto}
   fi
@@ -111,6 +115,76 @@ function fzfcd {
 compdef '_files -/' 'fzfcd'
 
 alias ${MYCD:=zd}=fzfcd
+
+alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+
+# fcoc_preview - checkout git commit with previews
+fcoc_preview() {
+  local commit
+  commit=$( glNoGraph |
+    fzf --no-sort --reverse --tiebreak=index --no-multi \
+    --ansi --preview="$_viewGitLogLine" ) &&
+    git checkout $(echo "$commit" | sed "s/ .*//")
+  }
+
+# fshow_preview - git commit browser with previews
+fshow_preview() {
+  glNoGraph |
+    fzf --no-sort --reverse --tiebreak=index --no-multi \
+    --ansi --preview="$_viewGitLogLine" \
+    --header "enter to view, alt-y to copy hash" \
+    --bind "enter:execute:$_viewGitLogLine   | less -R" \
+    --bind "alt-y:execute:$_gitLogLineToHash | xclip"
+  }
+
+# fkill - kill processes - list only the ones you can kill.
+fkill() {
+  local pid 
+  if [ "$UID" != "0" ]; then
+    pid=$(ps -f -u $UID | sed 1d | fzf-tmux -p '90%,60%' -m | awk '{print $2}')
+  else
+    pid=$(ps -ef | sed 1d | fzf-tmux -p '90%,60%' -m | awk '{print $2}')
+  fi  
+
+  if [ "x$pid" != "x" ]
+  then
+    echo $pid | xargs kill -${1:-9}
+  fi  
+}
+
+# fh - repeat history
+fh() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf-tmux -p '90%,60%' +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
+}
+
+# Install packages using yay (change to pacman/AUR helper of your choice)
+function in() {
+  yay -Slq | fzf -q "$1" -m --preview 'yay -Si {1}'| xargs -ro yay -S
+}
+# Remove installed packages (change to pacman/AUR helper of your choice)
+function re() {
+  yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
+}
+
+fman() {
+  man -k . | fzf-tmux -p '90%,90%' -q "$1" --prompt='man> '\
+    --preview $'echo {} | tr -d \'()\' | awk \'{printf "%s ", $2} {print $1}\' | xargs -r man | col -bx | bat -l man -p --color always' |\
+    tr -d '()' | awk '{printf "%s ", $2} {print $1}' | xargs -r man
+}
+
+# get owning package for a file
+owner() {
+  file=$1
+  if [ -n "$file" ]; then
+    echo $(yay -Ql | rg "$file" | awk '{print $1}' | uniq)
+  else
+    while read -r file; do
+      echo $(yay -Ql | rg "$file" | awk '{print $1}' | uniq)
+    done
+  fi
+}
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -143,6 +217,9 @@ export LESS_TERMCAP_se=$'\e[0m'        # reset reverse video
 export LESS_TERMCAP_ue=$'\e[0m'        # reset underline
 export GROFF_NO_SGR=1                  # for konsole and gnome-terminal
 
+# Get the colors in the opened man page itself
+export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
+
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 export GPG_TTY=$(tty)
@@ -152,5 +229,4 @@ eval "$(zoxide init zsh)"
 source /home/krivah/.config/broot/launcher/bash/br
 
 source <("/usr/local/bin/starship" init zsh --print-full-init)
-
 
