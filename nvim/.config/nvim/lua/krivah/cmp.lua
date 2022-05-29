@@ -1,52 +1,14 @@
 -- Setup nvim-cmp.
-local cmp = require'cmp'
-local luasnip = require("luasnip")
-require'cmp_gh_source'
-require('cmp-npm').setup({})
-
-require("cmp_dictionary").setup({
-  dic = {
-    ["*"] = "/usr/share/dict/words",
-  },
-  -- The following are default values, so you don't need to write them if you don't want to change them
-  exact = -1, -- 2
-  async = false,
-  capacity = 5,
-  debug = false,
-})
+local cmp = require 'cmp'
+local ls = require("luasnip")
+require 'cmp_gh_source'
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
   return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
-local kind_icons = {
-  Text = ' ',
-  Method = ' ',
-  Function = ' ',
-  Constructor = ' ',
-  Field = ' ',
-  Variable = ' ',
-  Class = ' ',
-  Interface = ' ',
-  Module = ' ',
-  Property = ' ',
-  Unit = ' ',
-  Value = ' ',
-  Enum = ' ',
-  Keyword = ' ',
-  Snippet = ' ',
-  Color = ' ',
-  File = ' ',
-  Reference = ' ',
-  Folder = ' ',
-  EnumMember = ' ',
-  Constant = ' ',
-  Struct = ' ',
-  Event = ' ',
-  Operator = ' ',
-  TypeParameter = ' ',
-}
+local icons = require 'krivah.icons'
 
 local sources = {
   nvim_lua = " LUA",
@@ -81,16 +43,13 @@ local sources = {
   greek = "GRK",
 }
 
--- Load all snippets
-require("luasnip.loaders.from_vscode").load({ paths = { packer_plugins['friendly-snippets'].path } })
-
-require("luasnip.loaders.from_snipmate").load({ path = { packer_plugins['vim-snippets'].path } })
-
 cmp.setup({
   formatting = {
+    fields = { "kind", "abbr", "menu" },
     format = function(entry, vim_item)
       -- Kind icons
-      vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
+      vim_item.kind = icons.kind[vim_item.kind]
+      -- vim_item.kind = string.format('%s %s', icons.kind[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
       -- Source
       vim_item.menu = sources[entry.source.name]
       return vim_item
@@ -98,7 +57,7 @@ cmp.setup({
   },
   snippet = {
     expand = function(args)
-      luasnip.lsp_expand(args.body)
+      ls.lsp_expand(args.body)
     end,
   },
   mapping = cmp.mapping.preset.insert({
@@ -112,10 +71,8 @@ cmp.setup({
     ["<Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      -- elseif has_words_before() then
-      --   cmp.complete()
+      elseif ls.expand_or_locally_jumpable() then
+        ls.expand_or_jump()
       else
         fallback() -- The fallback function sends a already mapped key. In this case, it's probably `<Tab>`.
       end
@@ -124,8 +81,8 @@ cmp.setup({
     ["<S-Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
+      elseif ls.jumpable(-1) then
+        ls.jump(-1)
       else
         fallback()
       end
@@ -133,14 +90,18 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
+    { name = 'nvim_lua' },
+    { name = 'crates' },
     { name = 'buffer', keyword_length = 2, max_item_count = 10 },
     { name = 'path' },
   }, {
     { name = 'calc' },
-    { name = 'npm' },
+    { name = 'digraphs' },
+    { name = 'npm', keyword_length = 4 },
+    { name = 'spell', keyword_length = 2, max_item_count = 5 },
   }),
   experimental = {
-    ghost_text = false
+    ghost_text = true
   },
   completion = {
     autocomplete = false, -- disable auto-completion.
@@ -153,7 +114,7 @@ cmp.setup({
       return true
     else
       return not context.in_treesitter_capture("comment")
-        -- and not context.in_syntax_group("Comment")
+      -- and not context.in_syntax_group("Comment")
     end
   end
 })
@@ -161,7 +122,7 @@ cmp.setup({
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
-    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it. 
+    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
     { name = 'gh_issues' },
   }, {
     { name = 'buffer' },
@@ -188,7 +149,7 @@ cmp.setup.filetype('gitcommit', {
 local id = vim.api.nvim_create_augroup("vimrc", {
   clear = false
 })
-vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI", "TextChangedP" },{
+vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
   pattern = "*",
   group = id,
   callback = function()
@@ -208,14 +169,14 @@ vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI", "TextChangedP" },{
     local after_line = string.sub(line, cursor + 1, -1)
     if not string.match(before_line, '^%s+$') then
       if after_line == "" or string.match(before_line, " $")
-        or string.match(before_line, "%.$") then
+          or string.match(before_line, "%.$") then
         -- cmp.complete()
       end
     end
   end
 })
 
-vim.keymap.set('i', '<C-x><C-o>', function()
+vim.keymap.set('i', '<C-x><C-l>', function()
   cmp.complete({
     config = {
       sources = {
@@ -236,12 +197,11 @@ end)
 vim.keymap.set('i', '<C-x><C-d>', function()
   cmp.complete({
     config = {
-      sources = {{
+      sources = { {
         name = 'dictionary',
         keyword_length = 3,
         max_item_count = 10
-      }}
+      } }
     }
   })
 end)
-

@@ -4,15 +4,17 @@ vim.cmd [[syntax enable]]
 
 vim.g.do_filetype_lua = 1
 
-o.guifont = 'JetBrainsMono Nerd Font:h10,codicon:h10'
+o.guifont = 'JetBrainsMono Nerd Font:h11,codicon:h11'
 o.encoding = 'utf-8'
 o.number = true
 o.relativenumber = true
 o.mouse = 'a'
+o.numberwidth = 3
 
 o.backup = false
 o.swapfile = false
-o.wb = false
+o.writebackup = false
+o.undofile = true
 
 o.splitbelow = true
 o.splitright = true
@@ -42,11 +44,11 @@ o.tabstop = 4
 o.showmode = false -- we don't need to see things like -- INSERT -- anymore
 o.scrolloff = 3 -- Minimal number of screen lines to keep above and below the cursor
 
-o.lbr = true
-o.tw = 500
+o.linebreak = true
+o.textwidth = 500
 
-o.ai = true --Auto indent
-o.si = true --Smart indent
+o.autoindent = true --Auto indent
+o.smartindent = true --Smart indent
 o.wrap = false --Wrap lines
 o.laststatus = 3
 o.cursorline = true
@@ -64,6 +66,9 @@ o.fillchars = {
   verthoriz = '╋',
   fold = '═',
 }
+
+o.spell = false
+o.spelllang = { 'en_us' }
 
 --- @return string fold_text a neat template for the summary of what is on a fold
 function NeatFoldText()

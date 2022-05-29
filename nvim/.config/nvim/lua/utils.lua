@@ -10,4 +10,8 @@ function M.has_width_gt(cols)
   return vim.fn.winwidth(0) / 2 > cols
 end
 
+function M.is_git_repo()
+  return vim.fn.system({'git', '-C', vim.fn.expand('%:p:h'), 'rev-parse', '--is-inside-work-tree'}) == 'true\n'
+end
+
 return M

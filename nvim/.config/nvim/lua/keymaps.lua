@@ -27,7 +27,7 @@ vim.keymap.set('n', '<leader>sS', function()
   require('searchbox').incsearch({ reverse = true })
 end, get_opts('Reverse incremental search'))
 vim.keymap.set('n', '<leader>sr', function()
-  require('searchbox').replace({confirm = 'menu'})
+  require('searchbox').replace({ confirm = 'menu' })
 end, get_opts('Search and replace'))
 
 -- FZF
@@ -35,6 +35,14 @@ vim.keymap.set('n', '<leader><Enter>', ':Buffers<CR>', opts)
 vim.keymap.set('n', '<C-p>', ':GitFiles<CR>', opts)
 vim.keymap.set('n', '<leader>sl', ':Lines<CR>', opts)
 vim.keymap.set('n', '<leader>sf', ':Files<CR>', opts)
+
+vim.keymap.set('n', '<leader>du', function()
+  vim.cmd [[let old_undolevels = &undolevels]]
+  vim.cmd [[set undolevels=-1]]
+  vim.cmd [[exe "normal a \<BS>\<Esc>"]]
+  vim.cmd [[let &undolevels = old_undolevels]]
+  vim.cmd [[unlet old_undolevels]]
+end, get_opts('Delete undofile'))
 
 vim.keymap.set('n', '[b', ':BufferLineCycleNext<CR>', opts)
 vim.keymap.set('n', 'b]', ':BufferLineCyclePrev<CR>', opts)
@@ -73,7 +81,9 @@ vim.keymap.set('n', '<leader>vd', vim.lsp.buf.definition, get_opts('Go to defini
 vim.keymap.set('n', '<leader>vr', vim.lsp.buf.references, get_opts('View reference on quickfix'))
 vim.keymap.set('n', '<leader>vh', vim.lsp.buf.hover, get_opts('Hover'))
 vim.keymap.set('n', '<leader>vi', vim.lsp.buf.implementation, get_opts('View implementation'))
-vim.keymap.set('n', '<leader>vf', vim.lsp.buf.formatting, get_opts('Format buffer'))
+vim.keymap.set('n', '<leader>vf', function()
+  vim.lsp.buf.format { async = true }
+end, get_opts('Format buffer'))
 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, get_opts('View code actions'))
 vim.keymap.set('n', 'gr', vim.lsp.buf.rename, get_opts('Lsp rename'))
 
@@ -164,5 +174,5 @@ vim.keymap.set('n', '<F7>', ':set list!<CR>', opts)
 -- Keep cursor at the bottom of the visual selection after you yank it.
 vim.keymap.set('v', 'y', 'ygv<Esc>')
 
-vim.keymap.set('v', 'm', require("tsht").nodes, get_opts('Select ts node'))
-vim.keymap.set('n', '<leader>m', require("tsht").nodes, get_opts('Select ts node'))
+vim.keymap.set('v', 'm', function() require("tsht").nodes() end, get_opts('Select ts node'))
+vim.keymap.set('n', '<leader>m', function() require("tsht").nodes() end, get_opts('Select ts node'))
