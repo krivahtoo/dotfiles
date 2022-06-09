@@ -53,11 +53,14 @@ set sidebar_visible = yes
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
 # Index page format. Default "%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
-set index_format="%4C %Z %{%b %d %R} %-15.15L (%?l?%4l&%4c?) %s"
+set index_format="%4C %Z %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%[%b %d]>&%[%m/%y ]> %-15.15L (%?l?%4l&%4c?) %s"
 
 set pager_format="-%Z- %C/%m: %-20.20n   %s%*  -- (%P)"
 
 set status_format="-%r-NeoMutt: %D [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?]---(%?T?%T/?%s/%S)-%>-(%P)---"
+
+set new_mail_command="notify-send --icon='/home/krivah/Pictures/mutt.png' \
+'New Email' '%n new messages, %u unread.' -a 'Neomutt' &"
 
 set editor="nvim"
 
@@ -81,13 +84,16 @@ bind pager G bottom
 bind attach,index gg first-entry
 bind attach,index G last-entry
 
+bind pager <Up> previous-page
+bind pager <Down> next-page
+
 macro attach o \
 "\
 <enter-command>unset wait_key<enter>\
 <shell-escape>rm -f /tmp/mutt-attach<enter>\
 <save-entry><kill-line>/tmp/mutt-attach<enter>\
 <shell-escape> /tmp/mutt-attach &^A\
-"
+" "open an attachment with"
 
 bind index z noop
 bind index zb current-bottom
@@ -100,13 +106,13 @@ bind index \\ search-opposite
 bind index,pager \CP sidebar-prev                 # Ctrl-n to select next folder
 bind index,pager \CN sidebar-next                 # Ctrl-p to select previous folder
 bind index,pager \CO sidebar-open                 # Ctrl-o to open selected folder
-bind index,pager \CB sidebar-toggle-visible       # Ctrl-b to toggle visibility of the sidebar
+bind index,pager \CH sidebar-toggle-visible       # Ctrl-b to toggle visibility of the sidebar
 
 bind editor <Tab> complete-query
 
 macro index,pager \cb \
 "<pipe-message> \
-urlscan -dcp -r 'xsel -ib'<Enter>" \
+urlscan -dc -f 'dmenuhandler {}'<Enter>" \
 "call urlscan to extract URLs out of a message"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
