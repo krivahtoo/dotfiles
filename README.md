@@ -18,7 +18,7 @@ Config for
 Clone this repo to `~/.dotfiles`
 
 ```sh
-git clone https://github.com/krivahtoo/Dotfiles ~/.dotfiles
+git clone https://github.com/krivahtoo/dotfiles ~/.dotfiles
 ```
 
 Then
