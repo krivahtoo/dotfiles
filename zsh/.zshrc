@@ -186,6 +186,13 @@ owner() {
   fi
 }
 
+xrg() {
+  rg --color=always --line-number $@ | fzf --ansi -m\
+    --bind=alt-a:select-all,alt-d:deselect-all,tab:select\
+    --delimiter=: --preview="bat -fn --highlight-line {2} {1}"\
+    --preview-window="+{2}/2" --border=horizontal
+}
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 # export PATH=$HOME/go/bin:$HOME/.local/bin:$HOME/.nimble/bin:$PATH
@@ -227,6 +234,8 @@ export GPG_TTY=$(tty)
 eval "$(zoxide init zsh)"
 
 source /home/krivah/.config/broot/launcher/bash/br
+
+source /home/krivah/.config/fzf-git.sh
 
 source <("/usr/local/bin/starship" init zsh --print-full-init)
 
