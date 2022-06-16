@@ -1,15 +1,15 @@
-require('dressing').setup({
+require('dressing').setup {
   input = {
     -- Default prompt string
-    default_prompt = "➤ ",
+    default_prompt = '➤ ',
 
     -- When true, <Esc> will close the modal
     insert_only = true,
 
     -- These are passed to nvim_open_win
-    anchor = "SW",
-    relative = "cursor",
-    border = "rounded",
+    anchor = 'SW',
+    relative = 'cursor',
+    border = 'rounded',
 
     -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
     prefer_width = 40,
@@ -19,19 +19,19 @@ require('dressing').setup({
     -- Window transparency (0-100)
     winblend = 10,
     -- Change default highlight groups (see :help winhl)
-    winhighlight = "",
+    winhighlight = '',
 
     -- see :help dressing_get_config
     get_config = nil,
   },
   select = {
     -- Priority list of preferred vim.select implementations
-    backend = { "telescope", "fzf", "builtin", "nui" },
+    backend = { 'telescope', 'fzf', 'builtin', 'nui' },
 
     -- Options for telescope selector
     -- These are passed into the telescope picker directly. Can be used like:
     -- telescope = require('telescope.themes').get_ivy({...})
-    telescope = require('telescope.themes').get_cursor({}),
+    telescope = require('telescope.themes').get_cursor {},
 
     -- Options for fzf selector
     fzf = {
@@ -43,11 +43,11 @@ require('dressing').setup({
 
     -- Options for nui Menu
     nui = {
-      position = "50%",
+      position = '50%',
       size = nil,
-      relative = "editor",
+      relative = 'editor',
       border = {
-        style = "rounded",
+        style = 'rounded',
       },
       max_width = 80,
       max_height = 40,
@@ -56,14 +56,14 @@ require('dressing').setup({
     -- Options for built-in selector
     builtin = {
       -- These are passed to nvim_open_win
-      anchor = "NW",
-      relative = "cursor",
-      border = "rounded",
+      anchor = 'NW',
+      relative = 'cursor',
+      border = 'rounded',
 
       -- Window transparency (0-100)
       winblend = 10,
       -- Change default highlight groups (see :help winhl)
-      winhighlight = "",
+      winhighlight = '',
 
       -- These can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
       width = nil,
@@ -80,5 +80,4 @@ require('dressing').setup({
     -- see :help dressing_get_config
     get_config = nil,
   },
-})
-
+}

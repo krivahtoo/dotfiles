@@ -4,7 +4,13 @@ local condition = require 'galaxyline.condition'
 local diagnostic = require 'galaxyline.providers.diagnostic'
 
 local gls = gl.section
-gl.short_line_list = { 'packer', 'NvimTree', 'Outline', 'LspTrouble', 'toggleterm' }
+gl.short_line_list = {
+  'packer',
+  'NvimTree',
+  'Outline',
+  'LspTrouble',
+  'toggleterm',
+}
 
 local colors = {
   bg = '#090c1b',
@@ -21,13 +27,13 @@ local colors = {
 }
 
 local icons = {
-  locker = "",
-  unsaved = "",
-  dos = "  ",
-  unix = "  ",
-  mac = "  ",
-  lsp_warn = "",
-  lsp_error = "",
+  locker = '',
+  unsaved = '',
+  dos = '  ',
+  unix = '  ',
+  mac = '  ',
+  lsp_warn = '',
+  lsp_error = '',
 }
 
 -- Local helper functions
@@ -76,14 +82,17 @@ end
 
 local current_signature = function(width)
   width = width or 15
-  if not packer_plugins["lsp_signature.nvim"] or packer_plugins["lsp_signature.nvim"].loaded == false then
-    return ""
+  if
+    not packer_plugins['lsp_signature.nvim']
+    or packer_plugins['lsp_signature.nvim'].loaded == false
+  then
+    return ''
   end
-  local sig = require("lsp_signature").status_line(width)
+  local sig = require('lsp_signature').status_line(width)
   if string.len(sig.hint) ~= 0 then
-    return "🐼 " .. sig.hint
+    return '🐼 ' .. sig.hint
   end
-  return ""
+  return ''
 end
 
 local function file_readonly()
@@ -235,9 +244,12 @@ gls.left[1] = {
 }
 gls.left[2] = {
   FileIcon = {
-    provider = { function()
-      return '  '
-    end, 'FileIcon' },
+    provider = {
+      function()
+        return '  '
+      end,
+      'FileIcon',
+    },
     condition = buffer_not_empty,
     highlight = {
       require('galaxyline.providers.fileinfo').get_file_icon_color,
@@ -291,24 +303,26 @@ gls.left[4] = {
 -- }
 gls.left[5] = {
   GitIcon = {
-    provider = function() return '  ' end,
+    provider = function()
+      return '  '
+    end,
     condition = condition.check_git_workspace,
-    highlight = {colors.red,colors.bg},
-  }
+    highlight = { colors.red, colors.bg },
+  },
 }
 gls.left[6] = {
   GitBranch = {
     provider = function()
-      local vcs = require('galaxyline.providers.vcs')
+      local vcs = require 'galaxyline.providers.vcs'
       local branch_name = vcs.get_git_branch()
-      if (string.len(branch_name) > 28) then
-        return string.sub(branch_name, 1, 25).."..."
+      if string.len(branch_name) > 28 then
+        return string.sub(branch_name, 1, 25) .. '...'
       end
-      return branch_name .. " "
+      return branch_name .. ' '
     end,
     condition = condition.check_git_workspace,
-    highlight = {colors.fg,colors.bg},
-  }
+    highlight = { colors.fg, colors.bg },
+  },
 }
 gls.left[7] = {
   DiffAdd = {
@@ -316,7 +330,7 @@ gls.left[7] = {
     condition = checkwidth,
     icon = ' ',
     highlight = { colors.green, colors.bg },
-  }
+  },
 }
 gls.left[8] = {
   DiffModified = {
@@ -324,20 +338,22 @@ gls.left[8] = {
     condition = checkwidth,
     icon = ' ',
     highlight = { colors.orange, colors.bg },
-  }
+  },
 }
 gls.left[9] = {
   DiffRemove = {
     provider = 'DiffRemove',
     condition = checkwidth,
     icon = ' ',
-    highlight = { colors.red,colors.bg },
-  }
+    highlight = { colors.red, colors.bg },
+  },
 }
 gls.left[10] = {
   DiagnosticsCheck = {
     -- provider = { LspCheckDiagnostics },
-    provider = function() return '' end,
+    provider = function()
+      return ''
+    end,
     highlight = { colors.middlegrey, colors.bg },
     condition = is_buf_attached_to_lsp,
     -- event = 'InsertEnter',
@@ -383,7 +399,7 @@ gls.left[13] = {
   DiagnosticHint = {
     provider = 'DiagnosticHint',
     icon = '  ',
-    highlight = {colors.purple, colors.section_bg},
+    highlight = { colors.purple, colors.section_bg },
     condition = is_buf_attached_to_lsp,
     -- event = 'InsertEnter',
     -- separator = ' ',
@@ -398,7 +414,7 @@ gls.left[14] = {
     condition = is_buf_attached_to_lsp,
     -- event = 'InsertEnter',
     separator = ' ',
-    separator_highlight = {colors.section_bg, colors.bg}
+    separator_highlight = { colors.section_bg, colors.bg },
   },
 }
 -- gls.left[15] = {
@@ -433,15 +449,17 @@ gls.right[1] = {
   ShowLspClient = {
     provider = 'GetLspClient',
     condition = function()
-      local tbl = {['dashboard'] = true, [''] = true}
-      if tbl[vim.bo.filetype] then return false end
+      local tbl = { ['dashboard'] = true, [''] = true }
+      if tbl[vim.bo.filetype] then
+        return false
+      end
       return true
     end,
     icon = '  ',
-    highlight = {colors.middlegrey, colors.bg},
+    highlight = { colors.middlegrey, colors.bg },
     separator = ' ',
-    separator_highlight = {colors.section_bg, colors.bg}
-  }
+    separator_highlight = { colors.section_bg, colors.bg },
+  },
 }
 --[[ gls.right[2] = {
     Space = {
@@ -494,14 +512,14 @@ gls.right[6] = {
   FileFormat = {
     -- provider = "FileFormat",
     provider = function()
-      local line = vim.fn.line(".")
-      local column = vim.fn.col(".")
-      return string.format(" %d:%d ", line, column)
+      local line = vim.fn.line '.'
+      local column = vim.fn.col '.'
+      return string.format(' %d:%d ', line, column)
     end,
     separator = '|',
     separator_highlight = { colors.fg, colors.section_bg },
     highlight = { colors.fg, colors.section_bg },
-  }
+  },
 }
 gls.right[7] = {
   PerCent = {
@@ -514,21 +532,22 @@ gls.right[7] = {
 gls.right[8] = {
   ScrollBar = {
     provider = 'ScrollBar',
-    highlight = {colors.purple, colors.section_bg}
-  }
+    highlight = { colors.purple, colors.section_bg },
+  },
 }
 
 -- Short status line
 gls.short_line_left[1] = {
   FileIcon = {
-    provider = { function()
-      return '  '
-    end, 'FileIcon' },
+    provider = {
+      function()
+        return '  '
+      end,
+      'FileIcon',
+    },
     condition = function()
-      return buffer_not_empty and has_value(
-        gl.short_line_list,
-        vim.bo.filetype
-      )
+      return buffer_not_empty
+        and has_value(gl.short_line_list, vim.bo.filetype)
     end,
     highlight = {
       require('galaxyline.providers.fileinfo').get_file_icon_color,
@@ -557,4 +576,3 @@ gls.short_line_right[1] = {
 
 -- Force manual load so that nvim boots with a status line
 gl.load_galaxyline()
-

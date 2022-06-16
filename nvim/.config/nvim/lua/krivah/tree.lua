@@ -1,4 +1,4 @@
-vim.cmd[[
+vim.cmd [[
 "" NvimTree configs
 let g:nvim_tree_side = 'left' "left by default
 let g:nvim_tree_width = 20 "30 by default
@@ -68,49 +68,49 @@ let g:symbols_outline = {
 ]]
 -- following options are the default
 -- NvimTree setup
-require'nvim-tree'.setup {
+require('nvim-tree').setup {
   -- disables netrw completely
-  disable_netrw       = true,
+  disable_netrw = true,
   -- hijack netrw window on startup
-  hijack_netrw        = true,
+  hijack_netrw = true,
   -- open the tree when running this setup function
-  open_on_setup       = true,
+  open_on_setup = true,
   -- will not open on setup if the filetype is in this list
-  ignore_ft_on_setup  = {},
+  ignore_ft_on_setup = {},
   -- closes neovim automatically when the tree is the last **WINDOW** in the view
   -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
-  open_on_tab         = false,
+  open_on_tab = false,
   -- hijack the cursor in the tree to put it at the start of the filename
-  hijack_cursor       = false,
+  hijack_cursor = false,
   -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
-  update_cwd          = false,
+  update_cwd = false,
   -- show lsp diagnostics in the signcolumn
   diagnostics = {
     enable = true,
     icons = {
-      hint = "",
-      info = "",
-      warning = "",
-      error = "",
-    }
+      hint = '',
+      info = '',
+      warning = '',
+      error = '',
+    },
   },
   -- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
   update_focused_file = {
     -- enables the feature
-    enable      = false,
+    enable = false,
     -- update the root directory of the tree to the one of the folder containing the file if the file is not under the current root directory
     -- only relevant when `update_focused_file.enable` is true
-    update_cwd  = false,
+    update_cwd = false,
     -- list of buffer names / filetypes that will not update the cwd if the file isn't found under the current root directory
     -- only relevant when `update_focused_file.update_cwd` is true and `update_focused_file.enable` is true
-    ignore_list = {}
+    ignore_list = {},
   },
   -- configuration options for the system open command (`s` in the tree by default)
   system_open = {
     -- the command to run this, leaving nil should work in most cases
-    cmd  = nil,
+    cmd = nil,
     -- the command arguments as a list
-    args = {}
+    args = {},
   },
 
   view = {
@@ -125,8 +125,8 @@ require'nvim-tree'.setup {
       -- if true, it will only use your list to set the mappings
       custom_only = false,
       -- list of mappings to set on the tree manually
-      list = {}
-    }
+      list = {},
+    },
   },
   actions = {
     use_system_clipboard = true,
@@ -140,14 +140,19 @@ require'nvim-tree'.setup {
       resize_window = false,
       window_picker = {
         enable = true,
-        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+        chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890',
         exclude = {
-          filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-          buftype = { "nofile", "terminal", "help" },
+          filetype = {
+            'notify',
+            'packer',
+            'qf',
+            'diff',
+            'fugitive',
+            'fugitiveblame',
+          },
+          buftype = { 'nofile', 'terminal', 'help' },
         },
       },
     },
   },
 }
-
-

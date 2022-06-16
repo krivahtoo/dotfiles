@@ -1,51 +1,55 @@
 -- Setup nvim-cmp.
 local cmp = require 'cmp'
-local ls = require("luasnip")
+local ls = require 'luasnip'
 require 'cmp_gh_source'
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+  return col ~= 0
+    and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]
+        :sub(col, col)
+        :match '%s'
+      == nil
 end
 
 local icons = require 'krivah.icons'
 
 local sources = {
-  nvim_lua = " LUA",
-  nvim_lsp = " LSP",
-  tags = " TAG",
-  zsh = " ZSH",
-  fish = " FIS",
-  path = " PTH",
-  spell = " SPL",
-  dictionary = " DIC",
-  luasnip = " LSN",
-  nvim_lsp_signature_help = " SGH",
-  orgmode = " ORG",
-  treesitter = " TSR",
-  rg = " RIP",
-  omni = " OMN",
-  look = " LOK",
-  calc = " CAL",
-  emoji = " EMJ",
-  tmux = " TMX",
-  npm = " NPM",
-  cmp_git = " GIT",
-  latex_symbols = " TEX",
-  nvim_lsp_document_symbol = " DSM",
-  buffer = " BUF",
-  cmdline = " CMD",
-  gh_issues = " GHI",
-  cmdline_history = " CMH",
-  conventionalcommits = " CVC",
-  pandoc_references = " PAN",
-  digraphs = " DIG",
-  greek = "GRK",
+  nvim_lua = ' LUA',
+  nvim_lsp = ' LSP',
+  tags = ' TAG',
+  zsh = ' ZSH',
+  fish = ' FIS',
+  path = ' PTH',
+  spell = ' SPL',
+  dictionary = ' DIC',
+  luasnip = ' LSN',
+  nvim_lsp_signature_help = ' SGH',
+  orgmode = ' ORG',
+  treesitter = ' TSR',
+  rg = ' RIP',
+  omni = ' OMN',
+  look = ' LOK',
+  calc = ' CAL',
+  emoji = ' EMJ',
+  tmux = ' TMX',
+  npm = ' NPM',
+  cmp_git = ' GIT',
+  latex_symbols = ' TEX',
+  nvim_lsp_document_symbol = ' DSM',
+  buffer = ' BUF',
+  cmdline = ' CMD',
+  gh_issues = ' GHI',
+  cmdline_history = ' CMH',
+  conventionalcommits = ' CVC',
+  pandoc_references = ' PAN',
+  digraphs = ' DIG',
+  greek = 'GRK',
 }
 
-cmp.setup({
+cmp.setup {
   formatting = {
-    fields = { "kind", "abbr", "menu" },
+    fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
       -- Kind icons
       vim_item.kind = icons.kind[vim_item.kind]
@@ -53,22 +57,22 @@ cmp.setup({
       -- Source
       vim_item.menu = sources[entry.source.name]
       return vim_item
-    end
+    end,
   },
   snippet = {
     expand = function(args)
       ls.lsp_expand(args.body)
     end,
   },
-  mapping = cmp.mapping.preset.insert({
+  mapping = cmp.mapping.preset.insert {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<C-y>'] = cmp.config.disable, -- If you want to remove the default `<C-y>` mapping, You can specify `cmp.config.disable` value.
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<CR>'] = cmp.mapping.confirm { select = true },
 
-    ["<Tab>"] = function(fallback)
+    ['<Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
       elseif ls.expand_or_locally_jumpable() then
@@ -78,7 +82,7 @@ cmp.setup({
       end
     end,
 
-    ["<S-Tab>"] = function(fallback)
+    ['<S-Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
       elseif ls.jumpable(-1) then
@@ -87,7 +91,7 @@ cmp.setup({
         fallback()
       end
     end,
-  }),
+  },
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'nvim_lua' },
@@ -101,7 +105,7 @@ cmp.setup({
     { name = 'spell', keyword_length = 2, max_item_count = 5 },
   }),
   experimental = {
-    ghost_text = true
+    ghost_text = true,
   },
   completion = {
     autocomplete = false, -- disable auto-completion.
@@ -113,7 +117,7 @@ cmp.setup({
     if vim.api.nvim_get_mode().mode == 'c' then
       return true
     else
-      return not context.in_treesitter_capture("comment")
+      return not context.in_treesitter_capture 'comment'
       -- and not context.in_syntax_group("Comment")
     end
   end,
@@ -124,14 +128,14 @@ cmp.setup({
       cmp.config.compare.score,
       cmp.config.compare.recently_used,
       cmp.config.compare.locality,
-      require "cmp-under-comparator".under,
+      require('cmp-under-comparator').under,
       cmp.config.compare.kind,
       cmp.config.compare.sort_text,
       cmp.config.compare.length,
       cmp.config.compare.order,
     },
   },
-})
+}
 
 -- Set configuration for specific filetype.
 cmp.setup.filetype('gitcommit', {
@@ -140,7 +144,7 @@ cmp.setup.filetype('gitcommit', {
     { name = 'gh_issues' },
   }, {
     { name = 'buffer' },
-  })
+  }),
 })
 
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
@@ -159,63 +163,72 @@ cmp.setup.filetype('gitcommit', {
 --   })
 -- })
 
-
-local id = vim.api.nvim_create_augroup("vimrc", {
-  clear = false
+local id = vim.api.nvim_create_augroup('vimrc', {
+  clear = false,
 })
-vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI", "TextChangedP" }, {
-  pattern = "*",
-  group = id,
-  callback = function()
-    local context = require 'cmp.config.context'
-    local line = vim.api.nvim_get_current_line()
-    local cursor = vim.api.nvim_win_get_cursor(0)[2]
-    if not context.in_treesitter_capture("comment")
-        and not context.in_syntax_group("Comment") then
-      return
-    end
-    local current = string.sub(line, cursor, cursor + 1)
-    if current == "." or current == "," or current == " " then
-      cmp.close()
-    end
-
-    local before_line = string.sub(line, 1, cursor + 1)
-    local after_line = string.sub(line, cursor + 1, -1)
-    if not string.match(before_line, '^%s+$') then
-      if after_line == "" or string.match(before_line, " $")
-          or string.match(before_line, "%.$") then
-        -- cmp.complete()
+vim.api.nvim_create_autocmd(
+  { 'TextChanged', 'TextChangedI', 'TextChangedP' },
+  {
+    pattern = '*',
+    group = id,
+    callback = function()
+      local context = require 'cmp.config.context'
+      local line = vim.api.nvim_get_current_line()
+      local cursor = vim.api.nvim_win_get_cursor(0)[2]
+      if
+        not context.in_treesitter_capture 'comment'
+        and not context.in_syntax_group 'Comment'
+      then
+        return
       end
-    end
-  end
-})
+      local current = string.sub(line, cursor, cursor + 1)
+      if current == '.' or current == ',' or current == ' ' then
+        cmp.close()
+      end
+
+      local before_line = string.sub(line, 1, cursor + 1)
+      local after_line = string.sub(line, cursor + 1, -1)
+      if not string.match(before_line, '^%s+$') then
+        if
+          after_line == ''
+          or string.match(before_line, ' $')
+          or string.match(before_line, '%.$')
+        then
+          -- cmp.complete()
+        end
+      end
+    end,
+  }
+)
 
 vim.keymap.set('i', '<C-x><C-l>', function()
-  cmp.complete({
+  cmp.complete {
     config = {
       sources = {
-        { name = 'nvim_lsp' }
-      }
-    }
-  })
+        { name = 'nvim_lsp' },
+      },
+    },
+  }
 end)
 vim.keymap.set('i', '<C-x><C-s>', function()
-  cmp.complete({
+  cmp.complete {
     config = {
       sources = {
-        { name = 'luasnip', max_item_count = 15 }
-      }
-    }
-  })
+        { name = 'luasnip', max_item_count = 15 },
+      },
+    },
+  }
 end)
 vim.keymap.set('i', '<C-x><C-d>', function()
-  cmp.complete({
+  cmp.complete {
     config = {
-      sources = { {
-        name = 'dictionary',
-        keyword_length = 3,
-        max_item_count = 10
-      } }
-    }
-  })
+      sources = {
+        {
+          name = 'dictionary',
+          keyword_length = 3,
+          max_item_count = 10,
+        },
+      },
+    },
+  }
 end)

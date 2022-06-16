@@ -21,7 +21,12 @@ o.splitright = true
 
 o.termguicolors = true
 o.wildignore = {
-  '*.pyc', '**/__pycache__/*', '**/node_modules/*', '.coverage.*', '.eggs', '*.egg-info/'
+  '*.pyc',
+  '**/__pycache__/*',
+  '**/node_modules/*',
+  '.coverage.*',
+  '.eggs',
+  '*.egg-info/',
 }
 o.list = false
 o.listchars = {
@@ -31,7 +36,7 @@ o.listchars = {
   extends = '≻',
   precedes = '≺',
   space = '␣',
-  lead = '·'
+  lead = '·',
 }
 o.wildignorecase = true
 o.timeoutlen = 500
@@ -74,13 +79,23 @@ o.spelllang = { 'en_us' }
 function NeatFoldText()
   return string.format(
     '╒═╡    %s ... %s  (%d lines)╞',
-    vim.api.nvim_buf_get_lines(0, vim.v.foldstart - 1, vim.v.foldstart, true)[1],
+    vim.api.nvim_buf_get_lines(
+      0,
+      vim.v.foldstart - 1,
+      vim.v.foldstart,
+      true
+    )[1],
     vim.gsplit(
-      vim.trim(vim.api.nvim_buf_get_lines(0, vim.v.foldend - 1, vim.v.foldend, true)[1]),
+      vim.trim(
+        vim.api.nvim_buf_get_lines(
+          0,
+          vim.v.foldend - 1,
+          vim.v.foldend,
+          true
+        )[1]
+      ),
       ' '
     )(),
     vim.v.foldend - vim.v.foldstart + 1
   )
 end -- ‡
-
-

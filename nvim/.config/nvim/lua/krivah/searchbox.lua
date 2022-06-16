@@ -1,4 +1,4 @@
-require('searchbox').setup({
+require('searchbox').setup {
   popup = {
     relative = 'win',
     position = {
@@ -27,7 +27,6 @@ require('searchbox').setup({
     end,
     on_done = function(value, search_type)
       -- code
-    end
-  }
-})
-
+    end,
+  },
+}

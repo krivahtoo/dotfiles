@@ -1,4 +1,4 @@
-require'nvim-treesitter.configs'.setup {
+require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
     custom_captures = {
@@ -10,8 +10,8 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
     enable_autocmd = false,
     config = {
-      vim = '" %s'
-    }
+      vim = '" %s',
+    },
   },
   rainbow = {
     enable = true,
@@ -22,8 +22,7 @@ require'nvim-treesitter.configs'.setup {
   },
   autotag = {
     enable = true,
-  }
+  },
 }
 -- require'treesitter-context'.setup{}
-require'krivah.gps'
-
+require 'krivah.gps'

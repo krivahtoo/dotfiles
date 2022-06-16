@@ -12,7 +12,6 @@ end
 _G.P = _G.put
 
 _G.gps_location = function()
-  local gps = require "nvim-gps"
-  return gps.is_available() and gps.get_location() or ""
+  local gps = require 'nvim-gps'
+  return gps.is_available() and gps.get_location() or ''
 end
-

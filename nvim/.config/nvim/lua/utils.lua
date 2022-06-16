@@ -2,7 +2,7 @@ local M = {}
 
 function M.is_buffer_empty()
   -- Check whether the current buffer is empty
-  return vim.fn.empty(vim.fn.expand('%:t')) == 1
+  return vim.fn.empty(vim.fn.expand '%:t') == 1
 end
 
 function M.has_width_gt(cols)
@@ -11,7 +11,13 @@ function M.has_width_gt(cols)
 end
 
 function M.is_git_repo()
-  return vim.fn.system({'git', '-C', vim.fn.expand('%:p:h'), 'rev-parse', '--is-inside-work-tree'}) == 'true\n'
+  return vim.fn.system {
+    'git',
+    '-C',
+    vim.fn.expand '%:p:h',
+    'rev-parse',
+    '--is-inside-work-tree',
+  } == 'true\n'
 end
 
 return M

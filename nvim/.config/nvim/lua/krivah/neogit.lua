@@ -1,4 +1,4 @@
-local neogit = require("neogit")
+local neogit = require 'neogit'
 
 neogit.setup {
   disable_signs = false,
@@ -14,44 +14,44 @@ neogit.setup {
     recent_commit_count = 10,
   },
   commit_popup = {
-    kind = "split",
+    kind = 'split',
   },
   -- Change the default way of opening neogit
-  kind = "tab",
+  kind = 'tab',
   -- customize displayed signs
   signs = {
     -- { CLOSED, OPENED }
-    section = { "⏵", "⏷" },
-    item = { "⏵", "⏷" },
-    hunk = { "▹", "▿" },
+    section = { '⏵', '⏷' },
+    item = { '⏵', '⏷' },
+    hunk = { '▹', '▿' },
   },
   integrations = {
     -- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
     -- The diffview integration enables the diff popup, which is a wrapper around `sindrets/diffview.nvim`.
-    diffview = true
+    diffview = true,
   },
   -- Setting any section to `false` will make the section not render at all
   sections = {
     untracked = {
-      folded = false
+      folded = false,
     },
     unstaged = {
-      folded = false
+      folded = false,
     },
     staged = {
-      folded = false
+      folded = false,
     },
     stashes = {
-      folded = true
+      folded = true,
     },
     unpulled = {
-      folded = true
+      folded = true,
     },
     unmerged = {
-      folded = false
+      folded = false,
     },
     recent = {
-      folded = true
+      folded = true,
     },
   },
   -- override/add mappings
@@ -59,9 +59,9 @@ neogit.setup {
     -- modify status buffer mappings
     status = {
       -- Adds a mapping with "B" as key that does the "BranchPopup" command
-      ["B"] = "BranchPopup",
+      ['B'] = 'BranchPopup',
       -- Removes the default mapping of "s"
       -- ["s"] = "",
-    }
-  }
+    },
+  },
 }

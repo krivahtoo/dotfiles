@@ -1,6 +1,6 @@
-local ls = require "luasnip"
+local ls = require 'luasnip'
 
-require("luasnip.session.snippet_collection").clear_snippets "go"
+require('luasnip.session.snippet_collection').clear_snippets 'go'
 
 -- local snippet = ls.s
 local sn = ls.sn
@@ -10,20 +10,20 @@ local i = ls.insert_node
 local t = ls.text_node
 local d = ls.dynamic_node
 local c = ls.choice_node
-local fmt = require("luasnip.extras.fmt").fmt
+local fmt = require('luasnip.extras.fmt').fmt
 
-local shared = require "krivah.snippets"
+local shared = require 'krivah.snippets'
 local same = shared.same
 local make = shared.make
 
-local ts_locals = require "nvim-treesitter.locals"
-local ts_utils = require "nvim-treesitter.ts_utils"
+local ts_locals = require 'nvim-treesitter.locals'
+local ts_utils = require 'nvim-treesitter.ts_utils'
 
 local get_node_text = vim.treesitter.get_node_text
 
 vim.treesitter.set_query(
-  "go",
-  "LuaSnip_Result",
+  'go',
+  'LuaSnip_Result',
   [[ [
     (method_declaration result: (_) @id)
     (function_declaration result: (_) @id)
@@ -32,46 +32,55 @@ vim.treesitter.set_query(
 )
 
 local transform = function(text, info)
-  if text == "int" then
-    return t "0"
-  elseif text == "error" then
+  if text == 'int' then
+    return t '0'
+  elseif text == 'error' then
     if info then
       info.index = info.index + 1
 
       return c(info.index, {
-        t(string.format('errors.Wrap(%s, "%s")', info.err_name, info.func_name)),
+        t(
+          string.format(
+            'errors.Wrap(%s, "%s")',
+            info.err_name,
+            info.func_name
+          )
+        ),
         t(info.err_name),
       })
     else
-      return t "err"
+      return t 'err'
     end
-  elseif text == "bool" then
-    return t "false"
-  elseif text == "string" then
+  elseif text == 'bool' then
+    return t 'false'
+  elseif text == 'string' then
     return t '""'
-  elseif string.find(text, "*", 1, true) then
-    return t "nil"
+  elseif string.find(text, '*', 1, true) then
+    return t 'nil'
   end
 
   return t(text)
 end
 
 local handlers = {
-  ["parameter_list"] = function(node, info)
+  ['parameter_list'] = function(node, info)
     local result = {}
 
     local count = node:named_child_count()
     for idx = 0, count - 1 do
-      table.insert(result, transform(get_node_text(node:named_child(idx), 0), info))
+      table.insert(
+        result,
+        transform(get_node_text(node:named_child(idx), 0), info)
+      )
       if idx ~= count - 1 then
-        table.insert(result, t { ", " })
+        table.insert(result, t { ', ' })
       end
     end
 
     return result
   end,
 
-  ["type_identifier"] = function(node, info)
+  ['type_identifier'] = function(node, info)
     local text = get_node_text(node, 0)
     return { transform(text, info) }
   end,
@@ -83,13 +92,17 @@ local function go_result_type(info)
 
   local function_node
   for _, v in ipairs(scope) do
-    if v:type() == "function_declaration" or v:type() == "method_declaration" or v:type() == "func_literal" then
+    if
+      v:type() == 'function_declaration'
+      or v:type() == 'method_declaration'
+      or v:type() == 'func_literal'
+    then
       function_node = v
       break
     end
   end
 
-  local query = vim.treesitter.get_query("go", "LuaSnip_Result")
+  local query = vim.treesitter.get_query('go', 'LuaSnip_Result')
   for _, node in query:iter_captures(function_node, 0) do
     if handlers[node:type()] then
       return handlers[node:type()](node, info)
@@ -109,46 +122,49 @@ local go_ret_vals = function(args)
 end
 
 ls.add_snippets(
-  "go",
+  'go',
   make {
     main = {
-      t { "func main() {", "\t" },
+      t { 'func main() {', '\t' },
       i(0),
-      t { "", "}" },
+      t { '', '}' },
     },
 
     ef = {
-      i(1, { "val" }),
-      t ", err := ",
-      i(2, { "f" }),
-      t "(",
+      i(1, { 'val' }),
+      t ', err := ',
+      i(2, { 'f' }),
+      t '(',
       i(3),
-      t ")",
+      t ')',
       i(0),
     },
 
     efi = {
-      i(1, { "val" }),
-      ", ",
-      i(2, { "err" }),
-      " := ",
-      i(3, { "f" }),
-      "(",
+      i(1, { 'val' }),
+      ', ',
+      i(2, { 'err' }),
+      ' := ',
+      i(3, { 'f' }),
+      '(',
       i(4),
-      ")",
-      t { "", "if " },
+      ')',
+      t { '', 'if ' },
       same(2),
-      t { " != nil {", "\treturn " },
+      t { ' != nil {', '\treturn ' },
       d(5, go_ret_vals, { 2, 3 }),
-      t { "", "}" },
+      t { '', '}' },
       i(0),
     },
 
     -- TODO: Fix this up so that it actually uses the tree sitter thing
-    ie = { "if err != nil {", "\treturn err", i(0), "}" },
+    ie = { 'if err != nil {', '\treturn err', i(0), '}' },
   }
 )
 
-ls.add_snippets("go", {
-  s("f", fmt("func {}({}) {} {{\n\t{}\n}}", { i(1, "name"), i(2), i(3), i(0) })),
+ls.add_snippets('go', {
+  s(
+    'f',
+    fmt('func {}({}) {} {{\n\t{}\n}}', { i(1, 'name'), i(2), i(3), i(0) })
+  ),
 })

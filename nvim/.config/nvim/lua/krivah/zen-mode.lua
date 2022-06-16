@@ -1,5 +1,5 @@
-require("zen-mode").setup {
+require('zen-mode').setup {
   plugins = {
-    tmux = { enable = true }
-  }
+    tmux = { enable = true },
+  },
 }
