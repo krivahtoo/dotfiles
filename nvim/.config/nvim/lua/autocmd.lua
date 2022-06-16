@@ -59,20 +59,17 @@ vim.api.nvim_create_autocmd('BufWritePre', {
   end,
 })
 
-vim.api.nvim_create_autocmd(
-  {
-    'CursorMoved',
-    'BufWinEnter',
-    'BufFilePost',
-    'InsertEnter',
-    'BufWritePost',
-  },
-  {
-    callback = function()
-      require('krivah.winbar').get_winbar()
-    end,
-  }
-)
+vim.api.nvim_create_autocmd({
+  'CursorMoved',
+  'BufWinEnter',
+  'BufFilePost',
+  'InsertEnter',
+  'BufWritePost',
+}, {
+  callback = function()
+    require('krivah.winbar').get_winbar()
+  end,
+})
 
 vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
   callback = function()

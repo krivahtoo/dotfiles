@@ -49,23 +49,17 @@ local marks = {
     return fmt('<{}>', i(1, _G.luasnip.vars.username))
   end,
   signature_with_email = function()
-    return fmt(
-      '<{}{}>',
-      {
-        i(1, _G.luasnip.vars.username),
-        i(2, ' ' .. _G.luasnip.vars.email),
-      }
-    )
+    return fmt('<{}{}>', {
+      i(1, _G.luasnip.vars.username),
+      i(2, ' ' .. _G.luasnip.vars.email),
+    })
   end,
   date_signature_with_email = function()
-    return fmt(
-      '<{}{}{}>',
-      {
-        i(1, os.date '%d-%m-%y'),
-        i(2, ', ' .. _G.luasnip.vars.username),
-        i(3, ' ' .. _G.luasnip.vars.email),
-      }
-    )
+    return fmt('<{}{}{}>', {
+      i(1, os.date '%d-%m-%y'),
+      i(2, ', ' .. _G.luasnip.vars.username),
+      i(3, ' ' .. _G.luasnip.vars.email),
+    })
   end,
   date_signature = function()
     return fmt(
