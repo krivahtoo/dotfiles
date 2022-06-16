@@ -1,17 +1,17 @@
-vim.api.nvim_create_autocmd("FileType",{
+vim.api.nvim_create_autocmd("FileType", {
   pattern = "*.html",
   command = ":normal gg=G"
 })
 
 -- Only show corsorline on current buffer/window
-vim.api.nvim_create_autocmd({"BufWinEnter", "BufEnter"},{
+vim.api.nvim_create_autocmd({ "BufWinEnter", "BufEnter" }, {
   pattern = "*",
   callback = function()
     vim.wo.cursorline = true
     vim.wo.cursorcolumn = true
   end
 })
-vim.api.nvim_create_autocmd("WinLeave",{
+vim.api.nvim_create_autocmd("WinLeave", {
   pattern = "*",
   callback = function()
     vim.wo.cursorline = false
@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   desc = "Organize imports",
   callback = function()
     local params = vim.lsp.util.make_range_params()
-    params.context = {only = {"source.organizeImports"}}
+    params.context = { only = { "source.organizeImports" } }
     local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 1000)
     for _, res in pairs(result or {}) do
       for _, r in pairs(res.result or {}) do
@@ -62,6 +62,16 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "BufWinEnter", "BufFilePost", "Inse
 
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
   callback = function()
-    vim.highlight.on_yank { higroup = "Visual", timeout = 500 }
+    vim.highlight.on_yank { higroup = "Visual", timeout = 300 }
   end,
+})
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = { "PackerCompileDone" },
+  callback = function()
+    vim.notify('Compiled successfully', nil, {
+      title = "Packer",
+      timeout = 500
+    })
+  end
 })

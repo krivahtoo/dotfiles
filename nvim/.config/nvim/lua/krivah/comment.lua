@@ -1,21 +1,35 @@
-require('Comment').setup{
+require('Comment').setup {
   mappings = {
-      ---operator-pending mapping
-      ---Includes `gcc`, `gcb`, `gc[count]{motion}` and `gb[count]{motion}`
-      basic = true,
-      ---extra mapping
-      ---Includes `gco`, `gcO`, `gcA`
-      extra = true,
-      ---extended mapping
-      ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
-      extended = true,
+    ---operator-pending mapping
+    ---Includes `gcc`, `gcb`, `gc[count]{motion}` and `gb[count]{motion}`
+    basic = true,
+    ---extra mapping
+    ---Includes `gco`, `gcO`, `gcA`
+    extra = true,
+    ---extended mapping
+    ---Includes `g>`, `g<`, `g>[count]{motion}` and `g<[count]{motion}`
+    extended = true,
   },
   pre_hook = function(ctx)
-      local u = require('Comment.utils')
-      if ctx.ctype == u.ctype.line or ctx.cmotion == u.cmotion.line then
-          -- Only comment when we are doing linewise comment or up-down motion
-          return require('ts_context_commentstring.internal').calculate_commentstring()
+    -- Only calculate commentstring for tsx filetypes
+    if vim.bo.filetype == 'typescriptreact' then
+      local U = require('Comment.utils')
+
+      -- Determine whether to use linewise or blockwise commentstring
+      local type = ctx.ctype == U.ctype.line and '__default' or '__multiline'
+
+      -- Determine the location where to calculate commentstring from
+      local location = nil
+      if ctx.ctype == U.ctype.block then
+        location = require('ts_context_commentstring.utils').get_cursor_location()
+      elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+        location = require('ts_context_commentstring.utils').get_visual_start_location()
       end
+
+      return require('ts_context_commentstring.internal').calculate_commentstring({
+        key = type,
+        location = location,
+      })
+    end
   end
 }
-

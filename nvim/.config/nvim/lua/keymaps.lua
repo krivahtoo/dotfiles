@@ -176,3 +176,8 @@ vim.keymap.set('v', 'y', 'ygv<Esc>')
 
 vim.keymap.set('v', 'm', function() require("tsht").nodes() end, get_opts('Select ts node'))
 vim.keymap.set('n', '<leader>m', function() require("tsht").nodes() end, get_opts('Select ts node'))
+
+vim.keymap.set('x', '<C-Up>', '<Plug>GoVSMUp')
+vim.keymap.set('x', '<C-Down>', '<Plug>GoVSMDown')
+vim.keymap.set('x', '<C-Left>', '<Plug>GoVSMLeft')
+vim.keymap.set('x', '<C-Right>', '<Plug>GoVSMRight')

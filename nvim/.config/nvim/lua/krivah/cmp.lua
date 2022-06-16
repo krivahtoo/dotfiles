@@ -116,7 +116,21 @@ cmp.setup({
       return not context.in_treesitter_capture("comment")
       -- and not context.in_syntax_group("Comment")
     end
-  end
+  end,
+  sorting = {
+    comparators = {
+      cmp.config.compare.offset,
+      cmp.config.compare.exact,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.locality,
+      require "cmp-under-comparator".under,
+      cmp.config.compare.kind,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
+  },
 })
 
 -- Set configuration for specific filetype.

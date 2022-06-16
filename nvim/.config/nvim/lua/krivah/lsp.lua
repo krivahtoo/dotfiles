@@ -31,7 +31,7 @@ vim.diagnostic.config {
     border = 'single'
   },
   severity_sort = true,
-  update_in_insert = true
+  -- update_in_insert = true,
 }
 
 local on_attach = function(client, bufnr)
@@ -59,6 +59,7 @@ nvim_lsp.tailwindcss.setup {
   on_attach = on_attach,
   root_dir = function(fname)
     return (util.root_pattern('tailwind.config.js', 'tailwind.config.ts')(fname)
+        or util.root_pattern('windi.config.js', 'windi.config.ts')(fname)
         or util.root_pattern('postcss.config.js', 'postcss.config.ts')(fname))
         and (util.find_package_json_ancestor(fname)
             or util.find_node_modules_ancestor(fname)

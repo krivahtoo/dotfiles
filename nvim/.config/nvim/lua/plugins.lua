@@ -42,20 +42,8 @@ return require('packer').startup({ function(use)
     end
   }
   use {
-    'folke/lsp-colors.nvim',
-    after = 'nvim-lspconfig',
-    config = function()
-      require("lsp-colors").setup({
-        Error = "#db4b4b",
-        Warning = "#e0af68",
-        Information = "#0db9d7",
-        Hint = "#10B981"
-      })
-    end
-  }
-  use {
     'kosayoda/nvim-lightbulb',
-    event = 'LspAttach',
+    after = 'nvim-lspconfig',
     config = function()
       vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
         pattern = "*",
@@ -65,7 +53,7 @@ return require('packer').startup({ function(use)
   }
   use {
     "ray-x/lsp_signature.nvim",
-    event = 'LspAttach',
+    after = 'nvim-lspconfig',
     config = function()
       require 'krivah.lsp_signature'
     end
@@ -129,7 +117,6 @@ return require('packer').startup({ function(use)
         dic = {
           ["*"] = "/usr/share/dict/words",
         },
-        -- The following are default values, so you don't need to write them if you don't want to change them
         exact = -1, -- 2
         async = false,
         capacity = 5,
@@ -147,7 +134,6 @@ return require('packer').startup({ function(use)
   }
   use {
     'lukas-reineke/cmp-under-comparator',
-    after = 'nvim-cmp',
   }
   use {
     'saadparwaiz1/cmp_luasnip',
@@ -295,7 +281,7 @@ return require('packer').startup({ function(use)
   use {
     "folke/zen-mode.nvim",
     config = function()
-      require("zen-mode").setup {}
+      require'krivah.zen-mode'
     end
   }
   use {
@@ -315,6 +301,9 @@ return require('packer').startup({ function(use)
       require("nvim-dap-virtual-text").setup()
     end
   }
+
+  -- neovim lua dev
+  use { 'folke/lua-dev.nvim' }
 
   -- Project
   use {
@@ -342,7 +331,13 @@ return require('packer').startup({ function(use)
   }
 
   -- Motion
-  use 'ggandor/lightspeed.nvim'
+  use {
+    'phaazon/hop.nvim',
+    -- branch = 'v1', -- optional but strongly recommended
+    config = function()
+      require'krivah.hop'
+    end
+  }
   use {
     'junegunn/fzf.vim',
     requires = { 'junegunn/fzf' },
@@ -361,6 +356,7 @@ return require('packer').startup({ function(use)
       require('gomove').setup {
         -- whether or not to map default key bindings, (true/false)
         map_defaults = false,
+        move_past_end_col = true,
       }
     end
   }
@@ -447,8 +443,9 @@ return require('packer').startup({ function(use)
   }
   use {
     'baskerville/vim-sxhkdrc',
-    disable = true
   }
+
+  use '/home/krivah/github/fzf-tmux.nvim'
 end,
 config = {
   display = {
