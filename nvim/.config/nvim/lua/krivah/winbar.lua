@@ -10,6 +10,7 @@ M.winbar_filetype_exclude = {
   'Trouble',
   'toggleterm',
   'man',
+  'gitcommit',
 }
 
 local isempty = function(s)
@@ -50,8 +51,7 @@ local get_filename = function()
       .. hl_group
       .. '#'
       .. file_icon
-      .. '%*'
-      .. ' '
+      .. ' %*'
       .. '%#LineNr#'
       .. filename
       .. '%*'

@@ -51,6 +51,12 @@ cmp.setup {
   formatting = {
     fields = { 'kind', 'abbr', 'menu' },
     format = function(entry, vim_item)
+      -- truncate long items to a desired length.
+      local label = vim_item.abbr
+      local truncated_label = vim.fn.strcharpart(label, 0, 30)
+      if truncated_label ~= label then
+        vim_item.abbr = truncated_label .. '…'
+      end
       -- Kind icons
       vim_item.kind = icons.kind[vim_item.kind]
       -- vim_item.kind = string.format('%s %s', icons.kind[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
