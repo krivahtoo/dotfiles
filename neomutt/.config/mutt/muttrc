@@ -86,6 +86,8 @@ bind attach,index G last-entry
 
 bind pager <Up> previous-page
 bind pager <Down> next-page
+bind pager j next-line
+bind pager k previous-line
 
 macro attach o \
 "\
@@ -106,7 +108,7 @@ bind index \\ search-opposite
 bind index,pager \CP sidebar-prev                 # Ctrl-n to select next folder
 bind index,pager \CN sidebar-next                 # Ctrl-p to select previous folder
 bind index,pager \CO sidebar-open                 # Ctrl-o to open selected folder
-bind index,pager \CH sidebar-toggle-visible       # Ctrl-b to toggle visibility of the sidebar
+bind index,pager \CH sidebar-toggle-visible       # Ctrl-h to toggle visibility of the sidebar
 
 bind editor <Tab> complete-query
 
@@ -114,6 +116,11 @@ macro index,pager \cb \
 "<pipe-message> \
 urlscan -dc -f 'dmenuhandler {}'<Enter>" \
 "call urlscan to extract URLs out of a message"
+
+macro compose Y "<first-entry>\
+<pipe-entry>convert-multipart<enter>\
+<enter-command>source /tmp/neomutt-commands<enter>"\
+"convert to multipart email"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
