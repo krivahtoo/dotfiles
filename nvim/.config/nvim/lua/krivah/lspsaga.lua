@@ -41,3 +41,49 @@ lspsaga.setup { -- defaults ...
   server_filetype_map = {},
   diagnostic_prefix_format = '%d. ',
 }
+
+-- Lspsaga
+vim.keymap.set('n', 'gh', function()
+  require('lspsaga.provider').lsp_finder()
+end, { desc = 'Lspsaga lsp_finder' })
+-- map('n', '<leader>ca', ':Lspsaga code_action<CR>')
+vim.keymap.set(
+  'v',
+  '<leader>ca',
+  ':<C-U>Lspsaga range_code_action<CR>',
+  { silent = true }
+)
+vim.keymap.set('n', 'K', function()
+  require('lspsaga.hover').render_hover_doc()
+end, { desc = 'Lspsaga hover doc' })
+vim.keymap.set('n', '<C-f>', function()
+  require('lspsaga.action').smart_scroll_with_saga(1)
+end)
+vim.keymap.set('n', '<C-b>', function()
+  require('lspsaga.action').smart_scroll_with_saga(-1)
+end)
+
+vim.keymap.set('n', 'gs', function()
+  require('lspsaga.signaturehelp').signature_help()
+end, { desc = 'View signature help' })
+
+vim.keymap.set('n', 'gd', function()
+  require('lspsaga.provider').preview_definition()
+end, { desc = 'Preview definition' })
+
+vim.keymap.set('n', 'gl', function()
+  require('lspsaga.diagnostic').show_line_diagnostics()
+end, { desc = 'Goto next diagnostic' })
+
+vim.keymap.set(
+  'n',
+  '[e',
+  require('lspsaga.diagnostic').navigate 'next',
+  { desc = 'Goto next diagnostic' }
+)
+vim.keymap.set(
+  'n',
+  ']e',
+  require('lspsaga.diagnostic').navigate 'prev',
+  { desc = 'Goto previous diagnostic' }
+)

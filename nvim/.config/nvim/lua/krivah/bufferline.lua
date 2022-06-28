@@ -1,4 +1,6 @@
-require('bufferline').setup {
+local bl = require 'bufferline'
+
+bl.setup {
   options = {
     -- numbers = "ordinal" ,
     numbers = function(opts)
@@ -75,3 +77,41 @@ require('bufferline').setup {
     sort_by = 'id', -- "relative_directory"
   },
 }
+
+for i = 1, 9, 1 do
+  vim.keymap.set('n', '<leader>' .. i, function()
+    bl.go_to_buffer(i)
+  end, { desc = 'Switch to buffer ' .. i })
+end
+
+vim.keymap.set('n', '<leader>bb', function()
+  bl.pick_buffer()
+end, { desc = 'Pick a buffer' })
+
+vim.keymap.set('n', '[b', function()
+  bl.cycle(1)
+end, { desc = 'Cycle next buffer' })
+
+vim.keymap.set('n', ']b', function()
+  bl.cycle(-1)
+end, { desc = 'Cycle previous buffer' })
+
+vim.keymap.set('n', '<leader>b<Right>', function()
+  bl.move(1)
+end, { desc = 'Move buffer right' })
+
+vim.keymap.set('n', '<leader>b<Left>', function()
+  bl.move(-1)
+end, { desc = 'Move buffer left' })
+
+vim.keymap.set('n', '<leader>be', function()
+  bl.sort_buffers_by 'extension'
+end, { desc = 'Sort buffers by extention' })
+
+vim.keymap.set('n', '<leader>bf', function()
+  bl.sort_buffers_by 'directory'
+end, { desc = 'Sort buffers by extention' })
+
+vim.keymap.set('n', '<leader>bp', function()
+  bl.toggle_pin()
+end, { desc = 'Sort buffers by extention' })

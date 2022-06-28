@@ -66,9 +66,10 @@ let g:symbols_outline = {
     \ "lsp_blacklist": [],
 \ }
 ]]
+local tree = require 'nvim-tree'
 -- following options are the default
 -- NvimTree setup
-require('nvim-tree').setup {
+tree.setup {
   -- disables netrw completely
   disable_netrw = true,
   -- hijack netrw window on startup
@@ -156,3 +157,15 @@ require('nvim-tree').setup {
     },
   },
 }
+
+vim.keymap.set('n', '<C-n>', function()
+  tree.toggle(false, false, nil)
+end, { desc = 'Toggle Nvim-tree' })
+
+-- vim.keymap.set('n', '<leader>r', function ()
+--   require('nvim-tree.actions.reloaders').reload_explorer()
+-- end)
+
+vim.keymap.set('n', '<leader>n', function()
+  tree.find_file(true)
+end, { desc = 'Change the cursor in the tree to the current bufname' })

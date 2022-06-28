@@ -221,7 +221,7 @@ return require('packer').startup {
       'akinsho/toggleterm.nvim',
       tag = 'v1.*',
       config = function()
-        require('toggleterm').setup()
+        require 'krivah.toggleterm'
       end,
     }
 
@@ -339,18 +339,18 @@ return require('packer').startup {
         require 'krivah.hop'
       end,
     }
-    use {
-      'junegunn/fzf.vim',
-      requires = { 'junegunn/fzf' },
-      config = function()
-        if vim.g.nvui then
-          vim.g.fzf_layout = { window = { width = 0.9, height = 0.6 } }
-        else
-          vim.g.fzf_layout = { tmux = '-p90%,70%' }
-        end
-        vim.cmd 'command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, fzf#vim#with_preview(), <bang>0)'
-      end,
-    }
+    -- use {
+    --   'junegunn/fzf.vim',
+    --   requires = { 'junegunn/fzf' },
+    --   config = function()
+    --     if vim.g.nvui then
+    --       vim.g.fzf_layout = { window = { width = 0.9, height = 0.6 } }
+    --     else
+    --       vim.g.fzf_layout = { tmux = '-p90%,70%' }
+    --     end
+    --     vim.cmd 'command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, fzf#vim#with_preview(), <bang>0)'
+    --   end,
+    -- }
     use {
       'booperlv/nvim-gomove',
       config = function()
@@ -446,7 +446,12 @@ return require('packer').startup {
       'baskerville/vim-sxhkdrc',
     }
 
-    use '/home/krivah/github/fzf-tmux.nvim'
+    use {
+      '/home/krivah/github/fzf-tmux.nvim',
+      config = function()
+        require 'krivah.fzf-tmux'
+      end,
+    }
   end,
   config = {
     display = {
