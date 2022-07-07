@@ -53,7 +53,7 @@ set sidebar_visible = yes
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
 # Index page format. Default "%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
-set index_format="%4C %Z %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%[%b %d]>&%[%m/%y ]> %-15.15L (%?l?%4l&%4c?) %s"
+set index_format="%4C %Z %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%[%b %d]>&%[%m/%y ]> %-15.15L (%<M? %2M&%<l?%4l&%4c>>) %s"
 
 set pager_format="-%Z- %C/%m: %-20.20n   %s%*  -- (%P)"
 
@@ -84,8 +84,8 @@ bind pager G bottom
 bind attach,index gg first-entry
 bind attach,index G last-entry
 
-bind pager <Up> previous-page
-bind pager <Down> next-page
+bind pager <Up> previous-line
+bind pager <Down> next-line
 bind pager j next-line
 bind pager k previous-line
 
@@ -101,6 +101,9 @@ bind index z noop
 bind index zb current-bottom
 bind index zt current-top
 bind index zz current-middle
+
+bind index zR collapse-all
+bind index zr collapse-thread
 
 bind index \\ search-opposite
 
