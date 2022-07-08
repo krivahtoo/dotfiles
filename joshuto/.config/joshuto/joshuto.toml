@@ -5,6 +5,8 @@ xdg_open = false
 use_trash = true
 
 [display]
+# default, hsplit
+mode = "default"
 # ratios for parent view, current view and preview
 collapse_preview = true
 column_ratio = [1, 4, 4]
