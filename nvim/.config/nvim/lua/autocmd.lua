@@ -27,12 +27,6 @@ vim.api.nvim_create_autocmd('DiagnosticChanged', {
     -- })
   end,
 })
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'qf',
-  callback = function()
-    require('krivah.pqf').syntax()
-  end,
-})
 
 -- Organize imports
 vim.api.nvim_create_autocmd('BufWritePre', {
