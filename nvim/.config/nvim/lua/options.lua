@@ -4,7 +4,7 @@ vim.cmd [[syntax enable]]
 
 vim.g.do_filetype_lua = 1
 
-o.guifont = 'JetBrainsMono Nerd Font:h11,codicon:h11'
+o.guifont = 'JetBrainsMono Nerd Font:h10,codicon:h10,JoyPixels:h10'
 o.encoding = 'utf-8'
 o.number = true
 o.relativenumber = true
@@ -33,13 +33,15 @@ o.listchars = {
   eol = '¬',
   tab = '» ',
   trail = '~',
-  extends = '≻',
-  precedes = '≺',
+  extends = '→',
+  precedes = '←',
   space = '␣',
   lead = '·',
 }
 o.wildignorecase = true
 o.timeoutlen = 500
+
+o.updatetime = 1000
 
 o.expandtab = true
 o.smarttab = true
@@ -70,6 +72,7 @@ o.fillchars = {
   vertright = '┣',
   verthoriz = '╋',
   fold = '═',
+  eob = '⦰',
 }
 
 o.spell = false

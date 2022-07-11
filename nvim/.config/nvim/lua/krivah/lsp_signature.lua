@@ -26,7 +26,7 @@ local cfg = {
   },
   always_trigger = false, -- sometime show signature on new line or in middle of parameter can be confusing, set it to false for #58
   auto_close_after = 5, -- autoclose signature float win after x sec, disabled if nil.
-  extra_trigger_chars = {}, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
+  extra_trigger_chars = { '(' }, -- Array of extra characters that will trigger signature completion, e.g., {"(", ","}
   zindex = 200, -- by default it will be on top of all floating windows, set to <= 50 send it to bottom
   padding = '', -- character to pad on left and right of signature can be ' ', or '|'  etc
   transparency = nil, -- disabled by default, allow floating win transparent value 1~100

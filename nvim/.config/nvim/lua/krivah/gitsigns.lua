@@ -122,5 +122,12 @@ require('gitsigns').setup {
     enable = false,
   },
 }
-vim.cmd [[autocmd InsertEnter * :Gitsigns toggle_current_line_blame]]
-vim.cmd [[autocmd InsertLeave * :Gitsigns toggle_current_line_blame]]
+
+vim.api.nvim_create_autocmd({ 'InsertEnter', 'InsertLeave' }, {
+  pattern = '*',
+  callback = function(opts)
+    require('gitsigns').toggle_current_line_blame(
+      opts.event ~= 'InsertEnter'
+    )
+  end,
+})

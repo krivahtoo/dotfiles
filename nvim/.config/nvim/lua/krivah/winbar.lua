@@ -40,21 +40,17 @@ local get_filename = function()
 
     local hl_group = 'FileIconColor' .. extension
 
-    vim.api.nvim_set_hl(0, hl_group, { fg = file_icon_color })
+    vim.api.nvim_set_hl(0, hl_group, {
+      fg = file_icon_color,
+      bg = 'NONE',
+      default = true,
+    })
     if isempty(file_icon) then
       file_icon = ''
       file_icon_color = ''
     end
 
-    return ' '
-      .. '%#'
-      .. hl_group
-      .. '#'
-      .. file_icon
-      .. ' %*'
-      .. '%#LineNr#'
-      .. filename
-      .. '%*'
+    return ' ' .. '%#' .. hl_group .. '#' .. file_icon .. ' %*' .. filename
   end
 end
 
@@ -104,7 +100,7 @@ M.get_winbar = function()
   end
 
   if not isempty(value) and get_buf_option 'mod' then
-    local mod = '%#LineNr#' .. require('krivah.icons').ui.Circle .. '%*'
+    local mod = require('krivah.icons').ui.BigCircle .. ''
     if gps_added then
       value = value .. ' ' .. mod
     else

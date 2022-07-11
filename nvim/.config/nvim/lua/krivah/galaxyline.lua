@@ -30,7 +30,7 @@ local icons = {
   locker = '',
   unsaved = '',
   dos = '  ',
-  unix = '  ',
+  unix = '  ',
   mac = '  ',
   lsp_warn = '',
   lsp_error = '',
@@ -226,6 +226,12 @@ gls.left[1] = {
         [83] = 'S-LINE',
       }
       vim.api.nvim_command('hi GalaxyViMode guibg=' .. mode_color())
+      vim.api.nvim_command(
+        'hi GalaxyViModeInv guifg='
+          .. mode_color()
+          .. ' guibg='
+          .. colors.bg
+      )
       local alias = aliases[vim.fn.mode():byte()]
       local mode
       if alias ~= nil then
@@ -389,12 +395,6 @@ gls.left[12] = {
     -- separator_highlight = {colors.bg, colors.bg}
   },
 }
--- gls.left[12] = {
---     Space = {
---         provider = function() return ' ' end,
---         highlight = {colors.section_bg, colors.bg}
---     }
--- }
 gls.left[13] = {
   DiagnosticHint = {
     provider = 'DiagnosticHint',
@@ -456,7 +456,8 @@ gls.right[1] = {
       return true
     end,
     icon = '  ',
-    highlight = { colors.middlegrey, colors.bg },
+    -- highlight = { colors.middlegrey, colors.bg },
+    highlight = 'GalaxyViModeInv',
     separator = ' ',
     separator_highlight = { colors.section_bg, colors.bg },
   },
@@ -490,7 +491,7 @@ gls.right[4] = {
         return ''
       end
       local icon = icons[vim.bo.fileformat] or ''
-      return string.format(' %s ', icon)
+      return string.format('%s', icon)
     end,
     condition = buffer_not_empty,
     -- highlight = {colors.fg, colors.bg},
@@ -516,23 +517,23 @@ gls.right[6] = {
       local column = vim.fn.col '.'
       return string.format(' %d:%d ', line, column)
     end,
-    separator = '|',
+    separator = ' ',
     separator_highlight = { colors.fg, colors.section_bg },
-    highlight = { colors.fg, colors.section_bg },
+    highlight = 'GalaxyViMode',
   },
 }
 gls.right[7] = {
   PerCent = {
     provider = 'LinePercent',
-    highlight = { colors.bg, colors.blue },
-    separator = ' ',
-    separator_highlight = { colors.bg, colors.blue },
+    highlight = 'GalaxyViMode',
+    separator = '│',
+    separator_highlight = 'GalaxyViMode',
   },
 }
 gls.right[8] = {
   ScrollBar = {
     provider = 'ScrollBar',
-    highlight = { colors.purple, colors.section_bg },
+    highlight = 'GalaxyViModeInv',
   },
 }
 

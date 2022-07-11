@@ -115,6 +115,9 @@ vim.keymap.set('t', '<Esc>', '<A-d> <C-\\><C-n>', opts)
 vim.keymap.set('n', '<leader>+', ':vertical resize +5<CR>', opts)
 vim.keymap.set('n', '<leader>-', ':vertical resize -5<CR>', opts)
 
+vim.keymap.set('n', '<leader><leader>+', ':resize +5<CR>', opts)
+vim.keymap.set('n', '<leader><leader>-', ':resize -5<CR>', opts)
+
 vim.keymap.set('n', '<leader>|', ':vsplit<CR>', opts)
 vim.keymap.set('n', '<leader>_', ':split<CR>', opts)
 

@@ -49,6 +49,7 @@ return require('packer').startup {
         vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
           pattern = '*',
           callback = require('nvim-lightbulb').update_lightbulb,
+          desc = 'Lightbulb autocommand',
         })
       end,
     }
@@ -64,6 +65,13 @@ return require('packer').startup {
       after = 'nvim-lspconfig',
       config = function()
         require 'krivah.fidget'
+      end,
+    }
+    use {
+      'jose-elias-alvarez/null-ls.nvim',
+      after = 'nvim-lspconfig',
+      config = function()
+        require 'krivah/null-ls'
       end,
     }
 
@@ -170,6 +178,7 @@ return require('packer').startup {
       event = 'InsertEnter',
     }
 
+    -- Fuzzy finders
     use {
       'nvim-telescope/telescope.nvim',
       requires = { { 'nvim-lua/plenary.nvim' } },
@@ -187,6 +196,7 @@ return require('packer').startup {
         'mfussenegger/nvim-ts-hint-textobject',
         'windwp/nvim-ts-autotag',
         'SmiteshP/nvim-gps',
+        'mizlan/iswap.nvim',
       },
       config = function()
         require 'krivah.treesitter'
@@ -275,6 +285,15 @@ return require('packer').startup {
       cond = require('utils').is_git_repo,
       config = function()
         require 'krivah.neogit'
+      end,
+    }
+    use {
+      'tanvirtin/vgit.nvim',
+      requires = {
+        'nvim-lua/plenary.nvim',
+      },
+      config = function()
+        -- require('vgit').setup()
       end,
     }
 
@@ -417,6 +436,12 @@ return require('packer').startup {
       end,
     }
     use {
+      'ziontee113/icon-picker.nvim',
+      config = function()
+        require 'icon-picker'
+      end,
+    }
+    use {
       'chentoast/marks.nvim',
       config = function()
         require 'krivah.marks'
@@ -437,20 +462,19 @@ return require('packer').startup {
       end,
     }
     use {
-      'jose-elias-alvarez/null-ls.nvim',
-      config = function()
-        require 'krivah/null-ls'
-      end,
-    }
-    use {
       'baskerville/vim-sxhkdrc',
     }
+
+    use 'antoinemadec/FixCursorHold.nvim'
 
     use {
       '/home/krivah/github/fzf-tmux.nvim',
       config = function()
         require 'krivah.fzf-tmux'
       end,
+    }
+    use {
+      '/home/krivah/github/nightly.nvim',
     }
   end,
   config = {

@@ -3,16 +3,22 @@ local util = require 'lspconfig.util'
 
 local signs = {
   Error = ' ',
-  Warning = ' ',
+  Warn = ' ',
   Hint = ' ',
-  Information = ' ',
+  Info = ' ',
 }
-local severity_names = { 'Error', 'Warning', 'Hint', 'Information' }
+local severity_names = { 'Error', 'Warn', 'Hint', 'Info' }
 
 for type, icon in pairs(signs) do
   local hl = 'DiagnosticSign' .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
+
+vim.fn.sign_define('LightBulbSign', {
+  text = 'ﯧ ',
+  texthl = 'DiagnosticSignInfo',
+  numhl = '',
+})
 
 vim.diagnostic.config {
   -- Enable underline, use default values
@@ -41,6 +47,25 @@ vim.diagnostic.config {
 
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+  vim.api.nvim_create_autocmd('CursorHold', {
+    buffer = bufnr,
+    callback = function()
+      local opts = {
+        focusable = false,
+        close_events = {
+          'BufLeave',
+          'CursorMoved',
+          'InsertEnter',
+          'FocusLost',
+        },
+        border = 'rounded',
+        source = 'always',
+        prefix = ' ',
+        scope = 'cursor',
+      }
+      vim.diagnostic.open_float(nil, opts)
+    end,
+  })
 end
 
 -- setup language servers
@@ -63,6 +88,7 @@ local servers = {
   'bashls',
   'emmet_ls',
   'intelephense',
+  'slint_lsp',
   'gopls', --, 'html', 'cssls'
 }
 

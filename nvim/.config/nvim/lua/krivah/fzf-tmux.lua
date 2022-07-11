@@ -11,7 +11,7 @@ vim.keymap.set('n', '<C-p>', function()
 end, { desc = 'Find a file in current working directory' })
 
 vim.keymap.set('n', '<leader>sl', function()
-  fzf_tmux.lines()
+  fzf_tmux.lines(false)
 end, { desc = 'Find a line in listed buffers' })
 
 vim.keymap.set('n', '<leader>sb', function()
