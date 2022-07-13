@@ -79,8 +79,8 @@ super + {_,shift + }{h,j,k,l}
   bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
-super + {p,b,comma,period}
-  bspc node -f @{parent,brother,first,second}
+super + {p,b,comma}
+  bspc node -f @{parent,brother,first}
 
 # focus the next/previous node in the current desktop
 super + {_,shift + }n
@@ -208,6 +208,9 @@ alt + Print
   screenshot.sh text
 
 # DE like emoji selector
+super + period
+  emoji_picker
+
 ctrl + period
   dmenu_emoji
 
@@ -223,10 +226,10 @@ alt + ctrl + Return
   dmenu_run
 # passmenu
 alt + ctrl + c
-   exec clipmenu 
+  exec clipmenu 
 # passmenu
 alt + ctrl + p
-   exec passmenu 
+  exec passmenu 
 
 alt + ctrl + x
   xcolor -s clipboard
