@@ -1,3 +1,4 @@
+# vim: filetype=neomuttrc
 set folder          = imaps://imap.gmail.com
 set imap_user       = "krivahtoo@gmail.com"
 # Get password from 'pass' password manager
@@ -6,7 +7,7 @@ set mailcap_path 	= ~/.mailcap
 mailboxes           = +INBOX
 
 # User
-set realname = "Noah Too"
+set real_name = "Noah Too"
 set from = "krivahtoo@gmail.com"
 
 # Smtp settings
@@ -14,7 +15,7 @@ set smtp_url = "smtps://krivahtoo@smtp.gmail.com"
 set smtp_pass = `pass mail`
 
 # Folders
-set spoolfile = +INBOX
+set spool_file = +INBOX
 # Specify where to save and/or look for postponed messages.
 set postponed = +[Gmail]/Drafts
 set trash     = +[Gmail]/Bin
@@ -50,6 +51,7 @@ set sort=threads
 # in relation to other threads, and how the branches of the thread trees are sorted.
 set sort_aux=last-date-received
 set sidebar_visible = yes
+set sidebar_non_empty_mailbox_only = yes
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
 # Index page format. Default "%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
@@ -57,10 +59,14 @@ set index_format="%4C %Z %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%[%b %d]>&%[%m/%y ]>
 
 set pager_format="-%Z- %C/%m: %-20.20n   %s%*  -- (%P)"
 
-set status_format="-%r-NeoMutt: %D [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?]---(%?T?%T/?%s/%S)-%>-(%P)---"
+set status_format="-%r-  %D [ :%?M?%M/?%m%?n?  :%n?%?o?  :%o?%?d?  :%d?%?F?  :%F?%?t?  :%t?%?p?  :%p?%?b? ﯬ :%b?%?l? %l?]---(%?T?%T/?%s/%S)-%>-(%P)---"
 
 set new_mail_command="notify-send --icon='/home/krivah/Pictures/mutt.png' \
 'New Email' '%n new messages, %u unread.' -a 'Neomutt' &"
+
+set flag_chars='on- ' #        o n - 
+set to_chars=' פּ' #  פּ    '
+set status_chars='-' # -    
 
 set editor="nvim"
 
