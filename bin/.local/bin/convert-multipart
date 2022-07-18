@@ -23,7 +23,6 @@ if [ "$(grep -Eo '!\[[^]]*\]\([^)]+' "$markdownFile" | cut -d '(' -f 2  | grep '
   echo -n "<attach-file>\"$markdownFile\"<enter><toggle-disposition><toggle-unlink><first-entry><detach-file>" >> "$commandsFile"
 fi
 
-
 pandoc -f markdown -t html5 "$markdownFile" > "$htmlFile"
 
 # Attach the html file

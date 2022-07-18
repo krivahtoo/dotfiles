@@ -74,6 +74,11 @@ auto_view text/html
 
 alternative_order text/plain text/html
 
+set query_command = "khard email --parsable --search-in-source-files '%s'"
+
+# collapse theads by default
+folder-hook . "push '<collapse-all>'"
+
 # disable g binding to enable sequence binding
 bind attach,index,pager g noop
 
@@ -125,6 +130,11 @@ macro index,pager \cb \
 "<pipe-message> \
 urlscan -dc -f 'dmenuhandler {}'<Enter>" \
 "call urlscan to extract URLs out of a message"
+
+# Press A to add contact to Khard address book
+macro index,pager A \
+"<pipe-message>khard add-email<return>" \
+"add the sender email address to khard"
 
 macro compose Y "<first-entry>\
 <pipe-entry>convert-multipart<enter>\
