@@ -1,6 +1,6 @@
 require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
 
-vim.keymap.set({ 'n', 'o', 'v' }, '<leader>e', function()
+vim.keymap.set({ 'n', 'o', 'x' }, '<leader>e', function()
   require('hop').hint_words {
     hint_position = require('hop.hint').HintPosition.END,
     inclusive_jump = vim.fn.mode() == 'o',

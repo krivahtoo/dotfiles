@@ -48,7 +48,7 @@ vim.keymap.set('n', 'gh', function()
 end, { desc = 'Lspsaga lsp_finder' })
 -- map('n', '<leader>ca', ':Lspsaga code_action<CR>')
 vim.keymap.set(
-  'v',
+  'x',
   '<leader>ca',
   ':<C-U>Lspsaga range_code_action<CR>',
   { silent = true }

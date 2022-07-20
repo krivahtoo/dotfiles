@@ -4,10 +4,10 @@ local util = require 'lspconfig.util'
 local signs = {
   Error = ' ',
   Warn = ' ',
-  Hint = ' ',
   Info = ' ',
+  Hint = ' ',
 }
-local severity_names = { 'Error', 'Warn', 'Hint', 'Info' }
+local severity_names = { 'Error', 'Warn', 'Info', 'Hint' }
 
 for type, icon in pairs(signs) do
   local hl = 'DiagnosticSign' .. type
