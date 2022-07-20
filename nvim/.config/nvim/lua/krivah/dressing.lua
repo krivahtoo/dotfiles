@@ -30,8 +30,24 @@ require('dressing').setup {
 
     -- Options for telescope selector
     -- These are passed into the telescope picker directly. Can be used like:
-    -- telescope = require('telescope.themes').get_ivy({...})
-    telescope = require('telescope.themes').get_cursor {},
+    -- telescope = require('telescope.themes').get_cursor({...})
+    -- extacted from telescope.themes to enable lazy-loading telescope
+    telescope = {
+      theme = "cursor",
+
+      sorting_strategy = "ascending",
+      results_title = false,
+      layout_strategy = "cursor",
+      layout_config = {
+        width = 80,
+        height = 9,
+      },
+      borderchars = {
+        prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+        results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+        preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      },
+    },
 
     -- Options for fzf selector
     fzf = {

@@ -33,6 +33,7 @@ return require('packer').startup {
     }
     use {
       'folke/trouble.nvim',
+      cmd = 'Trouble',
       requires = 'kyazdani42/nvim-web-devicons',
       config = function()
         require('trouble').setup {
@@ -143,6 +144,7 @@ return require('packer').startup {
     }
     use {
       'lukas-reineke/cmp-under-comparator',
+      module = 'cmp-under-comparator',
     }
     use {
       'saadparwaiz1/cmp_luasnip',
@@ -181,6 +183,9 @@ return require('packer').startup {
     -- Fuzzy finders
     use {
       'nvim-telescope/telescope.nvim',
+      cmd = 'Telescope',
+      module = 'telescope',
+      keys = { '<leader>ff' },
       requires = { { 'nvim-lua/plenary.nvim' } },
       config = function()
         require 'krivah.telescope'
@@ -191,17 +196,30 @@ return require('packer').startup {
     use {
       'nvim-treesitter/nvim-treesitter',
       requires = {
-        -- 'nvim-treesitter/nvim-treesitter-context',
         'p00f/nvim-ts-rainbow',
-        'mfussenegger/nvim-ts-hint-textobject',
         'windwp/nvim-ts-autotag',
         'SmiteshP/nvim-gps',
-        'mizlan/iswap.nvim',
       },
       config = function()
         require 'krivah.treesitter'
       end,
       run = ':TSUpdate',
+    }
+    use {
+      'mizlan/iswap.nvim',
+      cmd = 'ISwap',
+    }
+    use {
+      'mfussenegger/nvim-ts-hint-textobject',
+      module = 'tsht',
+      keys = {
+        {'n', '<leader>m'},
+        {'x', 'm'},
+        {'o', 'n'},
+      },
+      config = function()
+        require 'krivah.tsht'
+      end
     }
 
     -- ui status lines
@@ -230,6 +248,7 @@ return require('packer').startup {
     use {
       'akinsho/toggleterm.nvim',
       tag = 'v1.*',
+      keys = { '<leader>tt', '<leader>tf' },
       config = function()
         require 'krivah.toggleterm'
       end,
@@ -238,6 +257,7 @@ return require('packer').startup {
     -- File manager
     use {
       'kyazdani42/nvim-tree.lua',
+      keys = { '<C-n>', '<leader>n' },
       requires = 'kyazdani42/nvim-web-devicons',
       config = function()
         require 'krivah.tree'
@@ -248,12 +268,15 @@ return require('packer').startup {
     use {
       'folke/todo-comments.nvim',
       requires = 'nvim-lua/plenary.nvim',
+      event = { 'BufRead' },
       config = function()
         require('todo-comments').setup {}
       end,
     }
     use {
       'numToStr/Comment.nvim',
+      keys = { 'gc', 'gb' },
+      module = 'Comment',
       requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
       config = function()
         require 'krivah.comment'
@@ -267,6 +290,7 @@ return require('packer').startup {
         'nvim-lua/plenary.nvim',
       },
       cond = require('utils').is_git_repo,
+      event = 'BufEnter',
       config = function()
         require 'krivah.gitsigns'
       end,
@@ -275,6 +299,7 @@ return require('packer').startup {
       'sindrets/diffview.nvim',
       requires = 'nvim-lua/plenary.nvim',
       cond = require('utils').is_git_repo,
+      cmd = 'Diffview*',
       config = function()
         require 'krivah.diffview'
       end,
@@ -283,6 +308,7 @@ return require('packer').startup {
       'TimUntersberger/neogit',
       requires = 'nvim-lua/plenary.nvim',
       cond = require('utils').is_git_repo,
+      cmd = 'Neogit',
       config = function()
         require 'krivah.neogit'
       end,
@@ -292,20 +318,23 @@ return require('packer').startup {
       requires = {
         'nvim-lua/plenary.nvim',
       },
+      cmd = 'VGit',
       config = function()
-        -- require('vgit').setup()
+        require('vgit').setup()
       end,
     }
 
     -- Zen Mode
     use {
       'folke/zen-mode.nvim',
+      cmd = 'ZenMode',
       config = function()
         require 'krivah.zen-mode'
       end,
     }
     use {
       'folke/twilight.nvim',
+      module = 'twilight',
       config = function()
         require('twilight').setup {}
       end,
@@ -313,17 +342,26 @@ return require('packer').startup {
 
     -- Debugging
     use {
+      'mfussenegger/nvim-dap',
+      module = 'dap',
+      cmd = 'Dap*',
+    }
+    use {
       'theHamsta/nvim-dap-virtual-text',
       requires = {
         'mfussenegger/nvim-dap',
       },
+      after = 'nvim-dap',
       config = function()
         require('nvim-dap-virtual-text').setup()
       end,
     }
 
     -- neovim lua dev
-    use { 'folke/lua-dev.nvim' }
+    use {
+      'folke/lua-dev.nvim',
+      module = 'lua-dev',
+    }
 
     -- Project
     use {
@@ -345,7 +383,8 @@ return require('packer').startup {
       config = function()
         require('auto-session').setup {
           log_level = 'info',
-          auto_session_suppress_dirs = { '~/', '~/Projects' },
+          auto_session_suppress_dirs = { '~/', '~/Projects', '~/github', '~/Playground' },
+          auto_session_use_git_branch = true,
         }
       end,
     }
@@ -354,6 +393,7 @@ return require('packer').startup {
     use {
       'phaazon/hop.nvim',
       -- branch = 'v1', -- optional but strongly recommended
+      keys = { '<leader>e', '<leader>E', 's', 'S' },
       config = function()
         require 'krivah.hop'
       end,
@@ -372,6 +412,12 @@ return require('packer').startup {
     -- }
     use {
       'booperlv/nvim-gomove',
+      keys = {
+        { 'x', '<C-Right>' },
+        { 'x', '<C-Left>' },
+        { 'x', '<C-Up>' },
+        { 'x', '<C-Right>' },
+      },
       config = function()
         require('gomove').setup {
           -- whether or not to map default key bindings, (true/false)
@@ -394,13 +440,15 @@ return require('packer').startup {
     }
     use {
       'NTBBloodbath/rest.nvim',
+      event = { 'BufRead *.http' },
       requires = { 'nvim-lua/plenary.nvim' },
       config = function()
-        -- require'krivah.rest'
+        require 'krivah.rest'
       end,
     }
     use {
       'VonHeikemen/searchbox.nvim',
+      keys = { '<leader>ss', '<leader>sS' },
       requires = {
         { 'MunifTanjim/nui.nvim' },
       },
@@ -430,19 +478,29 @@ return require('packer').startup {
     }
     use {
       'stevearc/dressing.nvim',
-      after = 'telescope.nvim',
       config = function()
         require 'krivah.dressing'
       end,
     }
     use {
       'ziontee113/icon-picker.nvim',
+      cmd = 'Pick*',
+      -- key = {
+      --   { 'i', '<C-i>' },
+      --   { 'n', '<leader>ii' },
+      -- },
       config = function()
         require 'icon-picker'
       end,
     }
     use {
       'chentoast/marks.nvim',
+      keys = {
+        { 'n', 'm' },
+        { 'n', 'dm' },
+        { 'n', "'" },
+      },
+      module = 'marks',
       config = function()
         require 'krivah.marks'
       end,
@@ -450,22 +508,57 @@ return require('packer').startup {
     use {
       'michaelb/sniprun',
       run = 'bash ./install.sh',
+      cmd = 'Snip*',
       config = function()
         require 'krivah.sniprun'
       end,
     }
     use {
       'rcarriga/nvim-notify',
-      before = 'telescope.nvim',
       config = function()
         require 'krivah.notify'
       end,
     }
     use {
       'baskerville/vim-sxhkdrc',
+      event = { 'BufRead sxhkdrc' },
     }
 
-    use 'antoinemadec/FixCursorHold.nvim'
+    use {
+      'antoinemadec/FixCursorHold.nvim',
+      event = { 'BufRead', 'BufNewFile' },
+    }
+    use {
+      'neomutt/neomutt.vim',
+      event = { 'BufRead *muttrc' },
+    }
+    use {
+      'famiu/bufdelete.nvim',
+      cmd = { 'Bdelete', 'Bwipeout' },
+    }
+    use {
+      'elihunter173/dirbuf.nvim',
+      cmd = 'Dirbuf*',
+    }
+    use {
+      'kyazdani42/nvim-web-devicons',
+      module = 'nvim-web-devicons',
+    }
+    use {
+      'MunifTanjim/nui.nvim',
+      module = 'nui',
+    }
+    use {
+      'ThePrimeagen/refactoring.nvim',
+      module = 'refactoring',
+      requires = {
+        { 'nvim-lua/plenary.nvim' },
+        { 'nvim-treesitter/nvim-treesitter' },
+      },
+      config = function()
+        require('refactoring').setup {}
+      end,
+    }
 
     use {
       '/home/krivah/github/fzf-tmux.nvim',

@@ -24,12 +24,5 @@ require('nvim-treesitter.configs').setup {
     enable = true,
   },
 }
--- require'treesitter-context'.setup{}
-require 'krivah.gps'
 
-vim.keymap.set('v', 'm', function()
-  require('tsht').nodes()
-end, { desc = 'Select ts node' })
-vim.keymap.set('n', '<leader>m', function()
-  require('tsht').nodes()
-end, { desc = 'Select ts node' })
+require 'krivah.gps'

@@ -8,8 +8,8 @@ bl.setup {
       return ''
     end,
     -- number_style = "", -- buffer_id at index 1, ordinal at index 2
-    close_command = 'bdelete! %d', -- can be a string | function, see "Mouse actions"
-    right_mouse_command = 'bdelete! %d', -- can be a string | function, see "Mouse actions"
+    close_command = 'Bdelete! %d', -- can be a string | function, see "Mouse actions"
+    right_mouse_command = 'vertical sbuffer %d', -- can be a string | function, see "Mouse actions"
     left_mouse_command = 'buffer %d', -- can be a string | function, see "Mouse actions"
     middle_mouse_command = nil, -- can be a string | function, see "Mouse actions"
     -- NOTE: this plugin is designed with this icon in mind,
@@ -73,7 +73,7 @@ bl.setup {
     -- [focused and unfocused]. eg: { '|', '|' }
     separator_style = { '|', '' }, -- "slant",
     enforce_regular_tabs = false,
-    always_show_bufferline = true,
+    always_show_bufferline = false,
     sort_by = 'id', -- "relative_directory"
   },
 }
@@ -87,6 +87,9 @@ end
 vim.keymap.set('n', '<leader>bb', function()
   bl.pick_buffer()
 end, { desc = 'Pick a buffer' })
+vim.keymap.set('n', '<leader>br', function()
+  bl.close_with_pick()
+end, { desc = 'Pick a buffer to delete' })
 
 vim.keymap.set('n', '[b', function()
   bl.cycle(1)
