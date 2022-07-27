@@ -1,8 +1,3 @@
--- This file can be loaded by calling `lua require('plugins')` from your init.vim
-
--- Only required if you have packer configured as `opt`
-vim.cmd [[packadd packer.nvim]]
-
 return require('packer').startup {
   function(use)
     -- Packer can manage itself
@@ -72,7 +67,7 @@ return require('packer').startup {
       'jose-elias-alvarez/null-ls.nvim',
       after = 'nvim-lspconfig',
       config = function()
-        require 'krivah/null-ls'
+        require 'krivah.null-ls'
       end,
     }
 
@@ -213,13 +208,13 @@ return require('packer').startup {
       'mfussenegger/nvim-ts-hint-textobject',
       module = 'tsht',
       keys = {
-        {'n', '<leader>m'},
-        {'x', 'm'},
-        {'o', 'n'},
+        { 'n', '<leader>m' },
+        { 'x', 'm' },
+        { 'o', 'n' },
       },
       config = function()
         require 'krivah.tsht'
-      end
+      end,
     }
 
     -- ui status lines
@@ -383,7 +378,12 @@ return require('packer').startup {
       config = function()
         require('auto-session').setup {
           log_level = 'info',
-          auto_session_suppress_dirs = { '~/', '~/Projects', '~/github', '~/Playground' },
+          auto_session_suppress_dirs = {
+            '~/',
+            '~/Projects',
+            '~/github',
+            '~/Playground',
+          },
           auto_session_use_git_branch = true,
         }
       end,
@@ -416,7 +416,7 @@ return require('packer').startup {
         { 'x', '<C-Right>' },
         { 'x', '<C-Left>' },
         { 'x', '<C-Up>' },
-        { 'x', '<C-Right>' },
+        { 'x', '<C-Down>' },
       },
       config = function()
         require('gomove').setup {
@@ -559,15 +559,32 @@ return require('packer').startup {
         require('refactoring').setup {}
       end,
     }
+    use {
+      'AckslD/nvim-trevJ.lua',
+      keys = { { 'n', '<leader>j' } },
+      config = function()
+        require('trevj').setup()
+        vim.keymap.set('n', '<leader>j', function()
+          require('trevj').format_at_cursor()
+        end)
+      end,
+    }
+    use {
+      'iamcco/markdown-preview.nvim',
+      run = function()
+        vim.fn['mkdp#util#install']()
+      end,
+      cmd = 'MarkdownPreview*',
+    }
 
     use {
-      '/home/krivah/github/fzf-tmux.nvim',
+      '~/github/fzf-tmux.nvim',
       config = function()
         require 'krivah.fzf-tmux'
       end,
     }
     use {
-      '/home/krivah/github/nightly.nvim',
+      '~/github/nightly.nvim',
     }
   end,
   config = {

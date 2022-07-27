@@ -7,4 +7,3 @@ end, { desc = 'Select ts node' })
 vim.keymap.set('o', 'n', function()
   require('tsht').nodes()
 end, { desc = 'Select ts node' })
-

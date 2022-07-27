@@ -1,1 +1,1 @@
-require('krivah.pqf').setup()
+require('pqf').setup()

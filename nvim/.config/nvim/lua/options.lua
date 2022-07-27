@@ -5,11 +5,12 @@ vim.cmd [[syntax enable]]
 vim.g.do_filetype_lua = 1
 
 o.guifont = 'JetBrainsMono Nerd Font:h10,codicon:h10,JoyPixels:h10'
-o.encoding = 'utf-8'
 o.number = true
 o.relativenumber = true
-o.mouse = 'a'
 o.numberwidth = 3
+
+-- mouse is now enabled by default, but with mousemodel=popup
+o.mousemodel = 'extend'
 
 o.backup = false
 o.swapfile = false
@@ -38,13 +39,15 @@ o.listchars = {
   space = '␣',
   lead = '·',
 }
+
+o.smartcase = true
+o.ignorecase = true
 o.wildignorecase = true
 o.timeoutlen = 500
 
 o.updatetime = 1000
 
 o.expandtab = true
-o.smarttab = true
 o.shiftwidth = 2
 o.tabstop = 4
 

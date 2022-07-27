@@ -260,7 +260,7 @@ function M.setup(options)
   -- This is needed until https://github.com/neovim/neovim/pull/14909 is merged.
   vim.cmd [[
     function! PqfQuickfixTextFunc(info)
-      return luaeval('require("krivah.pqf").format(_A)', a:info)
+      return luaeval('require("pqf").format(_A)', a:info)
     endfunction
   ]]
 

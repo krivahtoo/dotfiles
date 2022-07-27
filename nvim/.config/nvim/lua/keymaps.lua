@@ -42,7 +42,7 @@ map(
 )
 map('n', '<leader>tc', '<cmd>TodoTrouble<cr>', opts)
 
-map('n', '<leader>bd', '<cmd>bd<cr>', opts)
+map('n', '<leader>bd', '<cmd>Bdelete<cr>', opts)
 
 -- Lsp keymaps
 map('n', '<leader>vd', vim.lsp.buf.definition, get_opts 'Go to definition')
@@ -151,10 +151,12 @@ map('n', '<F7>', ':set list!<CR>', opts)
 -- Keep cursor at the bottom of the visual selection after you yank it.
 map('x', 'y', 'ygv<Esc>')
 
+map('x', 'SS', ':Silicon<CR>')
+
 map('x', '<C-Up>', '<Plug>GoVSMUp')
 map('x', '<C-Down>', '<Plug>GoVSMDown')
 map('x', '<C-Left>', '<Plug>GoVSMLeft')
 map('x', '<C-Right>', '<Plug>GoVSMRight')
 
 map('n', '<leader>ii', '<cmd>PickEverything<cr>', opts)
-map('i', '<C-i>', '<cmd>PickEverythingInsert<cr>', opts)
+-- map('i', '<C-i>', '<cmd>PickEverythingInsert<cr>', opts)

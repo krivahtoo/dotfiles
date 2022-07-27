@@ -45,8 +45,8 @@ vim.diagnostic.config {
   -- update_in_insert = true,
 }
 
-local on_attach = function(client, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+local on_attach = function(_, bufnr)
+  -- no need to set omnifunc nvim sets this by default
   vim.api.nvim_create_autocmd('CursorHold', {
     buffer = bufnr,
     callback = function()

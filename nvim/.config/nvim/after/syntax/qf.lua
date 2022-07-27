@@ -3,4 +3,4 @@ if vim.b.pqf_syntax == 1 then
 end
 vim.b.pqf_syntax = 1
 
-require('krivah.pqf').syntax()
+require('pqf').syntax()
