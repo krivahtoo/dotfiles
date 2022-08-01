@@ -12,7 +12,7 @@ local d = ls.dynamic_node
 local c = ls.choice_node
 local fmt = require('luasnip.extras.fmt').fmt
 
-local shared = require 'krivah.snippets'
+local shared = require 'snippets'
 local same = shared.same
 local make = shared.make
 

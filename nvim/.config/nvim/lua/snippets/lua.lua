@@ -9,7 +9,7 @@ local c = ls.choice_node
 local f = ls.function_node
 local fmt = require('luasnip.extras.fmt').fmt
 
-local shared = require 'krivah.snippets'
+local shared = require 'snippets'
 local same = shared.same
 
 local newline = function(text)
