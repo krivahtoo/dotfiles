@@ -31,11 +31,11 @@ require('luasnip.loaders.from_vscode').lazy_load()
 require('luasnip.loaders.from_snipmate').lazy_load()
 require('luasnip.loaders.from_lua').lazy_load()
 
-require 'krivah.snippets.go'
-require 'krivah.snippets.lua'
-require 'krivah.snippets.rust'
-require 'krivah.snippets.todo-comments'
-require 'krivah.snippets.tex'
+require 'snippets.go'
+require 'snippets.lua'
+require 'snippets.rust'
+require 'snippets.todo-comments'
+require 'snippets.tex'
 
 -- <c-k> is my expansion key
 -- this will expand the current item or jump to the next item within the snippet.

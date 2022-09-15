@@ -5,10 +5,11 @@ return require('packer').startup {
 
     -- Theme
     use {
-      'bluz71/vim-nightfly-guicolors',
+      -- my custom version of bluz71/vim-nightfly-guicolors
+      '~/github/nightfly.nvim',
       config = function()
-        require 'krivah.nightfly'
-      end,
+        vim.cmd [[colorscheme nightfly]]
+      end
     }
 
     -- LSP plugins
@@ -201,6 +202,14 @@ return require('packer').startup {
       run = ':TSUpdate',
     }
     use {
+      'nvim-treesitter/playground',
+      cmd = {
+        'TSPlaygroundToggle',
+        'TSHighlightCapturesUnderCursor',
+        'TSNodeUnderCursor',
+      },
+    }
+    use {
       'mizlan/iswap.nvim',
       cmd = 'ISwap',
     }
@@ -220,7 +229,7 @@ return require('packer').startup {
     -- ui status lines
     use {
       'NTBBloodbath/galaxyline.nvim',
-      after = 'vim-nightfly-guicolors',
+      after = 'nightfly.nvim',
       requires = {
         'kyazdani42/nvim-web-devicons',
       },
@@ -232,7 +241,7 @@ return require('packer').startup {
     use {
       'akinsho/nvim-bufferline.lua',
       tag = 'v2.*',
-      after = 'vim-nightfly-guicolors',
+      after = 'nightfly.nvim',
       requires = 'kyazdani42/nvim-web-devicons',
       config = function()
         require 'krivah.bufferline'
@@ -398,18 +407,6 @@ return require('packer').startup {
         require 'krivah.hop'
       end,
     }
-    -- use {
-    --   'junegunn/fzf.vim',
-    --   requires = { 'junegunn/fzf' },
-    --   config = function()
-    --     if vim.g.nvui then
-    --       vim.g.fzf_layout = { window = { width = 0.9, height = 0.6 } }
-    --     else
-    --       vim.g.fzf_layout = { tmux = '-p90%,70%' }
-    --     end
-    --     vim.cmd 'command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, fzf#vim#with_preview(), <bang>0)'
-    --   end,
-    -- }
     use {
       'booperlv/nvim-gomove',
       keys = {
@@ -419,18 +416,14 @@ return require('packer').startup {
         { 'x', '<C-Down>' },
       },
       config = function()
-        require('gomove').setup {
-          -- whether or not to map default key bindings, (true/false)
-          map_defaults = false,
-          move_past_end_col = true,
-        }
+        require 'krivah.gomove'
       end,
     }
 
     -- Other
     use {
       'xiyaowong/nvim-cursorword',
-      after = 'vim-nightfly-guicolors',
+      after = 'nightfly.nvim',
     }
     use {
       'lukas-reineke/indent-blankline.nvim',
@@ -578,13 +571,36 @@ return require('packer').startup {
     }
 
     use {
+      'onsails/diaglist.nvim',
+      module = 'diaglist'
+    }
+
+    use {
+      'stevearc/stickybuf.nvim',
+      config = function()
+        require('stickybuf').setup()
+      end
+    }
+
+    use {
       '~/github/fzf-tmux.nvim',
       config = function()
         require 'krivah.fzf-tmux'
       end,
     }
     use {
-      '~/github/nightly.nvim',
+      '~/github/silicon.nvim',
+      run = './install.sh',
+      cmd = 'Silicon',
+      module = 'silicon',
+      config = function()
+        require('silicon').setup({
+          line1 = 1,
+          line2 = 2,
+          font = 'FantasqueSansMono Nerd Font',
+          theme = 'Monokai Extended',
+        })
+      end,
     }
   end,
   config = {

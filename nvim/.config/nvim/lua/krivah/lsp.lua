@@ -190,3 +190,36 @@ nvim_lsp.sumneko_lua.setup {
     },
   },
 }
+
+-- Lsp keymaps
+local map = vim.keymap.set
+
+map(
+  'n',
+  '<leader>vd',
+  vim.lsp.buf.definition,
+  { desc = 'Go to definition' }
+)
+map(
+  'n',
+  '<leader>vr',
+  vim.lsp.buf.references,
+  { desc = 'View reference on quickfix' }
+)
+map('n', '<leader>vh', vim.lsp.buf.hover, { desc = 'Hover' })
+map(
+  'n',
+  '<leader>vi',
+  vim.lsp.buf.implementation,
+  { desc = 'View implementation' }
+)
+map('n', '<leader>vf', function()
+  vim.lsp.buf.format { async = true }
+end, { desc = 'Format buffer' })
+map(
+  'n',
+  '<leader>ca',
+  vim.lsp.buf.code_action,
+  { desc = 'View code actions' }
+)
+map('n', 'gr', vim.lsp.buf.rename, { desc = 'Lsp rename' })

@@ -44,31 +44,6 @@ map('n', '<leader>tc', '<cmd>TodoTrouble<cr>', opts)
 
 map('n', '<leader>bd', '<cmd>Bdelete<cr>', opts)
 
--- Lsp keymaps
-map('n', '<leader>vd', vim.lsp.buf.definition, get_opts 'Go to definition')
-map(
-  'n',
-  '<leader>vr',
-  vim.lsp.buf.references,
-  get_opts 'View reference on quickfix'
-)
-map('n', '<leader>vh', vim.lsp.buf.hover, get_opts 'Hover')
-map(
-  'n',
-  '<leader>vi',
-  vim.lsp.buf.implementation,
-  get_opts 'View implementation'
-)
-map('n', '<leader>vf', function()
-  vim.lsp.buf.format { async = true }
-end, get_opts 'Format buffer')
-map(
-  'n',
-  '<leader>ca',
-  vim.lsp.buf.code_action,
-  get_opts 'View code actions'
-)
-map('n', 'gr', vim.lsp.buf.rename, get_opts 'Lsp rename')
 map('n', '<F8>', function()
   if vim.g.lsp_virtual_text == nil or vim.g.lsp_virtual_text == true then
     vim.g.lsp_virtual_text = false
@@ -152,11 +127,6 @@ map('n', '<F7>', ':set list!<CR>', opts)
 map('x', 'y', 'ygv<Esc>')
 
 map('x', 'SS', ':Silicon<CR>')
-
-map('x', '<C-Up>', '<Plug>GoVSMUp')
-map('x', '<C-Down>', '<Plug>GoVSMDown')
-map('x', '<C-Left>', '<Plug>GoVSMLeft')
-map('x', '<C-Right>', '<Plug>GoVSMRight')
 
 map('n', '<leader>ii', '<cmd>PickEverything<cr>', opts)
 -- map('i', '<C-i>', '<cmd>PickEverythingInsert<cr>', opts)
