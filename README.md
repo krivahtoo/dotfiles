@@ -12,7 +12,7 @@ Config for
 - ...
 
 ## Screenshots
-![screenshot](https://user-images.githubusercontent.com/41364823/157059327-3be6351c-9447-4c09-8fb2-a2674c69b9ba.png)
+![screenshot](https://user-images.githubusercontent.com/41364823/187414805-32cb7869-3fc8-481d-9d32-05cdd56c9900.png)
 
 ## Setup
 Clone this repo to `~/.dotfiles`
