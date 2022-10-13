@@ -5,5 +5,5 @@ set -e
 
 id=$(kdeconnect-cli -a --id-name-only | fzf | awk '{print $1}' | tr -d '\n')
 
-kdeconnect-cli -d "$id" --share "$1"
+kdeconnect-cli -d "$id" --share "$@"
 

@@ -32,6 +32,7 @@ mpd-notification &
 nitrogen --restore &
 dunst &
 $HOME/.local/bin/xsidle.sh betterlockscreen -l dimblur &
+st -c scratchterm -f 'FantasqueSansMono Nerd Font:pixelsize=13' &
 
 #### MONITORS ####
 bspc monitor LVDS-1 -d I II III IV V VI VII VIII IX X
@@ -80,3 +81,4 @@ bspc rule -a mplayer2 state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a SimpleScreenRecorder state=floating
+bspc rule -a scratchterm sticky=on state=floating hidden=on

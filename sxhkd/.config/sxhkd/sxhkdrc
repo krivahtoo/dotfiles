@@ -149,6 +149,11 @@ super + z
 alt + Tab
   rofi -modi window -show window
 
+# Scratchpad
+super + u
+  scratch.sh
+
+
 # APPLICATION KEYBINDINGS (Super + Alt + Key)
 
 # open apps using multiple chords
