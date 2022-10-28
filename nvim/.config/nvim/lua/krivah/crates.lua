@@ -12,7 +12,7 @@ require('crates').setup {
     yanked = '   %s',
     nomatch = '   No match',
     upgrade = '   %s',
-    error = '   Error fetching crate',
+    error = ' ',
   },
   highlight = {
     loading = 'CratesNvimLoading',

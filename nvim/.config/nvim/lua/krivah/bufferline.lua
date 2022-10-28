@@ -15,7 +15,10 @@ bl.setup {
     -- NOTE: this plugin is designed with this icon in mind,
     -- and so changing this is NOT recommended, this is intended
     -- as an escape hatch for people who cannot bear it for whatever reason
-    indicator_icon = '▎',
+    indicator = {
+      icon = '▎', -- this should be omitted if indicator style is not 'icon'
+      style = 'icon',
+    },
     buffer_close_icon = '',
     modified_icon = '●',
     close_icon = '',
@@ -75,6 +78,11 @@ bl.setup {
     enforce_regular_tabs = false,
     always_show_bufferline = false,
     sort_by = 'id', -- "relative_directory"
+    hover = {
+      enabled = true,
+      delay = 200,
+      reveal = {'close'}
+    }
   },
 }
 

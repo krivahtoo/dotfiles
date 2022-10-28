@@ -104,19 +104,19 @@ nvim_lsp.tailwindcss.setup {
   on_attach = on_attach,
   root_dir = function(fname)
     return (
-        util.root_pattern('tailwind.config.js', 'tailwind.config.ts')(
+        util.root_pattern('tailwind.config.js', 'tailwind.config.ts', 'tailwind.config.cjs')(
           fname
         )
-        or util.root_pattern('windi.config.js', 'windi.config.ts')(fname)
-        or util.root_pattern('postcss.config.js', 'postcss.config.ts')(
-          fname
+            or util.root_pattern('windi.config.js', 'windi.config.ts')(fname)
+            or util.root_pattern('postcss.config.js', 'postcss.config.ts')(
+              fname
+            )
         )
-      )
-      and (
+        and (
         util.find_package_json_ancestor(fname)
-        or util.find_node_modules_ancestor(fname)
-        or util.find_git_ancestor(fname)
-      )
+            or util.find_node_modules_ancestor(fname)
+            or util.find_git_ancestor(fname)
+        )
   end,
 }
 

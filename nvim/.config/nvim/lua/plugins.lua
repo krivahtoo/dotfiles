@@ -583,6 +583,26 @@ return require('packer').startup {
     }
 
     use {
+      'tiagovla/scope.nvim',
+      config = function()
+        require('scope').setup()
+      end
+    }
+
+    use {
+      "folke/noice.nvim",
+      cmd = 'Noice',
+      config = function()
+        require("noice").setup()
+      end,
+      requires = {
+        -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+        "MunifTanjim/nui.nvim",
+        "rcarriga/nvim-notify",
+      }
+    }
+
+    use {
       '~/github/fzf-tmux.nvim',
       config = function()
         require 'krivah.fzf-tmux'
@@ -597,8 +617,12 @@ return require('packer').startup {
         require('silicon').setup({
           line1 = 1,
           line2 = 2,
-          font = 'FantasqueSansMono Nerd Font',
+          font = 'FantasqueSansMono Nerd Font=16',
+          background = '#87f',
           theme = 'Monokai Extended',
+          line_number = true,
+          pad_vert = 80,
+          pad_horiz = 50,
         })
       end,
     }

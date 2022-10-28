@@ -41,3 +41,4 @@ require('fidget').setup {
     strict = false, -- whether to interpret LSP strictly
   },
 }
+vim.api.nvim_create_autocmd("VimLeavePre", { command = [[silent! FidgetClose]] })

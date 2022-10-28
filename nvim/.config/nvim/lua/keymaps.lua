@@ -16,6 +16,11 @@ map('n', 'N', 'Nzz', opts)
 -- Remove search highlight
 map('n', '<F3>', ':noh<CR>', opts)
 
+map('x', '<Space>p', '"_dP', opts)
+
+map('n', '<Space>d', '"_d', opts)
+map('x', '<Space>d', '"_d', opts)
+
 -- Copy to clipboard
 map('n', '<leader>y', '"+y', opts)
 map('n', '<leader>Y', '"+y$', opts)
@@ -118,7 +123,8 @@ map('n', '<S-Tab>', '<C-w>w', opts)
 
 -- Prevent x and the delete key from overriding what's in the clipboard.
 map('n', 'x', '"_x', opts)
-map('n', 'X', '"_x', opts)
+map('x', 'x', '"_x', opts)
+map('n', 'X', '"_X', opts)
 map('n', '<Del>', '"_x', opts)
 
 map('n', '<F7>', ':set list!<CR>', opts)

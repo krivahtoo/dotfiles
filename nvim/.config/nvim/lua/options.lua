@@ -4,13 +4,14 @@ vim.cmd [[syntax enable]]
 
 vim.g.do_filetype_lua = 1
 
-o.guifont = 'JetBrainsMono Nerd Font:h10,codicon:h10,JoyPixels:h10'
+o.guifont = 'FantasqueSansMono Nerd Font:h10,codicon:h10,JoyPixels:h10'
 o.number = true
 o.relativenumber = true
 o.numberwidth = 3
 
 -- mouse is now enabled by default, but with mousemodel=popup
 o.mousemodel = 'extend'
+o.mousemoveevent = true
 
 o.backup = false
 o.swapfile = false
