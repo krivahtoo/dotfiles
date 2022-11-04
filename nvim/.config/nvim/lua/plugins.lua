@@ -9,7 +9,7 @@ return require('packer').startup {
       '~/github/nightfly.nvim',
       config = function()
         vim.cmd [[colorscheme nightfly]]
-      end
+      end,
     }
 
     -- LSP plugins
@@ -572,34 +572,34 @@ return require('packer').startup {
 
     use {
       'onsails/diaglist.nvim',
-      module = 'diaglist'
+      module = 'diaglist',
     }
 
     use {
       'stevearc/stickybuf.nvim',
       config = function()
         require('stickybuf').setup()
-      end
+      end,
     }
 
     use {
       'tiagovla/scope.nvim',
       config = function()
         require('scope').setup()
-      end
+      end,
     }
 
     use {
-      "folke/noice.nvim",
+      'folke/noice.nvim',
       cmd = 'Noice',
       config = function()
-        require("noice").setup()
+        require('noice').setup()
       end,
       requires = {
         -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-        "MunifTanjim/nui.nvim",
-        "rcarriga/nvim-notify",
-      }
+        'MunifTanjim/nui.nvim',
+        'rcarriga/nvim-notify',
+      },
     }
 
     use {
@@ -614,16 +614,17 @@ return require('packer').startup {
       cmd = 'Silicon',
       module = 'silicon',
       config = function()
-        require('silicon').setup({
-          line1 = 1,
-          line2 = 2,
-          font = 'FantasqueSansMono Nerd Font=16',
+        require('silicon').setup {
+          font = 'FantasqueSansMono Nerd Font=26',
           background = '#87f',
           theme = 'Monokai Extended',
           line_number = true,
           pad_vert = 80,
           pad_horiz = 50,
-        })
+          watermark = {
+            text = '@krivahtoo',
+          },
+        }
       end,
     }
   end,

@@ -81,8 +81,8 @@ bl.setup {
     hover = {
       enabled = true,
       delay = 200,
-      reveal = {'close'}
-    }
+      reveal = { 'close' },
+    },
   },
 }
 
