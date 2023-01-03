@@ -2,6 +2,7 @@
 [default_view]
 
 keymap = [
+	{ keys = [ "escape" ],		command = "escape" },
 	{ keys = [ "T" ],		    command = "new_tab" },
 	{ keys = [ "ctrl+t" ],		command = "new_tab" },
 	{ keys = [ "W" ],		    command = "close_tab" },
@@ -59,16 +60,20 @@ keymap = [
 	{ keys = [ "c", "d" ],		command = ":cd " },
 	{ keys = [ "d", "d" ],		command = "cut_files" },
 	{ keys = [ "y", "y" ],		command = "copy_files" },
-	{ keys = [ "p", "p" ],		command = "paste_files" },
-	{ keys = [ "p", "o" ],		command = "paste_files --overwrite=true" },
 
 	{ keys = [ "y", "n" ],		command = "copy_filename" },
 	{ keys = [ "y", "." ],		command = "copy_filename_without_extension" },
 	{ keys = [ "y", "p" ],		command = "copy_filepath" },
 	{ keys = [ "y", "d" ],		command = "copy_dirpath" },
 
-	{ keys = [ "delete" ],		command = "delete_files" },
-	{ keys = [ "d", "D" ],		command = "delete_files" },
+    { keys = [ "p", "l" ],      command = "symlink_files --relative=false" },
+    { keys = [ "p", "L" ],      command = "symlink_files --relative=true" },
+
+	{ keys = [ "delete" ],		command = "delete_files --foreground=true" },
+	{ keys = [ "d", "D" ],		command = "delete_files --foreground=true" },
+
+	{ keys = [ "p", "p" ],		command = "paste_files" },
+	{ keys = [ "p", "o" ],		command = "paste_files --overwrite=true" },
 
 	{ keys = [ "a" ],		    command = "rename_append" },
 	{ keys = [ "A" ],		    command = "rename_prepend" },
@@ -77,7 +82,7 @@ keymap = [
 
 	{ keys = [ " " ],		    command = "select --toggle=true" },
 	{ keys = [ "t" ],		    command = "select --all=true --toggle=true" },
-	{ keys = [ "escape" ],		command = "select --all=true --deselect=true" },
+    { keys = [ "V" ],           command = "toggle_visual"},
 
 	{ keys = [ "w" ],		    command = "show_tasks --exit-key=w" },
 	{ keys = [ "b", "b" ],		command = "bulk_rename" },
@@ -89,11 +94,21 @@ keymap = [
 	{ keys = [ ":" ],		    command = ":" },
 	{ keys = [ ";" ],		    command = ":" },
 
+    { keys = ["1"],             command = "numbered_command 1" },
+    { keys = ["2"],             command = "numbered_command 2" },
+    { keys = ["3"],             command = "numbered_command 3" },
+    { keys = ["4"],             command = "numbered_command 4" },
+    { keys = ["5"],             command = "numbered_command 5" },
+    { keys = ["6"],             command = "numbered_command 6" },
+    { keys = ["7"],             command = "numbered_command 7" },
+    { keys = ["8"],             command = "numbered_command 8" },
+    { keys = ["9"],             command = "numbered_command 9" },
+
 	{ keys = [ "'" ],		    command = ":shell " },
 	{ keys = [ "m", "k" ],		command = ":mkdir " },
 	{ keys = [ "c", "w" ],		command = ":rename " },
 
-	{ keys = [ "/" ],		    command = ":search " },
+	{ keys = [ "/" ],		    command = ":search_inc " },
 	{ keys = [ "\\" ],		    command = ":search_glob " },
 	{ keys = [ "S" ],		    command = "search_fzf" },
 	{ keys = [ "C" ],		    command = "subdir_fzf" },
