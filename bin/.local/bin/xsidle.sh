@@ -17,7 +17,12 @@ do
 		tosleep=$(($(xssstate -t) / 1000))
 		if [ $tosleep -le 0 ];
 		then
-			$cmd
+			$cmd &
+            sleep 300
+            tosuspend=$(($(xssstate -i) / 1000))
+            if [ $tosuspend -ge 400 ]; then
+                systemctl suspend
+            fi
 		else
 			sleep $tosleep
 		fi
