@@ -1,21 +1,36 @@
 # vim: filetype=neomuttrc
-set folder          = imaps://imap.gmail.com
-set imap_user       = "krivahtoo@gmail.com"
-# Get password from 'pass' password manager
-set imap_pass       = `pass mail`
-set mailcap_path 	= ~/.mailcap
-mailboxes           = +INBOX
-
 # User
 set real_name = "Noah Too"
 set from = "krivahtoo@gmail.com"
 
-# Smtp settings
-set smtp_url = "smtps://krivahtoo@smtp.gmail.com"
-set smtp_pass = `pass mail`
+set mbox_type       = Maildir
+set folder          = ~/.local/share/local-mail
+set mailcap_path 	= ~/.mailcap
+
+mailboxes +Inbox +[Gmail]/Drafts "+[Gmail]/Sent Mail" +[Gmail]/Starred +[Gmail]/Bin
+
+set sendmail = "msmtp -a default"
+
+### Imap settings
+# set imap_user       = "krivahtoo@gmail.com"
+# Get password from 'pass' password manager
+# set imap_pass       = `pass mail`
+
+# Allow Mutt to open a new IMAP connection automatically.
+# unset imap_passive
+
+# Keep the IMAP connection alive by polling intermittently (time in seconds).
+# set imap_keepalive = 300
+
+# set imap_check_subscribed
+
+
+### Smtp settings
+# set smtp_url = "smtps://krivahtoo@smtp.gmail.com"
+# set smtp_pass = `pass mail`
 
 # Folders
-set spool_file = +INBOX
+set spool_file = +Inbox
 # Specify where to save and/or look for postponed messages.
 set postponed = +[Gmail]/Drafts
 set trash     = +[Gmail]/Bin
@@ -31,20 +46,28 @@ set header_cache = ~/.cache/mutt
 # Can be the same folder as header_cache.
 # This will cost important disk usage according to your e-mail amount.
 set message_cachedir = "~/.cache/mutt"
-
-# Allow Mutt to open a new IMAP connection automatically.
-unset imap_passive
-
-# Keep the IMAP connection alive by polling intermittently (time in seconds).
-set imap_keepalive = 300
-
 # How often to check for new mail (time in seconds).
-set mail_check = 120
+# set mail_check = 30
 
 # Ensure TLS is enforced
-set ssl_force_tls=no
+# set ssl_force_tls=no
 
-set imap_check_subscribed
+######################
+#  NotMuch Settings  #
+######################
+# All the notmuch settings are documented here: https://neomutt.org/feature/notmuch
+
+# Points to the notmuch directory
+set nm_default_url = "notmuch://$HOME/.local/share/local-mail"
+# Makes notmuch return threads rather than messages
+set nm_query_type = "threads"
+# Binding for notmuch search
+bind index \\ vfolder-from-query
+
+###
+
+set sidebar_short_path                  # Shorten mailbox names
+set sidebar_delim_chars="/"             # Delete everything up to the last / character
 
 set sort=threads
 # When sorting by threads, this variable controls how threads are sorted
@@ -64,7 +87,7 @@ set status_format="-%r-  %D [ :%?M?%M/?%m%?n?  :%n?%?o?  :%o?%?d? �
 set new_mail_command="notify-send --icon='/home/krivah/Pictures/mutt.png' \
 'New Email' '%n new messages, %u unread.' -a 'Neomutt' &"
 
-set flag_chars='on- ' #        o n - 
+set flag_chars='- ' #          - 
 set to_chars=' פּ' #  פּ    '
 set status_chars='-' # -    
 
@@ -116,7 +139,7 @@ bind index zz current-middle
 bind index zR collapse-all
 bind index zr collapse-thread
 
-bind index \\ search-opposite
+# bind index \\ search-opposite
 
 # Sidebar binds
 bind index,pager \CP sidebar-prev                 # Ctrl-n to select next folder
@@ -138,7 +161,7 @@ macro index,pager A \
 
 macro compose Y "<first-entry>\
 <pipe-entry>convert-multipart<enter>\
-<enter-command>source /tmp/neomutt-commands<enter>"\
+<enter-command>source /tmp/neomutt-commands<enter>" \
 "convert to multipart email"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
