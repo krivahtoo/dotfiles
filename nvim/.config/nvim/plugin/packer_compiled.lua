@@ -682,7 +682,7 @@ _G.packer_plugins = {
   },
   ["silicon.nvim"] = {
     commands = { "Silicon" },
-    config = { "\27LJ\2\n–\1\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0005\3\4\0=\3\5\2B\0\2\1K\0\1\0\14watermark\1\0\1\ttext\15@krivahtoo\1\0\6\16line_number\2\ntheme\21Monokai Extended\15background\t#87f\tfont#FantasqueSansMono Nerd Font=26\14pad_horiz\0032\rpad_vert\3P\nsetup\fsilicon\frequire\0" },
+    config = { "\27LJ\2\n.\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\19krivah.silicon\frequire\0" },
     loaded = false,
     needs_bufread = false,
     only_cond = false,

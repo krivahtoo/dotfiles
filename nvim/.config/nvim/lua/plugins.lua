@@ -614,17 +614,7 @@ return require('packer').startup {
       cmd = 'Silicon',
       module = 'silicon',
       config = function()
-        require('silicon').setup {
-          font = 'FantasqueSansMono Nerd Font=26',
-          background = '#87f',
-          theme = 'Monokai Extended',
-          line_number = true,
-          pad_vert = 80,
-          pad_horiz = 50,
-          watermark = {
-            text = '@krivahtoo',
-          },
-        }
+        require 'krivah.silicon'
       end,
     }
   end,
