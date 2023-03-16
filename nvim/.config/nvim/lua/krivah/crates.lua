@@ -28,7 +28,7 @@ require('crates').setup {
     copy_register = '"', -- the register into which the version will be copied
     style = 'minimal', -- same as nvim_open_win config.style
     border = 'none', -- same as nvim_open_win config.border
-    version_date = false, -- display when a version was released
+    show_version_date = false, -- display when a version was released
     max_height = 30,
     min_width = 20,
     text = {
@@ -37,7 +37,7 @@ require('crates').setup {
       prerelease = '  %s ',
       yanked = '  %s ',
       feature = '   %s ',
-      date = ' %s ',
+      version_date = ' %s ',
     },
     highlight = {
       title = 'CratesNvimPopupTitle',
@@ -49,14 +49,7 @@ require('crates').setup {
     keys = {
       hide = { 'q', '<esc>' },
       select = { '<cr>' },
-      select_dumb = { 's' },
-      copy_version = { 'yy' },
-    },
-  },
-  cmp = {
-    text = {
-      prerelease = '  pre-release ',
-      yanked = '  yanked ',
+      copy_value = { 'yy' },
     },
   },
 }

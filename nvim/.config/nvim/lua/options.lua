@@ -78,6 +78,7 @@ o.fillchars = {
   fold = '═',
   eob = '⦰',
 }
+o.exrc = true
 
 o.spell = false
 o.spelllang = { 'en_us' }

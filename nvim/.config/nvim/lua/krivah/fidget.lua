@@ -1,6 +1,6 @@
 require('fidget').setup {
   text = {
-    spinner = 'arc', -- animation shown when tasks are ongoing
+    spinner = 'dots_negative', -- animation shown when tasks are ongoing
     done = '', -- character shown when all tasks are complete
     commenced = 'Started', -- message shown when task starts
     completed = 'Done', -- message shown when task completes
@@ -18,6 +18,7 @@ require('fidget').setup {
     relative = 'editor', -- where to anchor, either "win" or "editor"
     blend = 0, -- &winblend for the window
     zindex = nil, -- the zindex value for the window
+    border = "rounded",
   },
   fmt = {
     leftpad = true, -- right-justify text in fidget box
@@ -41,7 +42,3 @@ require('fidget').setup {
     strict = false, -- whether to interpret LSP strictly
   },
 }
-vim.api.nvim_create_autocmd(
-  'VimLeavePre',
-  { command = [[silent! FidgetClose]] }
-)

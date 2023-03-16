@@ -3,14 +3,16 @@ return require('packer').startup {
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
-    -- Theme
+    -- Color Theme
     use {
+      'bluz71/vim-nightfly-guicolors',
       -- my custom version of bluz71/vim-nightfly-guicolors
-      '~/github/nightfly.nvim',
+      -- '~/github/nightfly.nvim',
       config = function()
         vim.cmd [[colorscheme nightfly]]
       end,
     }
+    use 'navarasu/onedark.nvim'
 
     -- LSP plugins
     use {
@@ -229,7 +231,7 @@ return require('packer').startup {
     -- ui status lines
     use {
       'NTBBloodbath/galaxyline.nvim',
-      after = 'nightfly.nvim',
+      -- after = 'nightfly.nvim',
       requires = {
         'kyazdani42/nvim-web-devicons',
       },
@@ -240,8 +242,8 @@ return require('packer').startup {
 
     use {
       'akinsho/nvim-bufferline.lua',
-      tag = 'v2.*',
-      after = 'nightfly.nvim',
+      tag = 'v3.*',
+      -- after = 'nightfly.nvim',
       requires = 'kyazdani42/nvim-web-devicons',
       config = function()
         require 'krivah.bufferline'
@@ -251,7 +253,7 @@ return require('packer').startup {
     -- Terminal
     use {
       'akinsho/toggleterm.nvim',
-      tag = 'v1.*',
+      tag = '*',
       keys = { '<leader>tt', '<leader>tf' },
       config = function()
         require 'krivah.toggleterm'
@@ -369,20 +371,6 @@ return require('packer').startup {
 
     -- Project
     use {
-      'klen/nvim-config-local',
-      config = function()
-        require('config-local').setup {
-          -- Default configuration (optional)
-          config_files = { '.vimrc.lua', '.vimrc' }, -- Config file patterns to load (lua supported)
-          hashfile = vim.fn.stdpath 'data' .. '/config-local', -- Where the plugin keeps files data
-          autocommands_create = true, -- Create autocommands (VimEnter, DirectoryChanged)
-          commands_create = true, -- Create commands (ConfigSource, ConfigEdit, ConfigTrust, ConfigIgnore)
-          silent = false, -- Disable plugin messages (Config loaded/ignored)
-          lookup_parents = false, -- Lookup config files in parent directories
-        }
-      end,
-    }
-    use {
       'rmagatti/auto-session',
       config = function()
         require('auto-session').setup {
@@ -423,7 +411,7 @@ return require('packer').startup {
     -- Other
     use {
       'xiyaowong/nvim-cursorword',
-      after = 'nightfly.nvim',
+      -- after = 'nightfly.nvim',
     }
     use {
       'lukas-reineke/indent-blankline.nvim',
@@ -534,6 +522,12 @@ return require('packer').startup {
       cmd = 'Dirbuf*',
     }
     use {
+      'stevearc/oil.nvim',
+      config = function()
+        require 'krivah.oil'
+      end,
+    }
+    use {
       'kyazdani42/nvim-web-devicons',
       module = 'nvim-web-devicons',
     }
@@ -610,7 +604,7 @@ return require('packer').startup {
     }
     use {
       '~/github/silicon.nvim',
-      run = './install.sh',
+      run = './install.sh build',
       cmd = 'Silicon',
       module = 'silicon',
       config = function()

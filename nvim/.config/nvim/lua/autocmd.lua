@@ -95,3 +95,50 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     end
   end,
 })
+
+local function set_numbering(relative)
+  local excluded_filetypes = {
+    unite = true,
+    tagbar = true,
+    startify = true,
+    gundo = true,
+    vimshell = true,
+    w3m = true,
+    nerdtree = true,
+    Mundo = true,
+    MundoDiff = true,
+    help = true,
+    gitcommit = true,
+    man = true,
+    oil = true,
+  }
+  if excluded_filetypes[vim.api.nvim_buf_get_option(0, 'filetype')] then
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+    return
+  end
+  vim.opt.number = true
+  vim.opt.relativenumber = relative
+end
+local num_group = vim.api.nvim_create_augroup('NumbersAutocmds', {clear=true})
+vim.api.nvim_create_autocmd({
+  'InsertEnter',
+  'WinLeave',
+  'FocusLost',
+}, {
+  group = num_group,
+  callback = function()
+    set_numbering(false)
+  end,
+})
+vim.api.nvim_create_autocmd({
+  'VimEnter',
+  'InsertLeave',
+  'WinEnter',
+  'FocusGained',
+}, {
+  group = num_group,
+  callback = function()
+    set_numbering(true)
+  end,
+})
