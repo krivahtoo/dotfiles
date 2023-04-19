@@ -1,51 +1,7 @@
 local nvim_lsp = require 'lspconfig'
 local util = require 'lspconfig.util'
 
-local signs = {
-  Error = ' ',
-  Warn = ' ',
-  Info = ' ',
-  Hint = ' ',
-}
-local severity_names = { 'Error', 'Warn', 'Info', 'Hint' }
-
-for type, icon in pairs(signs) do
-  local hl = 'DiagnosticSign' .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
-end
-
-vim.fn.sign_define('LightBulbSign', {
-  text = 'ﯧ ',
-  texthl = 'DiagnosticSignInfo',
-  numhl = '',
-})
-
-local on_attach = function(_, bufnr)
-  vim.diagnostic.config {
-    -- Enable underline, use default values
-    underline = {
-      severity = { min = vim.diagnostic.severity.WARN },
-    },
-    -- Enable virtual text, override spacing to 4
-    virtual_text = {
-      spacing = 4,
-      prefix = '', -- ⛬ ► ◉ ◈
-      format = function(diag)
-        local sign = signs[severity_names[diag.severity]] or signs.Hint
-        return string.format('%s %s', sign, diag.message)
-      end,
-    },
-    -- Use a function to dynamically turn signs off
-    -- and on, using buffer local variables
-    signs = true,
-    float = {
-      source = 'if_many',
-      border = 'single',
-    },
-    severity_sort = true,
-    -- update_in_insert = true,
-  }
-end
+local on_attach = function(_, bufnr) end
 
 -- setup language servers
 local capabilities = require('cmp_nvim_lsp').default_capabilities(
@@ -200,11 +156,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- end
   end,
 })
-
-nvim_lsp.elixirls.setup {
-  capabilities = capabilities,
-  cmd = { '/home/krivah/Applications/elixir-ls/language_server.sh' },
-}
 
 -- Lsp keymaps
 local map = vim.keymap.set

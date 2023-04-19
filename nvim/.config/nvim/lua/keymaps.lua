@@ -49,48 +49,6 @@ map('n', '<leader>tc', '<cmd>TodoTrouble<cr>', opts)
 
 map('n', '<leader>bd', '<cmd>Bdelete<cr>', opts)
 
-map('n', '<F8>', function()
-  if vim.g.lsp_virtual_text == nil or vim.g.lsp_virtual_text == true then
-    vim.g.lsp_virtual_text = false
-    vim.diagnostic.config { virtual_text = false }
-  else
-    vim.g.lsp_virtual_text = true
-    local signs = { ' ', ' ', ' ', ' ' }
-    vim.diagnostic.config {
-      virtual_text = {
-        spacing = 4,
-        prefix = '◈', -- ⛬ ► ◉ ◈
-        format = function(diag)
-          local sign = signs[diag.severity] or signs[4]
-          return string.format('%s %s', sign, diag.message)
-        end,
-      },
-    }
-  end
-end, { desc = 'Toggle virtual text' })
-
--- Diagnostics
-map('n', '<leader>cd', function()
-  vim.diagnostic.open_float { border = 'single' }
-end, get_opts 'Open line diagnostics')
-map('n', '<leader>cc', function()
-  vim.diagnostic.open_float {
-    scope = 'cursor',
-    border = 'single',
-  }
-end, get_opts 'Open cursor diagnostics')
-
--- Quickfix and loclist
-map('n', '<leader>vc', function()
-  vim.diagnostic.setqflist {
-    severity = vim.diagnostic.severity.ERROR,
-  }
-end, get_opts 'Add diagnostics to qflist')
-map('n', '<leader>vl', function()
-  vim.diagnostic.setloclist {
-    severity = vim.diagnostic.severity.ERROR,
-  }
-end, get_opts 'Add diagnostics to loclist')
 map('n', '<leader>vx', function()
   vim.cmd [[call setqflist([])]]
 end, get_opts 'Clear qflist')
