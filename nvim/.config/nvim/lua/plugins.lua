@@ -9,7 +9,7 @@ return require('packer').startup {
       -- my custom version of bluz71/vim-nightfly-guicolors
       -- '~/github/nightfly.nvim',
       config = function()
-        vim.cmd [[colorscheme nightfly]]
+        require 'krivah.nightfly'
       end,
     }
     use 'navarasu/onedark.nvim'
@@ -365,8 +365,8 @@ return require('packer').startup {
 
     -- neovim lua dev
     use {
-      'folke/lua-dev.nvim',
-      module = 'lua-dev',
+      'folke/neodev.nvim',
+      module = 'neodev',
     }
 
     -- Project
@@ -391,6 +391,7 @@ return require('packer').startup {
       'phaazon/hop.nvim',
       -- branch = 'v1', -- optional but strongly recommended
       keys = { '<leader>e', '<leader>E', 's', 'S' },
+      module = 'hop',
       config = function()
         require 'krivah.hop'
       end,
@@ -504,6 +505,7 @@ return require('packer').startup {
       'baskerville/vim-sxhkdrc',
       event = { 'BufRead sxhkdrc' },
     }
+    use { 'kaarmu/typst.vim' }
 
     use {
       'antoinemadec/FixCursorHold.nvim',
@@ -547,21 +549,11 @@ return require('packer').startup {
       end,
     }
     use {
-      'AckslD/nvim-trevJ.lua',
-      keys = { { 'n', '<leader>j' } },
+      'Wansmer/treesj',
+      requires = { 'nvim-treesitter' },
       config = function()
-        require('trevj').setup()
-        vim.keymap.set('n', '<leader>j', function()
-          require('trevj').format_at_cursor()
-        end)
+        require('treesj').setup {}
       end,
-    }
-    use {
-      'iamcco/markdown-preview.nvim',
-      run = function()
-        vim.fn['mkdp#util#install']()
-      end,
-      cmd = 'MarkdownPreview*',
     }
 
     use {
@@ -594,6 +586,11 @@ return require('packer').startup {
         'MunifTanjim/nui.nvim',
         'rcarriga/nvim-notify',
       },
+    }
+
+    use {
+      'andweeb/presence.nvim',
+      module = 'presence',
     }
 
     use {

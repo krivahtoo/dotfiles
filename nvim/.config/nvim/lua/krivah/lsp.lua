@@ -7,6 +7,7 @@ local on_attach = function(_, bufnr) end
 local capabilities = require('cmp_nvim_lsp').default_capabilities(
   vim.lsp.protocol.make_client_capabilities()
 )
+capabilities.offsetEncoding = { 'utf-16' }
 
 local servers = {
   'clangd',
@@ -28,13 +29,13 @@ local servers = {
     'rust_analyzer',
     config = {
       settings = {
-        ["rust-analyzer"] = {
+        ['rust-analyzer'] = {
           checkOnSave = {
-            command = 'clippy'
-          }
-        }
-      }
-    }
+            command = 'clippy',
+          },
+        },
+      },
+    },
   },
   {
     'tailwindcss',
@@ -46,21 +47,23 @@ local servers = {
               'tailwind.config.ts',
               'tailwind.config.cjs'
             )(fname)
-            or util.root_pattern('windi.config.js', 'windi.config.ts')(fname)
+            or util.root_pattern('windi.config.js', 'windi.config.ts')(
+              fname
+            )
             or util.root_pattern('postcss.config.js', 'postcss.config.ts')(
               fname
             )
-            )
-            and (
+          )
+          and (
             util.find_package_json_ancestor(fname)
             or util.find_node_modules_ancestor(fname)
             or util.find_git_ancestor(fname)
-            )
+          )
       end,
-    }
+    },
   },
   {
-    'sumneko_lua',
+    'lua_ls',
     config = {
       cmd = {
         'lua-language-server',
@@ -123,37 +126,35 @@ local servers = {
       commands = {
         Format = {
           function()
-            vim.lsp.buf.range_formatting({}, { 0, 0 }, { vim.fn.line '$', 0 })
+            vim.lsp.buf.range_formatting(
+              {},
+              { 0, 0 },
+              { vim.fn.line '$', 0 }
+            )
           end,
         },
       },
-    }
-  }
+    },
+  },
 }
 
 for _, server in ipairs(servers) do
   local config = { on_attach = on_attach, capabilities = capabilities }
-  local name = server;
+  local name = server
 
-  if type(server) == "table" then
+  if type(server) == 'table' then
     name = server[1]
-    config = vim.tbl_deep_extend("force", config, server.config)
+    config = vim.tbl_deep_extend('force', config, server.config)
   end
 
   nvim_lsp[name].setup(config)
 end
 
-vim.api.nvim_create_autocmd("LspAttach", {
+vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    client.server_capabilities.semanticTokensProvider = nil
-    -- if client.server_capabilities.completionProvider then
-    --   vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-    -- end
-    -- if client.server_capabilities.definitionProvider then
-    --   vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
-    -- end
+    -- client.server_capabilities.semanticTokensProvider = nil
   end,
 })
 

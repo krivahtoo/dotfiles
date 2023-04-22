@@ -7,7 +7,7 @@ require('silicon').setup {
   pad_horiz = 50,
   gobble = true,
   output = {
-    path = "/home/krivah/Pictures/Screenshots"
+    path = '/home/krivah/Pictures/Screenshots',
   },
   watermark = {
     text = ' @krivahtoo',
@@ -30,7 +30,7 @@ vim.api.nvim_create_user_command('CaptureSel', function(opts)
     highlight_selection = true,
     output = {
       clipboard = false,
-      path = "/home/krivah/Pictures/Screenshots"
-    }
+      path = '/home/krivah/Pictures/Screenshots',
+    },
   }
 end, { range = true })

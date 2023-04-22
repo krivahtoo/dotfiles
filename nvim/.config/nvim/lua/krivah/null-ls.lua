@@ -44,6 +44,8 @@ local betty_doc = {
 }
 
 null_ls.setup {
+  debounce = 500,
+  update_in_insert = false,
   sources = {
     -- null_ls.builtins.diagnostics.eslint_d,
     -- null_ls.builtins.code_actions.eslint_d,

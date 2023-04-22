@@ -108,9 +108,9 @@ local function set_numbering(relative)
     Mundo = true,
     MundoDiff = true,
     help = true,
-    gitcommit = true,
     man = true,
     oil = true,
+    nofile = true,
   }
   if excluded_filetypes[vim.api.nvim_buf_get_option(0, 'filetype')] then
     vim.opt.number = false
@@ -120,11 +120,12 @@ local function set_numbering(relative)
   vim.opt.number = true
   vim.opt.relativenumber = relative
 end
-local num_group = vim.api.nvim_create_augroup('NumbersAutocmds', {clear=true})
+local num_group = vim.api.nvim_create_augroup(
+  'NumbersAutocmds',
+  { clear = true }
+)
 vim.api.nvim_create_autocmd({
   'InsertEnter',
-  'WinLeave',
-  'FocusLost',
 }, {
   group = num_group,
   callback = function()
@@ -132,10 +133,7 @@ vim.api.nvim_create_autocmd({
   end,
 })
 vim.api.nvim_create_autocmd({
-  'VimEnter',
   'InsertLeave',
-  'WinEnter',
-  'FocusGained',
 }, {
   group = num_group,
   callback = function()
