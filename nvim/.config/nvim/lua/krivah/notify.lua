@@ -8,6 +8,9 @@ require('notify').setup {
   -- Function called when a window is closed
   on_close = nil,
 
+  -- Max width
+  max_width = 80,
+
   -- Render function for notifications. See notify-render()
   render = 'default',
 

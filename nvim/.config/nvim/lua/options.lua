@@ -64,6 +64,7 @@ o.wrap = false --Wrap lines
 o.laststatus = 3
 o.cursorline = true
 o.cursorcolumn = true
+o.foldenable = false
 o.foldmethod = 'expr'
 o.foldexpr = 'nvim_treesitter#foldexpr()'
 o.foldtext = 'v:lua.NeatFoldText()' -- Set text of folds

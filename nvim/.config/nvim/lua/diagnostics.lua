@@ -17,28 +17,31 @@ vim.fn.sign_define('LightBulbSign', {
   numhl = '',
 })
 
-vim.diagnostic.config {
-  underline = {
-    severity = { min = vim.diagnostic.severity.WARN },
-  },
-  virtual_text = {
-    spacing = 4,
-    prefix = '', -- ⛬ ► ◉ ◈
-    format = function(diag)
-      local sign = signs[severity_names[diag.severity]] or signs.Hint
-      return string.format('%s %s', sign, diag.message)
-    end,
-  },
-  -- Use a function to dynamically turn signs off
-  -- and on, using buffer local variables
-  signs = true,
-  float = {
-    source = 'if_many',
-    border = 'single',
-  },
-  severity_sort = true,
-  -- update_in_insert = true,
-}
+vim.api.nvim_create_autocmd('LspAttach', {
+  once = true,
+  callback = function(_)
+    vim.diagnostic.config {
+      underline = {
+        severity = { min = vim.diagnostic.severity.WARN },
+      },
+      virtual_text = {
+        spacing = 4,
+        prefix = '',
+        format = function(diag)
+          local sign = signs[severity_names[diag.severity]] or signs.Hint
+          return string.format('%s %s', sign, diag.message)
+        end,
+      },
+      signs = true,
+      float = {
+        source = 'if_many',
+        border = 'single',
+      },
+      severity_sort = true,
+    }
+  end,
+})
+
 
 local map = vim.keymap.set
 

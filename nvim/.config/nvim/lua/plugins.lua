@@ -460,6 +460,7 @@ return require('packer').startup {
     }
     use {
       'stevearc/dressing.nvim',
+      after = 'vim-nightfly-guicolors',
       config = function()
         require 'krivah.dressing'
       end,
