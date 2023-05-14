@@ -153,16 +153,21 @@ alt + Tab
 super + u
   scratch.sh
 
+# kill gui
+# dangerous but useful
+ctrl + alt + Delete
+  xkill
+
 
 # APPLICATION KEYBINDINGS (Super + Alt + Key)
 
 # open apps using multiple chords
-super + alt + o ; {c,m,n,j,l,r,x}
-  st -e {cmus,neomutt,newsboat,joshuto,lynx,ranger,tmux}
+super + alt + o ; {c,m,n,j,l,r,p,x}
+  st -e {cmus,neomutt,newsboat,joshuto,lynx,ranger,ncmpcpp-ueberzug,tmux a}
 
 # terminal emulator
 super  + {_,shift +} Return
-  {st, bspc rule -a \* -o state=floating && st}
+  {st, bspc rule -a \* -o state=floating && st -f 'FantasqueSansMono Nerd Font:pixelsize=13'}
 
 # launch surf browser
 super + alt + b
@@ -173,7 +178,7 @@ super + alt + d
 
 # launch ncmpcpp
 super + alt + m
-  bspc rule -a \* -o state=floating && st -e ncmpcpp-ueberzug
+  bspc rule -a \* -o state=floating && st -f 'Comic Code Ligatures:pixelsize=10' -e ncmpcpp-ueberzug
 
 # launch vscode/code-oss
 super + alt + v
@@ -186,7 +191,7 @@ super + alt + t
   telegram-desktop
 # launch tmux
 super + alt + x
-  st -e tmux
+  st -e tmux a
 
 # launch qutebrowser
 super + alt + q
@@ -197,20 +202,8 @@ ctrl + Escape
   st -e bashtop
 
 # Take Screenshot
-Print
-  screenshot.sh screen
-
-# Take Screenshot of the current window
-shift + Print
-  screenshot.sh window
-
-# Take Screenshot of selected location
-ctrl + Print
-  screenshot.sh select
-
-# Get text from image
-alt + Print
-  screenshot.sh text
+{_,shift + ,ctrl + ,alt + }Print
+  screenshot.sh {screen,window,select,text}
 
 # DE like emoji selector
 super + period
@@ -268,7 +261,7 @@ XF86Audio{LowerVolume,RaiseVolume,Mute}
 
 # Screen brightness
 {_,shift + ,super + }XF86MonBrightness{Down,Up}
-  xbacklight {-1,-10,'=5',+1,+10,'=100'}
+  light {-U 1,-U 10,-S 5,-A 1,-A 10,-S 100}
 
 # Power button
 # Make sure to change
