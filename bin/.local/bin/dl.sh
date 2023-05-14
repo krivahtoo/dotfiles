@@ -6,8 +6,8 @@ set -e
 
 cd ~/Downloads
 
-title="$(youtube-dl -e "$@")"
-id="$(youtube-dl --get-id "$@")"
+title="$(yt-dlp -e "$@")"
+id="$(yt-dlp --get-id "$@")"
 
 youtube-dl -f 251 "$@"
 youtube-dl -f 399 "$@" || youtube-dl -f 137 "$@"

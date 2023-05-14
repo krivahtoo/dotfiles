@@ -77,23 +77,22 @@ copyToClipboard(){
 checkCacheDir
 search
 getDetails
-choose=$(printf "$menulists" | dmenu -p "Choose Option: " )
-if [ "$choose" = watch ]; then
+printf "$menulists" | dmenu -p "Choose Option: " | {
+  read choose
+  if [ "$choose" = watch ]; then
+      searchLinks
+      watchVideo
+  elif [ "$choose" = "download" ]; then
+      searchLinks
+      checkDownloadDir
+      cd $downloaddir
+      pwd
+      downloadVideo
+  elif [ "$choose" = "copy" ]; then
     searchLinks
-    watchVideo
-elif [ "$choose" = "download" ]; then
-    searchLinks
-    checkDownloadDir
-    cd $downloaddir
-    pwd
-    downloadVideo
-elif [ "$choose" = "copy" ]; then
-  searchLinks
-  copyToClipboard
-elif [ "$choose" = "quit" ]; then
-    exit 0
-else
-    notify-send "Invalid Choice"
-    exit 0
-fi 
+    copyToClipboard
+  else
+      exit 0
+  fi
+}
 
