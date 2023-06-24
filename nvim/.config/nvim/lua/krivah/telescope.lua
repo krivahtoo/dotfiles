@@ -1,8 +1,8 @@
 require('telescope').setup {
   defaults = {
-    prompt_prefix = '  ',
-    selection_caret = ' ',
-    multi_icon = '留',
+    prompt_prefix = ' ',
+    selection_caret = ' ',
+    multi_icon = '',
     borderchars = {
       '─',
       '│',
@@ -17,6 +17,15 @@ require('telescope').setup {
       i = {
         ['<esc>'] = require('telescope.actions').close,
       },
+    },
+  },
+  extensions = {
+    undo = {
+      -- side_by_side = true,
+      -- layout_strategy = "vertical",
+      -- layout_config = {
+      --   preview_height = 0.8,
+      -- },
     },
   },
 }

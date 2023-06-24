@@ -2,6 +2,7 @@ local null_ls = require 'null-ls'
 local helpers = require 'null-ls.helpers'
 
 local betty_style = {
+  name = 'Betty',
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = { 'c', 'cpp' },
   generator = null_ls.generator {
@@ -26,6 +27,7 @@ local betty_style = {
 }
 
 local betty_doc = {
+  name = 'Betty',
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = { 'c', 'cpp' },
   generator = null_ls.generator {
@@ -45,11 +47,13 @@ local betty_doc = {
 
 null_ls.setup {
   debounce = 500,
+  diagnostics_format = "#{m} (#{s})",
   update_in_insert = false,
   sources = {
     -- null_ls.builtins.diagnostics.eslint_d,
     -- null_ls.builtins.code_actions.eslint_d,
     -- null_ls.builtins.formatting.eslint_d,
+    null_ls.builtins.diagnostics.pycodestyle,
     betty_style,
     betty_doc,
   },

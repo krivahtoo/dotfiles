@@ -4,7 +4,7 @@ vim.cmd [[syntax enable]]
 
 vim.g.do_filetype_lua = 1
 
-o.guifont = 'FantasqueSansMono Nerd Font:h10,codicon:h10,JoyPixels:h10'
+o.guifont = 'FantasqueSansM Nerd Font:h12,codicon:h12,JoyPixels:h12'
 o.number = true
 o.relativenumber = true
 o.numberwidth = 3
@@ -87,7 +87,7 @@ o.spelllang = { 'en_us' }
 --- @return string fold_text a neat template for the summary of what is on a fold
 function NeatFoldText()
   return string.format(
-    '╒═╡    %s ... %s  (%d lines)╞',
+    '╒═╡    %s  %s  (%d lines)╞',
     vim.api.nvim_buf_get_lines(
       0,
       vim.v.foldstart - 1,

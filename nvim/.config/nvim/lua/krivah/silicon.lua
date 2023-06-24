@@ -1,5 +1,5 @@
 require('silicon').setup {
-  font = 'FantasqueSansMono Nerd Font=26',
+  font = 'FantasqueSansM Nerd Font=26',
   background = '#87f',
   theme = 'Monokai Extended',
   line_number = true,
@@ -19,7 +19,7 @@ require('silicon').setup {
 
 vim.api.nvim_create_user_command('CaptureSel', function(opts)
   require('silicon').capture {
-    font = 'FantasqueSansMono Nerd Font=26',
+    font = 'FantasqueSansM Nerd Font=26',
     background = '#87f',
     theme = 'Monokai Extended',
     line_number = true,

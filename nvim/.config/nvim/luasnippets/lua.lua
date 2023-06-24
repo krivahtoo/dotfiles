@@ -1,14 +1,3 @@
-local ls = require 'luasnip'
-
-local sn = ls.snippet_node
-local s = ls.snippet
-local i = ls.insert_node
-local t = ls.text_node
-local d = ls.dynamic_node
-local c = ls.choice_node
-local f = ls.function_node
-local fmt = require('luasnip.extras.fmt').fmt
-
 local shared = require 'snippets'
 local same = shared.same
 
@@ -33,7 +22,7 @@ local require_var = function(args, _)
   })
 end
 
-ls.add_snippets('lua', {
+return {
   s('ignore', t '--stylua: ignore'),
 
   s('lf', {
@@ -57,4 +46,4 @@ ls.add_snippets('lua', {
       i(1),
     })
   ),
-})
+}

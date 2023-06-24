@@ -45,6 +45,7 @@ local sources = {
   pandoc_references = ' PAN',
   digraphs = ' DIG',
   greek = 'GRK',
+  codeium = '󰚩 CDM',
 }
 
 cmp.setup {
@@ -101,6 +102,7 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'path' },
+    { name = 'codeium' },
     { name = 'crates' },
     { name = 'buffer', keyword_length = 2, max_item_count = 10 },
   }, {

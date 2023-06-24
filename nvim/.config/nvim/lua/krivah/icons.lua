@@ -27,6 +27,7 @@ return {
     Operator = ' ',
     TypeParameter = ' ',
     Misc = ' ',
+    Codeium = '󱡄 '
   },
   source = {
     nvim_lua = '',
@@ -59,6 +60,7 @@ return {
     pandoc_references = '',
     digraphs = '',
     greek = '',
+    codeium = '󰚩 ',
   },
   type = {
     Array = ' ',

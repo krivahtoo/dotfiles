@@ -1,8 +1,8 @@
 local signs = {
-  Error = ' ',
-  Warn = ' ',
-  Info = ' ',
-  Hint = ' ',
+  Error = ' ',
+  Warn = ' ',
+  Info = ' ',
+  Hint = '󰌶 ',
 }
 local severity_names = { 'Error', 'Warn', 'Info', 'Hint' }
 
@@ -12,7 +12,7 @@ for type, icon in pairs(signs) do
 end
 
 vim.fn.sign_define('LightBulbSign', {
-  text = 'ﯧ ',
+  text = '󱠂', --  󰛨 󰛩 󱠃 
   texthl = 'DiagnosticSignInfo',
   numhl = '',
 })

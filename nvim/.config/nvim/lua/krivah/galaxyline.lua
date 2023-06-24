@@ -2,6 +2,7 @@ local gl = require 'galaxyline'
 local utils = require 'utils'
 local condition = require 'galaxyline.condition'
 local diagnostic = require 'galaxyline.providers.diagnostic'
+local icon = require 'krivah.icons'
 
 local gls = gl.section
 gl.short_line_list = {
@@ -363,7 +364,7 @@ gls.left[10] = {
     highlight = { colors.middlegrey, colors.bg },
     condition = is_buf_attached_to_lsp,
     -- event = 'InsertEnter',
-    separator = ' ',
+    separator = '',
     separator_highlight = { colors.section_bg, colors.bg },
   },
 }
@@ -387,7 +388,7 @@ gls.left[11] = {
 gls.left[12] = {
   DiagnosticWarn = {
     provider = { 'DiagnosticWarn' },
-    icon = '  ',
+    icon = icon.diagnostics.Warning,
     highlight = { colors.orange, colors.section_bg },
     condition = is_buf_attached_to_lsp,
     -- event = 'InsertEnter',
@@ -398,7 +399,7 @@ gls.left[12] = {
 gls.left[13] = {
   DiagnosticHint = {
     provider = 'DiagnosticHint',
-    icon = '  ',
+    icon = icon.diagnostics.Hint,
     highlight = { colors.purple, colors.section_bg },
     condition = is_buf_attached_to_lsp,
     -- event = 'InsertEnter',
@@ -409,7 +410,7 @@ gls.left[13] = {
 gls.left[14] = {
   DiagnosticInfo = {
     provider = { 'DiagnosticInfo' },
-    icon = ' 𥉉 ',
+    icon = icon.diagnostics.Information,
     highlight = { colors.blue, colors.section_bg },
     condition = is_buf_attached_to_lsp,
     -- event = 'InsertEnter',
@@ -497,7 +498,7 @@ gls.right[4] = {
     -- highlight = {colors.fg, colors.bg},
     -- separator = sep.right,
     -- separator_highlight = 'GalaxyViModeInv',
-    separator = ' ',
+    separator = '',
     separator_highlight = { colors.section_bg, colors.bg },
     highlight = { colors.fg, colors.section_bg },
   },
@@ -515,7 +516,7 @@ gls.right[6] = {
     provider = function()
       local line = vim.fn.line '.'
       local column = vim.fn.col '.'
-      return string.format(' %d:%d ', line, column)
+      return string.format(' %d:%d ', line, column)
     end,
     separator = ' ',
     separator_highlight = { colors.fg, colors.section_bg },

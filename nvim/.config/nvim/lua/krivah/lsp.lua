@@ -169,6 +169,14 @@ map(
 )
 map(
   'n',
+  '<leader>ih',
+  function()
+    vim.lsp.buf.inlay_hints(0) -- available in nightly
+  end,
+  { desc = 'Toggle inlay hints' }
+)
+map(
+  'n',
   '<leader>vr',
   vim.lsp.buf.references,
   { desc = 'View reference on quickfix' }

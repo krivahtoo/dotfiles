@@ -164,14 +164,14 @@ return require('packer').startup {
     -- Snippets
     use {
       'L3MON4D3/LuaSnip',
-      event = 'InsertEnter',
+      after = 'friendly-snippets',
       config = function()
         require 'krivah.luasnip'
       end,
     }
     use {
       'rafamadriz/friendly-snippets',
-      event = 'InsertEnter',
+      after = 'vim-snippets',
     }
     use {
       'honza/vim-snippets',
@@ -506,7 +506,10 @@ return require('packer').startup {
       'baskerville/vim-sxhkdrc',
       event = { 'BufRead sxhkdrc' },
     }
-    use { 'kaarmu/typst.vim' }
+    use {
+      'kaarmu/typst.vim',
+      event = { 'BufRead *.typ' },
+    }
 
     use {
       'antoinemadec/FixCursorHold.nvim',
@@ -588,10 +591,26 @@ return require('packer').startup {
         'rcarriga/nvim-notify',
       },
     }
+    use {
+      'debugloop/telescope-undo.nvim',
+      requires = { 'nvim-telescope/telescope.nvim' },
+    }
 
     use {
       'andweeb/presence.nvim',
       module = 'presence',
+    }
+
+    use {
+      "jcdickinson/codeium.nvim",
+      module = 'codeium',
+      requires = {
+        "nvim-lua/plenary.nvim",
+        "hrsh7th/nvim-cmp",
+      },
+      config = function()
+        require("codeium").setup {}
+      end
     }
 
     use {

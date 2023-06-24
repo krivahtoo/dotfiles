@@ -14,7 +14,7 @@ local fmt = require('luasnip.extras.fmt').fmt
 local shared = require 'snippets'
 local same = shared.same
 
-ls.add_snippets('rust', {
+return {
   s(
     'main',
     fmt(
@@ -83,9 +83,4 @@ ls.add_snippets('rust', {
   }),
 
   s('pd', fmt([[println!("{}: {{:?}}", {});]], { same(1), i(1) })),
-  -- _pd = {
-  --   t [[println!("{:?}", ]],
-  --   i(1),
-  --   t [[);]],
-  -- },
-})
+}
