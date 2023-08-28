@@ -1,6 +1,6 @@
 # vim: filetype=dosini
 [global]
-font = Fira Code 8
+font = Comic Code Ligatures 8
 
 # <b>bold</b>
 # <i>italic</i>
@@ -146,6 +146,11 @@ max_icon_size = 80
 # icon search path
 icon_path = "/usr/share/icons/Adwaita/scalable/status/:/usr/share/icons/Adwaita/scalable/devices/:/usr/share/icons/Adwaita/32x32/legacy/:/usr/share/icons/Adwaita/32x32/mimetypes/"
 
+# Icon theme
+icon_theme = "Tela-circle-dark,Adwaita"
+
+enable_recursive_icon_lookup = true
+
 # Radius
 corner_radius=5
 
@@ -220,11 +225,16 @@ frame_color = "#596bfd"
   appname = "MPD"
   alignment = left
   format = "%b"
+  history_ignore = yes
 
 [volume]
-  appname="Volume"
-  format = "%b %p"
-  timeout = 1
+# Match criteria
+  category="volume"
+  format = %b
+  alignment = center
+  icon_position = top
+  history_ignore = yes
+  fullscreen = show
 
 [brightness]
   appname="Brightness"

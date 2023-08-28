@@ -75,7 +75,7 @@ settings_table = {
   },
   {
     name = 'downspeedf',
-    arg = 'wlp2s0',
+    arg = 'wlo1',
     max = 4000,
     bg_colour = 0x0e293f,
     bg_alpha = 0.5,
@@ -86,13 +86,13 @@ settings_table = {
     thickness = 7,
     start_angle = -90,
     end_angle = 90,
-    condition = 'if_existing /sys/class/net/wlp2s0/operstate up',
+    condition = 'if_existing /sys/class/net/wlo1/operstate up',
     pointer = true,
     exp = true,
   },
   {
     name = 'upspeedf',
-    arg = 'wlp2s0',
+    arg = 'wlo1',
     max = 1500,
     bg_colour = 0x0e293f,
     bg_alpha = 0.5,
@@ -103,7 +103,7 @@ settings_table = {
     thickness = 3,
     start_angle = -90,
     end_angle = 90,
-    condition = 'if_existing /sys/class/net/wlp2s0/operstate up',
+    condition = 'if_existing /sys/class/net/wlo1/operstate up',
     exp = true,
   },
 }

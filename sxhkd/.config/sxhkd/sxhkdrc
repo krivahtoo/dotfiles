@@ -84,7 +84,10 @@ super + {p,b,comma}
 
 # focus the next/previous node in the current desktop
 super + {_,shift + }n
-  bspc node -f {next,prev}.local
+  bspc node -f {next,prev}.local.leaf
+
+super + brace{left,right}
+  bspc node -f {prev,next}.local.leaf
 
 # focus the next/previous desktop in the current monitor
 super + bracket{left,right}
@@ -134,8 +137,8 @@ ctrl + alt + shift + {h,j,k,l}
   bspc node -z {right -10 0,top 0 10,bottom 0 -10,left 10 0}
 
 # move a floating window
-super + {Left,Down,Up,Right}
-  bspc node -v {-10 0,0 10,0 -10,10 0}
+super + {_,shift + }{Left,Down,Up,Right}
+  bspc node -v {-10 0,-50 0,0 10,0 50,0 -10,0 -50,10 0, 50 0}
 
 # App launcher
 super + space
@@ -167,7 +170,7 @@ super + alt + o ; {c,m,n,j,l,r,p,x}
 
 # terminal emulator
 super  + {_,shift +} Return
-  {st, bspc rule -a \* -o state=floating && st -f 'FantasqueSansMono Nerd Font:pixelsize=13'}
+  {st, bspc rule -a \* -o state=floating && st}
 
 # launch surf browser
 super + alt + b
@@ -207,7 +210,7 @@ ctrl + Escape
 
 # DE like emoji selector
 super + period
-  emoji_picker
+  emoji-picker
 
 ctrl + period
   dmenu_emoji
@@ -255,6 +258,9 @@ alt + ctrl + x
 XF86Audio{Prev,Next,Play,Stop}
   mpc -q {prev,next,toggle,stop}
 
+ctrl + XF86Audio{Prev,Next}
+  mpc seek {-,+}00:00:01
+
 # Volume
 XF86Audio{LowerVolume,RaiseVolume,Mute}
   pamixer {-d 5,-i 5,-t}
@@ -271,4 +277,3 @@ XF86Audio{LowerVolume,RaiseVolume,Mute}
 # in /etc/systemd/logind.conf for this to work
 XF86PowerOff
   power.sh
-

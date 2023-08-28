@@ -26,16 +26,16 @@ picom &
 conky &
 conky -c ~/.config/conky/time.conf -d &>/dev/null
 clipmenud &
-# lxsession --noxsettings --noautostart &
+lxsession &
 killall -q mpd-notification
 mpd-notification &
 nitrogen --restore &
 dunst &
 $HOME/.local/bin/xsidle.sh betterlockscreen -l dimblur &
-st -c scratchterm -f 'FantasqueSansMono Nerd Font:pixelsize=13' &
+st -c scratchterm &
 
 #### MONITORS ####
-bspc monitor LVDS-1 -d I II III IV V VI VII VIII IX X
+bspc monitor eDP-1 -d I II III IV V VI VII VIII IX X
 bspc monitor HDMI-1 -d I II III IV V VI VII VIII IX X
 
 #### BSPWM configuration ####
@@ -77,8 +77,11 @@ bspc config urgent_border_color 	      "#CB0248"
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a Chromium desktop='^2'
 bspc rule -a qutebrowser desktop='^2'
-bspc rule -a mplayer2 state=floating
+bspc rule -a mpv state=floating
 bspc rule -a Kupfer.py focus=on
 bspc rule -a Screenkey manage=off
 bspc rule -a SimpleScreenRecorder state=floating
 bspc rule -a scratchterm sticky=on state=floating hidden=on
+bspc rule -a Blueman-manager state=floating
+bspc rule -a Discord desktop='^6'
+bspc rule -a TelegramDesktop desktop='^4'
