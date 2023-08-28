@@ -311,7 +311,7 @@ gls.left[4] = {
 gls.left[5] = {
   GitIcon = {
     provider = function()
-      return '  '
+      return '  '
     end,
     condition = condition.check_git_workspace,
     highlight = { colors.red, colors.bg },

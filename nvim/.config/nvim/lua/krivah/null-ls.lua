@@ -47,7 +47,7 @@ local betty_doc = {
 
 null_ls.setup {
   debounce = 500,
-  diagnostics_format = "#{m} (#{s})",
+  diagnostics_format = '#{m} (#{s})',
   update_in_insert = false,
   sources = {
     -- null_ls.builtins.diagnostics.eslint_d,

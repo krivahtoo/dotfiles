@@ -112,7 +112,7 @@ local function set_numbering(relative)
     oil = true,
     nofile = true,
   }
-  if excluded_filetypes[vim.api.nvim_buf_get_option(0, 'filetype')] then
+  if excluded_filetypes[vim.api.nvim_get_option_value('filetype', {})] then
     vim.opt.number = false
     vim.opt.relativenumber = false
     return

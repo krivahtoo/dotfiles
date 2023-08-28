@@ -1,4 +1,6 @@
-require('gitsigns').setup {
+local gs = require 'gitsigns'
+
+gs.setup {
   signs = {
     add = {
       hl = 'GitSignsAdd',
@@ -35,34 +37,54 @@ require('gitsigns').setup {
   numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
   linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
   word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
-  keymaps = {
-    -- Default keymap options
-    noremap = true,
+  on_attach = function(bufnr)
+    local map = vim.keymap.set
 
-    ['n ]c'] = {
-      expr = true,
-      "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'",
-    },
-    ['n [c'] = {
-      expr = true,
-      "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
-    },
+    map('n', '[c', function()
+      return vim.wo.diff and '[c' or '<cmd>Gitsigns prev_hunk<CR>'
+    end, { expr = true, buffer = bufnr, desc = 'Previous Git hunk' })
+    map('n', ']c', function()
+      return vim.wo.diff and ']c' or '<cmd>Gitsigns next_hunk<CR>'
+    end, { expr = true, buffer = bufnr, desc = 'Next Git hunk' })
 
-    ['n <leader>hs'] = '<cmd>Gitsigns stage_hunk<CR>',
-    ['v <leader>hs'] = ':Gitsigns stage_hunk<CR>',
-    ['n <leader>hu'] = '<cmd>Gitsigns undo_stage_hunk<CR>',
-    ['n <leader>hr'] = '<cmd>Gitsigns reset_hunk<CR>',
-    ['v <leader>hr'] = ':Gitsigns reset_hunk<CR>',
-    ['n <leader>hR'] = '<cmd>Gitsigns reset_buffer<CR>',
-    ['n <leader>hp'] = '<cmd>Gitsigns preview_hunk<CR>',
-    ['n <leader>hb'] = '<cmd>lua require"gitsigns".blame_line{full=true}<CR>',
-    ['n <leader>hS'] = '<cmd>Gitsigns stage_buffer<CR>',
-    ['n <leader>hU'] = '<cmd>Gitsigns reset_buffer_index<CR>',
+    map('n', '<leader>hs', function()
+      gs.stage_hunk()
+    end, { buffer = bufnr, desc = 'Stage git hunk' })
+    map('v', '<leader>hs', function()
+      gs.stage_hunk()
+    end, { buffer = bufnr, desc = 'Stage git hunk' })
+    map('n', '<leader>hu', function()
+      gs.undo_stage_hunk()
+    end, { buffer = bufnr, desc = 'Undo stage git hunk' })
+    map('n', '<leader>hr', function()
+      gs.reset_hunk()
+    end, { buffer = bufnr, desc = 'Reset git hunk' })
+    map('v', '<leader>hr', function()
+      gs.reset_hunk()
+    end, { buffer = bufnr, desc = 'Reset git hunk' })
+    map('n', '<leader>hR', function()
+      gs.reset_buffer()
+    end, { buffer = bufnr, desc = 'Reset buffer' })
+    map('n', '<leader>hp', function()
+      gs.preview_hunk()
+    end, { buffer = bufnr, desc = 'Preview git hunk' })
+    map('n', '<leader>hb', function()
+      gs.blame_line { full = true }
+    end, { buffer = bufnr, desc = 'Show git blame' })
+    map('n', '<leader>hS', function()
+      gs.stage_buffer()
+    end, { buffer = bufnr, desc = 'Stage buffer' })
+    map('n', '<leader>hU', function()
+      gs.reset_buffer_index()
+    end, { buffer = bufnr, desc = 'Reset buffer index' })
 
-    -- Text objects
-    ['o ih'] = ':<C-U>Gitsigns select_hunk<CR>',
-    ['x ih'] = ':<C-U>Gitsigns select_hunk<CR>',
-  },
+    map('o', 'ih', function()
+      gs.select_hunk()
+    end, { buffer = bufnr, desc = 'Select hunk' })
+    map('x', 'ih', function()
+      gs.select_hunk()
+    end, { buffer = bufnr, desc = 'Select hunk' })
+  end,
   watch_gitdir = {
     interval = 1000,
     follow_files = true,

@@ -143,5 +143,7 @@ return make {
 
   -- TODO: Fix this up so that it actually uses the tree sitter thing
   ie = { 'if err != nil {', '\treturn err', i(0), '}' },
-  f = { fmt('func {}({}) {} {{\n\t{}\n}}', { i(1, 'name'), i(2), i(3), i(0) }) }
+  f = {
+    fmt('func {}({}) {} {{\n\t{}\n}}', { i(1, 'name'), i(2), i(3), i(0) }),
+  },
 }

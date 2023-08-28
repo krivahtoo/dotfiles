@@ -1,8 +1,10 @@
+local icons = require('krivah.icons')
+
 local signs = {
-  Error = ' ',
-  Warn = ' ',
-  Info = ' ',
-  Hint = '󰌶 ',
+  Error = icons.diagnostics.Error,
+  Warn = icons.diagnostics.Warning,
+  Info = icons.diagnostics.Information,
+  Hint = icons.diagnostics.Hint,
 }
 local severity_names = { 'Error', 'Warn', 'Info', 'Hint' }
 
@@ -12,7 +14,7 @@ for type, icon in pairs(signs) do
 end
 
 vim.fn.sign_define('LightBulbSign', {
-  text = '󱠂', --  󰛨 󰛩 󱠃 
+  text = icons.misc.LightBulb,
   texthl = 'DiagnosticSignInfo',
   numhl = '',
 })
@@ -41,7 +43,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     }
   end,
 })
-
 
 local map = vim.keymap.set
 

@@ -183,7 +183,7 @@ return require('packer').startup {
       'nvim-telescope/telescope.nvim',
       cmd = 'Telescope',
       module = 'telescope',
-      keys = { '<leader>ff' },
+      -- keys = { '<leader>ff' },
       requires = { { 'nvim-lua/plenary.nvim' } },
       config = function()
         require 'krivah.telescope'
@@ -220,8 +220,8 @@ return require('packer').startup {
       module = 'tsht',
       keys = {
         { 'n', '<leader>m' },
-        { 'x', 'm' },
-        { 'o', 'n' },
+        { 'x', 'in' },
+        { 'o', 'in' },
       },
       config = function()
         require 'krivah.tsht'
@@ -374,7 +374,7 @@ return require('packer').startup {
       'rmagatti/auto-session',
       config = function()
         require('auto-session').setup {
-          log_level = 'info',
+          log_level = 'warn',
           auto_session_suppress_dirs = {
             '~/',
             '~/Projects',
@@ -382,6 +382,8 @@ return require('packer').startup {
             '~/Playground',
           },
           auto_session_use_git_branch = true,
+          auto_session_create_enabled = false,
+          auto_save_enabled = false,
         }
       end,
     }
@@ -390,7 +392,14 @@ return require('packer').startup {
     use {
       'phaazon/hop.nvim',
       -- branch = 'v1', -- optional but strongly recommended
-      keys = { '<leader>e', '<leader>E', 's', 'S' },
+      keys = {
+        { 'n', '<leader>e' },
+        { 'n', '<leader>E' },
+        { 'n', 's' },
+        { 'n', 'S' },
+        { 'x', 's' },
+        { 'x', 'S' },
+      },
       module = 'hop',
       config = function()
         require 'krivah.hop'
@@ -498,6 +507,7 @@ return require('packer').startup {
     }
     use {
       'rcarriga/nvim-notify',
+      after = 'vim-nightfly-guicolors',
       config = function()
         require 'krivah.notify'
       end,
@@ -529,6 +539,9 @@ return require('packer').startup {
     }
     use {
       'stevearc/oil.nvim',
+      keys = {
+        { 'n', '<leader>o' },
+      },
       config = function()
         require 'krivah.oil'
       end,
@@ -554,6 +567,11 @@ return require('packer').startup {
     }
     use {
       'Wansmer/treesj',
+      keys = {
+        { 'n', '<space>m' },
+        { 'n', '<space>j' },
+        { 'n', '<space>s' },
+      },
       requires = { 'nvim-treesitter' },
       config = function()
         require('treesj').setup {}
@@ -593,7 +611,13 @@ return require('packer').startup {
     }
     use {
       'debugloop/telescope-undo.nvim',
+      keys = {
+        { 'n', '<leader>u' }
+      },
       requires = { 'nvim-telescope/telescope.nvim' },
+      config = function()
+        vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
+      end,
     }
 
     use {
@@ -602,15 +626,15 @@ return require('packer').startup {
     }
 
     use {
-      "jcdickinson/codeium.nvim",
-      module = 'codeium',
+      'jcdickinson/codeium.nvim',
+      after = 'nvim-cmp',
       requires = {
-        "nvim-lua/plenary.nvim",
-        "hrsh7th/nvim-cmp",
+        'nvim-lua/plenary.nvim',
+        'hrsh7th/nvim-cmp',
       },
       config = function()
-        require("codeium").setup {}
-      end
+        require('codeium').setup {}
+      end,
     }
 
     use {

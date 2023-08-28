@@ -18,7 +18,7 @@ local isempty = function(s)
 end
 
 local get_buf_option = function(opt)
-  local status_ok, buf_option = pcall(vim.api.nvim_buf_get_option, 0, opt)
+  local status_ok, buf_option = pcall(vim.api.nvim_get_option_value, opt, {})
   if not status_ok then
     return nil
   else
@@ -31,26 +31,12 @@ local get_filename = function()
   local extension = vim.fn.expand '%:e'
 
   if not isempty(filename) then
-    local file_icon, file_icon_color =
-      require('nvim-web-devicons').get_icon_color(
-        filename,
-        extension,
-        { default = true }
-      )
+    local file_icon, hl_group =
+      require('nvim-web-devicons').get_icon(filename)
 
-    local hl_group = 'FileIconColor' .. extension
-
-    vim.api.nvim_set_hl(0, hl_group, {
-      fg = file_icon_color,
-      bg = 'NONE',
-      default = true,
-    })
-    if isempty(file_icon) then
-      file_icon = ''
-      file_icon_color = ''
+    if not isempty(file_icon) then
+      return ' ' .. '%#' .. hl_group .. '#' .. file_icon .. ' %*' .. filename
     end
-
-    return ' ' .. '%#' .. hl_group .. '#' .. file_icon .. ' %*' .. filename
   end
 end
 

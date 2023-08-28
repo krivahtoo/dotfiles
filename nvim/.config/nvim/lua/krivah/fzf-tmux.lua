@@ -18,4 +18,21 @@ vim.keymap.set('n', '<leader>sb', function()
   fzf_tmux.lines(true)
 end, { desc = 'Find a line in current buffer' })
 
-vim.keymap.set('n', '<leader>sf', ':Files<CR>')
+vim.keymap.set('n', '<leader>sf', function()
+  local cwd = vim.fn.getcwd()
+  vim.cmd(":cd " .. vim.fn.expand('%:p:h'))
+  fzf_tmux.files {
+    command = 'fd',
+    args = {
+      '--type',
+      'file',
+      '-H',
+      '-E',
+      '.git',
+      '--strip-cwd-prefix',
+      '--color',
+      'always',
+    },
+  }
+  vim.cmd(":cd " .. cwd)
+end, { desc = 'Find a file in current file directory' })

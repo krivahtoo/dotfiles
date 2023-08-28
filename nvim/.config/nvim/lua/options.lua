@@ -33,7 +33,7 @@ o.wildignore = {
 o.list = false
 o.listchars = {
   eol = '¬',
-  tab = '» ',
+  tab = ' ',
   trail = '~',
   extends = '→',
   precedes = '←',
@@ -77,9 +77,10 @@ o.fillchars = {
   vertright = '┣',
   verthoriz = '╋',
   fold = '═',
-  eob = '⦰',
+  eob = '󰟢',
 }
 o.exrc = true
+o.omnifunc='v:lua.vim.lua_omnifunc'
 
 o.spell = false
 o.spelllang = { 'en_us' }

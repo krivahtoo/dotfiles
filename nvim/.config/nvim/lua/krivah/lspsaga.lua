@@ -1,7 +1,7 @@
 local lspsaga = require 'lspsaga'
 lspsaga.setup { -- defaults ...
   debug = false,
-  use_saga_diagnostic_sign = true,
+  use_saga_diagnostic_sign = false,
   -- diagnostic sign
   error_sign = ' ',
   warn_sign = ' ',

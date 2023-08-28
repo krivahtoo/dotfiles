@@ -43,4 +43,3 @@ map('n', '<leader>fd', t.fd, { desc = 'run fd' })
 map('n', '<leader>fo', t.oldfiles, { desc = 'search old files' })
 map('n', '<leader>:', t.command_history, { desc = 'command history' })
 
-require('telescope').load_extension 'notify'

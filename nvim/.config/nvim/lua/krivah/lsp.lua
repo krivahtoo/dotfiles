@@ -21,9 +21,10 @@ local servers = {
   'vuels',
   'nimls',
   'bashls',
-  'emmet_ls',
+  'emmet_language_server',
   'intelephense',
   'slint_lsp',
+  'typst_lsp',
   'gopls', --, 'html', 'cssls'
   {
     'rust_analyzer',
@@ -138,6 +139,8 @@ local servers = {
   },
 }
 
+require('neodev').setup {}
+
 for _, server in ipairs(servers) do
   local config = { on_attach = on_attach, capabilities = capabilities }
   local name = server
@@ -167,14 +170,9 @@ map(
   vim.lsp.buf.definition,
   { desc = 'Go to definition' }
 )
-map(
-  'n',
-  '<leader>ih',
-  function()
-    vim.lsp.buf.inlay_hints(0) -- available in nightly
-  end,
-  { desc = 'Toggle inlay hints' }
-)
+map('n', '<leader>ih', function()
+  vim.lsp.buf.inlay_hint(0) -- available in nightly
+end, { desc = 'Toggle inlay hints' })
 map(
   'n',
   '<leader>vr',
