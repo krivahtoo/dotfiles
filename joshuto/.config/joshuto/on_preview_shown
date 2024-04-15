@@ -14,15 +14,12 @@ mimetype=$(file --mime-type -Lb "$path")
 extension=$(/bin/echo "${path##*.}" | awk '{print tolower($0)}')
 
 case "$mimetype" in
-    image/png | image/jpeg)
-        meta_file=$(get_preview_meta_file "$path")
-        y_offset=`cat "$meta_file" | grep "y-offset" | awk '{print $2}'`
-        y=$(( $y + $y_offset ))
-        height=$(( $height - $y_offset ))
+    image/png | image/jpeg | image/gif | image/webp)
         show_image "$path" $x $y $width $height
         ;;
     video/*)
-        image_file="$(get_preview_meta_file $path)thumb.png"
+        # image_file=$(mktemp "$joshuto_wrap_preview_meta/thumb.XXXXXX.png")
+        image_file="$joshuto_wrap_preview_meta/$(echo $path | md5sum | awk '{print $1}').png"
         ffmpegthumbnailer -s0 -i "$path" -o $image_file -f 2> /dev/null
         show_image "$image_file" $x $y $width $height
         ;;

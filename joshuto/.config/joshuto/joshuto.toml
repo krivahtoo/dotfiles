@@ -17,7 +17,7 @@ show_preview = true
 tilde_in_titlebar = true
 # none, absolute, relative
 line_number_style = "relative"
-
+size_mode = "size"
 
 [display.sort]
 # lexical, mtime, natural

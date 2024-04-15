@@ -147,3 +147,7 @@ inherit = "text_default"
 # image/*
 [mimetype.image]
 inherit = "image_default"
+
+# video/*
+[mimetype.video]
+inherit = "video_default"

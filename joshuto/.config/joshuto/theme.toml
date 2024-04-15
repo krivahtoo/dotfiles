@@ -1,7 +1,37 @@
+##########################################
+## General
+##########################################
+lscolors_enabled = false
+
+##########################################
+## Tabs
+##########################################
+
+[tabs]
+[tabs.styles]
+
+# Style of active tab & current directory
+[tabs.styles.active]
+bg = "dark"
+fg = "light_blue"
+bold = true
+
+# Style of inactive tabs
+[tabs.styles.inactive]
+
+# Style of the left/front tab scroll tag (when tabs overflow)
+[tabs.styles.scroll_front]
+fg = "yellow"
+bold = true
+
+# Style of the right/back tab scroll tag (when tabs overflow)
+[tabs.styles.scroll_back]
+fg = "yellow"
+bold = true
+
 [selection]
 fg = "light_yellow"
 bold = true
-[selection.prefix]
 prefix = "  "
 size = 2
 
