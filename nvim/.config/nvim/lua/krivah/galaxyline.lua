@@ -136,7 +136,7 @@ end
 
 local function is_buf_attached_to_lsp()
   local bufnr = vim.api.nvim_get_current_buf()
-  local buflsp = vim.lsp.buf_get_clients(bufnr)
+  local buflsp = vim.lsp.get_active_clients({ bufnr = bufnr })
   if #buflsp == 0 then
     return false
   end

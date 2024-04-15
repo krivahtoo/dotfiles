@@ -61,13 +61,14 @@ return require('packer').startup {
     }
     use {
       'j-hui/fidget.nvim',
+      branch = 'legacy',
       after = 'nvim-lspconfig',
       config = function()
         require 'krivah.fidget'
       end,
     }
     use {
-      'jose-elias-alvarez/null-ls.nvim',
+      'nvimtools/none-ls.nvim',
       after = 'nvim-lspconfig',
       config = function()
         require 'krivah.null-ls'
@@ -194,9 +195,9 @@ return require('packer').startup {
     use {
       'nvim-treesitter/nvim-treesitter',
       requires = {
-        'p00f/nvim-ts-rainbow',
+        'https://git.sr.ht/~p00f/nvim-ts-rainbow',
         'windwp/nvim-ts-autotag',
-        'SmiteshP/nvim-gps',
+        -- 'SmiteshP/nvim-gps',
       },
       config = function()
         require 'krivah.treesitter'
@@ -383,14 +384,14 @@ return require('packer').startup {
           },
           auto_session_use_git_branch = true,
           auto_session_create_enabled = false,
-          auto_save_enabled = false,
+          auto_save_enabled = true,
         }
       end,
     }
 
     -- Motion
     use {
-      'phaazon/hop.nvim',
+      'smoka7/hop.nvim',
       -- branch = 'v1', -- optional but strongly recommended
       keys = {
         { 'n', '<leader>e' },
@@ -619,6 +620,13 @@ return require('packer').startup {
         vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
       end,
     }
+    
+    use {
+      'tommcdo/vim-exchange',
+      keys = {
+        { 'n', 'cx' }
+      },
+    }
 
     use {
       'andweeb/presence.nvim',
@@ -646,8 +654,8 @@ return require('packer').startup {
     use {
       '~/github/silicon.nvim',
       run = './install.sh build',
-      cmd = 'Silicon',
-      module = 'silicon',
+      -- cmd = 'Silicon',
+      -- module = 'silicon',
       config = function()
         require 'krivah.silicon'
       end,

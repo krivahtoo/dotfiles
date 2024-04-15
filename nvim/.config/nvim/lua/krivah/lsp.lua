@@ -171,7 +171,7 @@ map(
   { desc = 'Go to definition' }
 )
 map('n', '<leader>ih', function()
-  vim.lsp.buf.inlay_hint(0) -- available in nightly
+  vim.lsp.inlay_hint(0) -- available in nightly
 end, { desc = 'Toggle inlay hints' })
 map(
   'n',

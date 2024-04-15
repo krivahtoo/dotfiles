@@ -6,13 +6,13 @@ require('nvim-treesitter.configs').setup {
       --["foo.bar"] = "Identifier",
     },
   },
-  context_commentstring = {
-    enable = true,
-    enable_autocmd = false,
-    config = {
-      vim = '" %s',
-    },
-  },
+  -- context_commentstring = {
+  --   enable = true,
+  --   enable_autocmd = false,
+  --   config = {
+  --     vim = '" %s',
+  --   },
+  -- },
   rainbow = {
     enable = true,
     extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean

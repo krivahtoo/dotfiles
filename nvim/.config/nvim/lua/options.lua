@@ -18,6 +18,8 @@ o.swapfile = false
 o.writebackup = false
 o.undofile = true
 
+o.clipboard='unnamed'
+
 o.splitbelow = true
 o.splitright = true
 
