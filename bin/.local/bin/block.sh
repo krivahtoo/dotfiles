@@ -24,7 +24,7 @@ EOF
 }
 
 get_hosts() {
-  curl -L -s "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts" |\
+  curl -L -s "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-porn/hosts" |\
     sed '1,35d' | sed '/^#/ d' | sed "1i\\$START_TAG" > $LIST_FILE
   echo "$END_TAG" >> $LIST_FILE
 }

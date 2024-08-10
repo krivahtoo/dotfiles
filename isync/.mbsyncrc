@@ -27,7 +27,7 @@ Channel gmail
 Far :gmail-remote:
 Near :gmail-local:
 # Exclude everything under the internal [Gmail] folder, except the interesting folders
-Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail" "[Gmail]/Bin" "[Gmail]/Drafts"
+Patterns * ![Gmail]* "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/Bin" "[Gmail]/Drafts"
 # Or include everything
 #Patterns *
 # Automatically create missing mailboxes, both locally and on the server

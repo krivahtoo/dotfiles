@@ -9,7 +9,7 @@
 # export PATH=$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="$HOME/.config/zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -78,7 +78,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions aliases zsh-interactive-cd)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions aliases fzf-tab)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -161,11 +161,11 @@ fh() {
 
 # Install packages using yay (change to pacman/AUR helper of your choice)
 function in() {
-  yay -Slq | fzf -q "$1" -m --preview 'yay -Si {1}'| xargs -ro yay -S
+  paru -Slq | fzf -q "$1" -m --preview 'paru -Si {1}'| xargs -ro paru -S
 }
 # Remove installed packages (change to pacman/AUR helper of your choice)
 function re() {
-  yay -Qq | fzf -q "$1" -m --preview 'yay -Qi {1}' | xargs -ro yay -Rns
+  paru -Qq | fzf -q "$1" -m --preview 'paru -Qi {1}' | xargs -ro paru -Rns
 }
 
 fman() {
@@ -178,10 +178,10 @@ fman() {
 owner() {
   file=$1
   if [ -n "$file" ]; then
-    echo $(yay -Ql | rg "$file" | awk '{print $1}' | uniq)
+    echo $(paru -Ql | rg "$file" | awk '{print $1}' | uniq)
   else
     while read -r file; do
-      echo $(yay -Ql | rg "$file" | awk '{print $1}' | uniq)
+      echo $(paru -Ql | rg "$file" | awk '{print $1}' | uniq)
     done
   fi
 }
@@ -233,9 +233,29 @@ export GPG_TTY=$(tty)
 
 eval "$(zoxide init zsh)"
 
-source /home/krivah/.config/broot/launcher/bash/br
+#source /home/krivah/.config/broot/launcher/bash/br
 
 source /home/krivah/.config/fzf-git.sh
 
-source <("/usr/local/bin/starship" init zsh --print-full-init)
+source <(starship init zsh --print-full-init)
 
+# pnpm
+export PNPM_HOME="/home/krivah/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/krivah/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/home/krivah/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/krivah/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/krivah/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# bun completions
+[ -s "/home/krivah/.bun/_bun" ] && source "/home/krivah/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

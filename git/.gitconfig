@@ -1,6 +1,29 @@
 [user]
-	email = 41364823+krivahtoo@users.noreply.github.com
+	email = krivahtoo@gmail.com
 	name = Noah Too
+	signingkey = 4291F5AD6BA54749
 [init]
 	defaultBranch = main
 
+[commit]
+	gpgsign = true
+
+[diff]
+    tool = difftastic
+
+[difftool]
+    prompt = false
+
+[difftool "difftastic"]
+    cmd = difft "$LOCAL" "$REMOTE"
+
+[pager]
+    difftool = true
+
+# `git dft` is less to type than `git difftool`.
+[alias]
+    dft = difftool
+    dlog = "-c diff.external=difft log -p --ext-diff"
+
+[includeIf "gitdir:~/github/dala/"]
+    path = ~/.gitconfig-work

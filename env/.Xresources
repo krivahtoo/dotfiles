@@ -7,14 +7,14 @@ Xft.rgba:	rgb
 Xft.lcdfilter:	lcddefault
 Xft.dpi:   96
 
-st.font:         JetBrainsMono Nerd Font:style:medium:pixelsize=11
+st.font:         FantasqueSansM Nerd Font:pixelsize=16
 
 ! window border inner
 st.opacity: 255
 st.borderpx: 2
 
 
-dmenu.font : JetBrainsMono Nerd Font:style:medium:pixelsize=9
+dmenu.font : JetBrainsMono NF:pixelsize=10
 dmenu.background : #090c1b
 dmenu.foreground :  #FFFFFF
 dmenu.selbackground : #61C766
@@ -41,41 +41,6 @@ dmenu.selforeground : #090c1b
 #define base0E #c678dd
 #define base0F #be5046
 
-! *foreground:   base07
-! #ifdef background_opacity
-! *background:   [background_opacity]base00
-! #else
-! *background:   base00
-! #endif
-! *cursorColor:  base05
-!
-! *color0:       base00
-! *color1:       base08
-! *color2:       base0B
-! *color3:       base0A
-! *color4:       base0D
-! *color5:       base0E
-! *color6:       base0C
-! *color7:       base05
-!
-! *color8:       base03
-! *color9:       base08
-! *color10:      base0B
-! *color11:      base0A
-! *color12:      base0D
-! *color13:      base0E
-! *color14:      base0C
-! *color15:      base07
-!
-! ! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
-! ! use 'shell' template to set these if necessary
-! *color16:      base09
-! *color17:      base0F
-! *color18:      base01
-! *color19:      base02
-! *color20:      base04
-! *color21:      base06
-
 *foreground:   #acb4c2
 *background:   #001729
 *cursorColor:  #9ca1aa
@@ -86,7 +51,7 @@ dmenu.selforeground : #090c1b
 *color3:       #fdb86b
 *color4:       #61afef
 *color5:       #c792ea
-*color6:       #7fdbca
+*color6:       #339f8b
 *color7:       #a1aab8
 
 *color8:       #7c8f8f

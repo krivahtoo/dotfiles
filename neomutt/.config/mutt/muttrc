@@ -45,9 +45,11 @@ set header_cache = ~/.cache/mutt
 # Store messages locally to speed things up, like searching message bodies.
 # Can be the same folder as header_cache.
 # This will cost important disk usage according to your e-mail amount.
-set message_cachedir = "~/.cache/mutt"
+set message_cache_dir = "~/.cache/mutt"
 # How often to check for new mail (time in seconds).
 # set mail_check = 30
+
+# set color_directcolor = yes
 
 # Ensure TLS is enforced
 # set ssl_force_tls=no
@@ -73,7 +75,6 @@ set sort=threads
 # When sorting by threads, this variable controls how threads are sorted
 # in relation to other threads, and how the branches of the thread trees are sorted.
 set sort_aux=last-date-received
-set sidebar_visible = yes
 set sidebar_non_empty_mailbox_only = yes
 set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
 set mail_check_stats
@@ -82,14 +83,14 @@ set index_format="%4C %Z %<[y?%<[m?%<[d?%[%H:%M ]&%[%a %d]>&%[%b %d]>&%[%m/%y ]>
 
 set pager_format="-%Z- %C/%m: %-20.20n   %s%*  -- (%P)"
 
-set status_format="-%r-  %D [ :%?M?%M/?%m%?n?  :%n?%?o?  :%o?%?d?  :%d?%?F?  :%F?%?t?  :%t?%?p?  :%p?%?b? ﯬ :%b?%?l? %l?]---(%?T?%T/?%s/%S)-%>-(%P)---"
+set status_format="-%r-  %D [󰚢 :%?M?%M/?%m%?n?  :%n?%?o?  :%o?%?d?  :%d?%?F?  :%F?%?t?  :%t?%?p?  :%p?%?b? ﯬ :%b?%?l? %l?]---(%?T?%T/?%s/%S)-%>-(%P)---"
 
 set new_mail_command="notify-send --icon='/home/krivah/Pictures/mutt.png' \
-'New Email' '%n new messages, %u unread.' -a 'Neomutt' &"
+'New Email' '%n new messages, %u unread.' -a 'Neomutt' -r 633 &"
 
-set flag_chars='- ' #          - 
-set to_chars=' פּ' #  פּ    '
-set status_chars='-' # -    
+set flag_chars='󰇮󰻨󰻧- ' #  󰉀 󰆴   󰇰 󰇮 󰻨 󰻧 - 
+set to_chars=' 󰙅󰉹󰑚' #  󰙅   󰉹 󰑚 
+set status_chars='-󰓨󰁦' # - 󰓨  󰁦 
 
 set editor="nvim"
 

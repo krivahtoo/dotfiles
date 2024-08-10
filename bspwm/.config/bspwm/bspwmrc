@@ -22,17 +22,18 @@ $HOME/.config/polybar/launch.sh --blocks &
 #### AUTOSTART ####
 killall -q sxhkd
 sxhkd &
-picom &
+compfy &
 conky &
 conky -c ~/.config/conky/time.conf -d &>/dev/null
 clipmenud &
 lxsession &
-killall -q mpd-notification
-mpd-notification &
+# killall -q mpd-notification
+# mpd-notification &
 nitrogen --restore &
 dunst &
 $HOME/.local/bin/xsidle.sh betterlockscreen -l dimblur &
 st -c scratchterm &
+kdeconnect-indicator &
 
 #### MONITORS ####
 bspc monitor eDP-1 -d I II III IV V VI VII VIII IX X
@@ -83,5 +84,5 @@ bspc rule -a Screenkey manage=off
 bspc rule -a SimpleScreenRecorder state=floating
 bspc rule -a scratchterm sticky=on state=floating hidden=on
 bspc rule -a Blueman-manager state=floating
-bspc rule -a Discord desktop='^6'
+bspc rule -a discord desktop='^6'
 bspc rule -a TelegramDesktop desktop='^4'

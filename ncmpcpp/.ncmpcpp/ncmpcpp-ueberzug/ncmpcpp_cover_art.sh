@@ -44,15 +44,16 @@ find_cover_image() {
 
     # First we check if the audio file has an embedded album art
     ext="$(mpc --format %file% current | sed 's/^.*\.//')"
+    image_path="/tmp/$(mpc --format %file% current | sed 's/\..*$//' | tr ' ' '_').png"
     if [ "$ext" = "flac" ]; then
         # since FFMPEG cannot export embedded FLAC art we use metaflac
-        metaflac --export-picture-to=/tmp/mpd_cover.jpg \
+        metaflac --export-picture-to="$image_path" \
             "$(mpc --format "$music_library"/%file% current)" &&
-            cover_path="/tmp/mpd_cover.jpg" && return
+            cover_path="$image_path" && return
     else
         ffmpeg -y -i "$(mpc --format "$music_library"/%file% | head -n 1)" \
-            /tmp/mpd_cover.jpg &&
-            cover_path="/tmp/mpd_cover.jpg" && return
+            "$image_path" &&
+            cover_path="$image_path" && return
     fi
 
     # If no embedded art was found we look inside the music file's directory
@@ -76,17 +77,14 @@ find_cover_image() {
 display_cover_image() {
     compute_geometry
 
-    send_to_ueberzug \
-        action "add" \
-        identifier "mpd_cover" \
-        path "$cover_path" \
-        x "$ueber_left" \
-        y "$padding_top" \
-        height "$ueber_height" \
-        width "$ueber_width" \
-        synchronously_draw "True" \
-        scaler "forced_cover" \
-        scaling_position_x "0.5"
+    echo "{\"action\":\"add\",\
+        \"identifier\":\"mpd_cover\",\
+        \"height\":$ueber_height,\
+        \"width\":$ueber_width,\
+        \"path\":\"$cover_path\",\
+        \"scaler\": \"forced_cover\", \
+        \"scaling_position_x\": \"0.5\", \
+        \"x\":$ueber_left,\"y\":$padding_top}" > "$FIFO_UEBERZUG"
 }
 
 detect_window_resizes() {

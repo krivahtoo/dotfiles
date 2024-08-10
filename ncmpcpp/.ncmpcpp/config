@@ -98,7 +98,7 @@ visualizer_data_source = /tmp/mpd.fifo
 #
 ## Available values: spectrum, wave, wave_filled, ellipse.
 ##
-visualizer_type = spectrum
+visualizer_type = ellipse
 #
 #visualizer_fps = 60
 #
@@ -250,7 +250,7 @@ song_list_format = "$6{%20a »$4 %20t$/r$R}|{%40f}"
 #current_item_inactive_column_suffix = $/r$(end)
 #
 # 喇 奈     契
-now_playing_prefix = $b$3奈
+now_playing_prefix = "$b$3 "
 #
 #now_playing_suffix = $/b
 #
@@ -265,7 +265,8 @@ now_playing_prefix = $b$3奈
 ##
 ## Note: attributes are not supported for the following variables.
 ##
-song_window_title_format = {%t - }{%a}|{%f}
+# song_window_title_format = {%t - }{%a}|{%f}
+song_window_title_format = Music
 ##
 ## Note: Below variables are used for sorting songs in browser.  The sort mode
 ## determines how songs are sorted, and can be used in combination with a sort
@@ -273,7 +274,7 @@ song_window_title_format = {%t - }{%a}|{%f}
 ## browser_sort_mode are "type", "name", "mtime", "format" and "none".
 ##
 #
-#browser_sort_mode = type
+browser_sort_mode = mtime
 #
 #browser_sort_format = {%a - }{%t}|{%f} {%l}
 #
@@ -367,8 +368,8 @@ playlist_display_mode = classic
 ##
 ## Note: You can specify third character which will be used to build 'empty'
 ## part of progressbar.
-##
-progressbar_look = ─⊙ 
+##⊙ 
+progressbar_look = ━⊚─
 #
 ## Available values: database, playlist.
 ##
