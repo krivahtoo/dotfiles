@@ -22,7 +22,7 @@ $HOME/.config/polybar/launch.sh --blocks &
 #### AUTOSTART ####
 killall -q sxhkd
 sxhkd &
-compfy &
+picom -b &
 conky &
 conky -c ~/.config/conky/time.conf -d &>/dev/null
 clipmenud &
