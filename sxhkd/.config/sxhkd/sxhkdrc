@@ -142,7 +142,8 @@ super + {_,shift + }{Left,Down,Up,Right}
 
 # App launcher
 super + space
-  rofi -modi run,drun,window -show drun -show-icons -sidebar-mode
+  rofi -no-config -no-lazy-grab -show drun -modi drun,window,run -theme ~/.config/polybar/blocks/scripts/rofi/launcher.rasi
+# rofi -modi run,drun,window -show drun -show-icons -sidebar-mode
 
 # App launcher 2
 super + z
@@ -162,6 +163,9 @@ super + u
 ctrl + alt + Delete
   xkill
 
+# open the next window in a selected area
+super + ctrl + f
+  bspc rule -a \* -o state=floating rectangle=$(slop -l -c 0.28,0.35,0.83,0.5)
 
 # APPLICATION KEYBINDINGS (Super + Alt + Key)
 
@@ -262,9 +266,21 @@ XF86Audio{Prev,Next,Play,Stop}
 ctrl + XF86Audio{Prev,Next}
   mpc seek {-,+}00:00:01
 
+# Home
+XF86HomePage
+  bspc desktop -f focused:^1
+
+# Calculator
+XF86Calculator
+  rofi -show calc -modi calc -no-show-match -no-sort
+
 # Volume
-XF86Audio{LowerVolume,RaiseVolume,Mute}
-  pamixer {-d 5,-i 5,-t}
+{_,shift + ,super + }XF86Audio{LowerVolume,RaiseVolume}
+  pamixer {-d 5,-d 1,-d 10,-i 5,-i 1,-i 10} && \
+  dunstify -a "Volume" "Volume" -h int:value:`pamixer --get-volume` \
+  -h string:category:volume -i volume-level-high -r 100
+XF86AudioMute
+  pamixer -t
 
 # Screen brightness
 {_,shift + ,super + }XF86MonBrightness{Down,Up}
