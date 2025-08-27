@@ -70,6 +70,7 @@ $scala\
 $solidity\
 $swift\
 $terraform\
+$typst\
 $vlang\
 $vagrant\
 $zig\
@@ -86,11 +87,10 @@ $azure\
 $env_var\
 $crystal\
 $custom\
-$sudo\
 $cmd_duration\
 $line_break\
 $jobs\
-$time\
+$sudo\
 $status\
 $os\
 $container\
@@ -130,7 +130,7 @@ use_logical_path = true
 format = '[$path]($style)[$read_only]($read_only_style) '
 style = 'cyan bold'
 disabled = false
-read_only = ' '
+read_only = ' '
 read_only_style = 'red'
 truncation_symbol = ''
 home_symbol = '~'
@@ -143,19 +143,44 @@ home_symbol = '~'
 
 [git_status]
 style = '8 bold'
-ahead = "⇡${count}"
-diverged = "⇕⇡${ahead_count}⇣${behind_count}"
-behind = "⇣${count}"
-staged = '[⧾\($count\)](green)'
-stashed = '[↰](65)'
-conflicted = '[⥯](160)'
-deleted = '[✘](red)'
+ahead = "${count}"
+diverged = "⇕${ahead_count}${behind_count}"
+behind = "${count}"
+staged = '[\($count\)](green)'
+stashed = '[ ](65)'
+conflicted = '[ ](160)'
+deleted = '[ ](red)'
 renamed = '[»](100)'
 modified = '[!](202)'
 untracked = '[?](197)'
 
+[jobs]
+symbol = '󰣏'
+format = '[$number$symbol]($style) '
+
+[time]
+disabled = false
+format = '[󰔛 $time]($style)'
+style = 'white dimmed'
+
+# [profiles]
+# transient = """$character"""
+
+[sudo]
+disabled = false
+format = '[$symbol]($style)'
+style = 'blue dimmed'
+symbol = ' '
+
+[status]
+disabled = false
+symbol = ' '
+
 [aws]
 symbol = "  "
+
+[gcloud]
+symbol = "󱇶  "
 
 [conda]
 symbol = " "
@@ -188,16 +213,16 @@ symbol = " "
 symbol = " "
 
 [memory_usage]
-symbol = " "
+symbol = "󰍛 "
 
 [nim]
-symbol = " "
+symbol = " "
 
 [nix_shell]
 symbol = " "
 
 [package]
-symbol = " "
+symbol = " "
 
 [perl]
 symbol = " "

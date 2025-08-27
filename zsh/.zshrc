@@ -199,7 +199,7 @@ precmd_functions+=(set-long-prompt)
 
 set-short-prompt() {
   if [[ $PROMPT != '%# ' ]]; then
-      PROMPT=$(starship prompt -s ${STARSHIP_CMD_STATUS:-0} --profile transient)
+      PROMPT=$(starship module -s ${STARSHIP_CMD_STATUS:-0} character)
       # Add time at the end of the last command
       RPROMPT=$'%{\e[999C%}\e[10D%F{10}'$(starship module time)'%f '
     zle .reset-prompt 2>/dev/null # hide the errors on ctrl+c
