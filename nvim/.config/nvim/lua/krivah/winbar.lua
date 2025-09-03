@@ -11,6 +11,7 @@ M.winbar_filetype_exclude = {
   'toggleterm',
   'man',
   'gitcommit',
+  'oil',
 }
 
 local isempty = function(s)

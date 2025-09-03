@@ -1,6 +1,6 @@
 require('telescope').setup {
   defaults = {
-    prompt_prefix = ' ',
+    prompt_prefix = ' ',
     selection_caret = ' ',
     multi_icon = '',
     borderchars = {
@@ -42,4 +42,3 @@ map('n', '<leader>fm', t.man_pages, { desc = 'search man page' })
 map('n', '<leader>fd', t.fd, { desc = 'run fd' })
 map('n', '<leader>fo', t.oldfiles, { desc = 'search old files' })
 map('n', '<leader>:', t.command_history, { desc = 'command history' })
-

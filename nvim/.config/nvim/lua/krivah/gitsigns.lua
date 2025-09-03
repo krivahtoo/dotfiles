@@ -2,36 +2,11 @@ local gs = require 'gitsigns'
 
 gs.setup {
   signs = {
-    add = {
-      hl = 'GitSignsAdd',
-      text = '+',
-      numhl = 'GitSignsAddNr',
-      linehl = 'GitSignsAddLn',
-    },
-    change = {
-      hl = 'GitSignsChange',
-      text = '│',
-      numhl = 'GitSignsChangeNr',
-      linehl = 'GitSignsChangeLn',
-    },
-    delete = {
-      hl = 'GitSignsDelete',
-      text = '_',
-      numhl = 'GitSignsDeleteNr',
-      linehl = 'GitSignsDeleteLn',
-    },
-    topdelete = {
-      hl = 'GitSignsDelete',
-      text = '‾',
-      numhl = 'GitSignsDeleteNr',
-      linehl = 'GitSignsDeleteLn',
-    },
-    changedelete = {
-      hl = 'GitSignsChange',
-      text = '~',
-      numhl = 'GitSignsChangeNr',
-      linehl = 'GitSignsChangeLn',
-    },
+    add = { text = '+' },
+    change = { text = '│' },
+    delete = { text = '_' },
+    topdelete = { text = '‾' },
+    changedelete = { text = '~' },
   },
   signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
   numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
@@ -97,9 +72,9 @@ gs.setup {
     delay = 1000,
     ignore_whitespace = false,
   },
-  current_line_blame_formatter_opts = {
-    relative_time = true,
-  },
+  -- current_line_blame_formatter_opts = {
+  --   relative_time = true,
+  -- },
   current_line_blame_formatter = function(name, blame_info, opts)
     if blame_info.author == name then
       blame_info.author = 'You'
@@ -109,18 +84,18 @@ gs.setup {
       text = blame_info.author
     else
       local date_time
-      if opts.relative_time then
+      -- if opts.relative_time then
         date_time = require('gitsigns.util').get_relative_time(
           tonumber(blame_info['author_time'])
         )
-      else
-        date_time = os.date(
-          '%Y-%m-%d',
-          tonumber(blame_info['author_time'])
-        )
-      end
+      -- else
+      --   date_time = os.date(
+      --     '%Y-%m-%d',
+      --     tonumber(blame_info['author_time'])
+      --   )
+      -- end
       text = string.format(
-        '%s, %s - %s',
+        ' %s, %s - %s',
         blame_info.author,
         date_time,
         blame_info.summary
@@ -139,9 +114,6 @@ gs.setup {
     relative = 'cursor',
     row = 0,
     col = 1,
-  },
-  yadm = {
-    enable = false,
   },
 }
 

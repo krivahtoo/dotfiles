@@ -52,4 +52,4 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
-require 'krivah.gps'
+-- require 'krivah.gps'

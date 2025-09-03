@@ -16,7 +16,7 @@ local servers = {
   'solargraph',
   'cmake',
   'texlab',
-  'tsserver',
+  'ts_ls',
   'vimls',
   'vuels',
   'nimls',
@@ -24,7 +24,8 @@ local servers = {
   'emmet_language_server',
   'intelephense',
   'slint_lsp',
-  'typst_lsp',
+  'tinymist',
+  'sqlls',
   'gopls', --, 'html', 'cssls'
   {
     'rust_analyzer',
@@ -42,24 +43,32 @@ local servers = {
     'tailwindcss',
     config = {
       root_dir = function(fname)
-        return (
-            util.root_pattern(
+        -- If Neovim passes a buffer number, convert it to a filename
+        if type(fname) == "number" then
+          fname = vim.api.nvim_buf_get_name(fname)
+        end
+
+        if fname == "" then
+          return nil
+        end
+
+        local root = util.root_pattern(
               'tailwind.config.js',
               'tailwind.config.ts',
-              'tailwind.config.cjs'
+              'tailwind.config.cjs',
+              'components.json' -- shadcn
             )(fname)
-            or util.root_pattern('windi.config.js', 'windi.config.ts')(
-              fname
-            )
-            or util.root_pattern('postcss.config.js', 'postcss.config.ts')(
-              fname
-            )
-          )
-          and (
-            util.find_package_json_ancestor(fname)
-            or util.find_node_modules_ancestor(fname)
-            or util.find_git_ancestor(fname)
-          )
+            or util.root_pattern('windi.config.js', 'windi.config.ts')(fname)
+            or util.root_pattern('postcss.config.js', 'postcss.config.ts')(fname)
+
+        if root then
+          return util.find_package_json_ancestor(fname)
+              or util.find_node_modules_ancestor(fname)
+              or util.find_git_ancestor(fname)
+              or root
+        end
+
+        return nil
       end,
     },
   },
@@ -79,11 +88,6 @@ local servers = {
             keywordSnippet = 'Both',
             callSnippet = 'Both',
             displayContext = 5,
-          },
-          develop = {
-            enable = false,
-            debuggerPor = 11412,
-            debuggerWait = false,
           },
           diagnostics = {
             enable = true,
@@ -127,11 +131,13 @@ local servers = {
       commands = {
         Format = {
           function()
-            vim.lsp.buf.range_formatting(
-              {},
-              { 0, 0 },
-              { vim.fn.line '$', 0 }
-            )
+            vim.lsp.buf.format {
+              async = true,
+              range = {
+                ["start"] = { 0, 0 },
+                ["end"] = { vim.fn.line("$"), 0 },
+              },
+            }
           end,
         },
       },
@@ -141,17 +147,26 @@ local servers = {
 
 require('neodev').setup {}
 
-for _, server in ipairs(servers) do
-  local config = { on_attach = on_attach, capabilities = capabilities }
-  local name = server
+vim.api.nvim_create_autocmd('InsertEnter', {
+  callback = function()
+    if vim.lsp.is_enabled('lua_ls') then
+      return
+    end
+    for _, server in ipairs(servers) do
+      local config = { on_attach = on_attach, capabilities = capabilities }
+      local name = server
 
-  if type(server) == 'table' then
-    name = server[1]
-    config = vim.tbl_deep_extend('force', config, server.config)
-  end
+      if type(server) == 'table' then
+        name = server[1]
+        config = vim.tbl_deep_extend('force', config, server.config)
+      end
 
-  nvim_lsp[name].setup(config)
-end
+      vim.lsp.config(name, config)
+      vim.lsp.enable(name)
+    end
+  end,
+})
+
 
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
@@ -170,9 +185,19 @@ map(
   vim.lsp.buf.definition,
   { desc = 'Go to definition' }
 )
+
 map('n', '<leader>ih', function()
-  vim.lsp.inlay_hint(0) -- available in nightly
+  local buf = vim.api.nvim_get_current_buf()
+  local enabled = vim.lsp.inlay_hint.is_enabled(buf)
+  vim.lsp.inlay_hint(buf, not enabled)
 end, { desc = 'Toggle inlay hints' })
+
+map('n', '<Space>h', function()
+  local buf = vim.api.nvim_get_current_buf()
+  local enabled = vim.lsp.inlay_hint.is_enabled(buf)
+  vim.lsp.inlay_hint(buf, not enabled)
+end, { desc = 'Toggle inlay hints' })
+
 map(
   'n',
   '<leader>vr',

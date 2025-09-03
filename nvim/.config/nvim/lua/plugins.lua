@@ -23,7 +23,7 @@ return require('packer').startup {
       end,
     }
     use {
-      'tami5/lspsaga.nvim',
+      'nvimdev/lspsaga.nvim',
       after = 'nvim-lspconfig',
       config = function()
         require 'krivah.lspsaga'
@@ -34,7 +34,7 @@ return require('packer').startup {
       cmd = 'Trouble',
       requires = 'kyazdani42/nvim-web-devicons',
       config = function()
-        require('trouble').setup {
+       require('trouble').setup {
           -- your configuration comes here
           -- or leave it empty to use the default settings
           -- refer to the configuration section below
@@ -126,9 +126,8 @@ return require('packer').startup {
           dic = {
             ['*'] = '/usr/share/dict/words',
           },
-          exact = -1, -- 2
+          exact_length = 2,
           async = false,
-          capacity = 5,
           debug = false,
         }
       end,
@@ -176,7 +175,7 @@ return require('packer').startup {
     }
     use {
       'honza/vim-snippets',
-      event = 'InsertEnter',
+      event = 'BufEnter',
     }
 
     -- Fuzzy finders
@@ -190,18 +189,29 @@ return require('packer').startup {
         require 'krivah.telescope'
       end,
     }
+    use {
+      "ibhagwan/fzf-lua",
+      cmd = 'FzfLua',
+      module = 'fzf-lua',
+      -- optional for icon support
+      requires = { "nvim-tree/nvim-web-devicons" },
+      config = function()
+        require 'krivah.fzf-lua'
+      end,
+    }
 
     -- Treesitter
     use {
       'nvim-treesitter/nvim-treesitter',
       requires = {
-        'https://git.sr.ht/~p00f/nvim-ts-rainbow',
+        'hiphish/rainbow-delimiters.nvim',
         'windwp/nvim-ts-autotag',
         -- 'SmiteshP/nvim-gps',
       },
       config = function()
         require 'krivah.treesitter'
       end,
+      -- branch = 'main',
       run = ':TSUpdate',
     }
     use {
@@ -231,19 +241,19 @@ return require('packer').startup {
 
     -- ui status lines
     use {
-      'NTBBloodbath/galaxyline.nvim',
-      -- after = 'nightfly.nvim',
+      'rebelot/heirline.nvim',
+      event = "UiEnter",
       requires = {
         'kyazdani42/nvim-web-devicons',
       },
       config = function()
-        require 'krivah.galaxyline'
+        require 'krivah.heirline'
       end,
     }
 
     use {
       'akinsho/nvim-bufferline.lua',
-      tag = 'v3.*',
+      tag = 'v4.*',
       -- after = 'nightfly.nvim',
       requires = 'kyazdani42/nvim-web-devicons',
       config = function()
@@ -281,12 +291,17 @@ return require('packer').startup {
       end,
     }
     use {
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      module = 'ts_context_commentstring'
+    }
+    -- builtin in v0.10
+    use {
       'numToStr/Comment.nvim',
-      keys = { 'gc', 'gb' },
+      -- keys = { 'gc', 'gb' },
       module = 'Comment',
       requires = { 'JoosepAlviste/nvim-ts-context-commentstring' },
       config = function()
-        require 'krivah.comment'
+        -- require 'krivah.comment'
       end,
     }
 
@@ -620,7 +635,7 @@ return require('packer').startup {
         vim.keymap.set("n", "<leader>u", "<cmd>Telescope undo<cr>")
       end,
     }
-    
+
     use {
       'tommcdo/vim-exchange',
       keys = {
@@ -630,7 +645,39 @@ return require('packer').startup {
 
     use {
       'andweeb/presence.nvim',
-      module = 'presence',
+      config = function()
+        require("presence").setup({
+          -- General options
+          auto_update         = true,                       -- Update activity based on autocmd events (if `false`, map or manually execute `:lua package.loaded.presence:update()`)
+          main_image          = "file",                   -- Main image display (either "neovim" or "file")
+          log_level           = nil,                        -- Log messages at or above this level (one of the following: "debug", "info", "warn", "error")
+          debounce_timeout    = 10,                         -- Number of seconds to debounce events (or calls to `:lua package.loaded.presence:update(<filename>, true)`)
+          enable_line_number  = true,                      -- Displays the current line number instead of the current project
+          blacklist           = {},                         -- A list of strings or Lua patterns that disable Rich Presence if the current file name, path, or workspace matches
+          buttons             = true,                       -- Configure Rich Presence button(s), either a boolean to enable/disable, a static table (`{{ label = "<label>", url = "<url>" }, ...}`, or a function(buffer: string, repo_url: string|nil): table)
+          file_assets         = {},                         -- Custom file asset definitions keyed by file names and extensions (see default config at `lua/presence/file_assets.lua` for reference)
+          show_time           = true,                       -- Show the timer
+
+          -- Rich Presence text options
+          editing_text        = "Editing %s",               -- Format string rendered when an editable file is loaded in the buffer (either string or function(filename: string): string)
+          file_explorer_text  = "Browsing %s",              -- Format string rendered when browsing a file explorer (either string or function(file_explorer_name: string): string)
+          git_commit_text     = "Committing changes",       -- Format string rendered when committing changes in git (either string or function(filename: string): string)
+          plugin_manager_text = "Managing plugins",         -- Format string rendered when managing plugins (either string or function(plugin_manager_name: string): string)
+          reading_text        = "Reading %s",               -- Format string rendered when a read-only or unmodifiable file is loaded in the buffer (either string or function(filename: string): string)
+          workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
+          line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
+        })
+      end
+    }
+
+    use {
+      'kylechui/nvim-surround',
+      tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+      config = function()
+          require("nvim-surround").setup({
+              -- Configuration here, or leave empty to use defaults
+          })
+      end
     }
 
     use {
@@ -646,7 +693,37 @@ return require('packer').startup {
     }
 
     use {
+      'luckasRanarison/tailwind-tools.nvim',
+      requires = {
+        'nvim-treesitter/nvim-treesitter'
+      },
+      cmd = 'Tailwind*',
+      config = function()
+        require("tailwind-tools").setup {
+          document_color = {
+            enabled = true, -- can be toggled by commands
+            kind = "inline", -- "inline" | "foreground" | "background"
+            inline_symbol = "󰝤 ", -- only used in inline mode
+            debounce = 200, -- in milliseconds, only applied in insert mode
+          },
+          conceal = {
+            enabled = false, -- can be toggled by commands
+            min_length = 30, -- only conceal classes exceeding the provided length
+            symbol = "󱏿 ", -- only a single character is allowed
+            highlight = { -- extmark highlight options, see :h 'highlight'
+              fg = "#38BDF8",
+            },
+          },
+          custom_filetypes = {} -- see the extension section to learn how it works
+        }
+      end
+    }
+
+    use {
       '~/github/fzf-tmux.nvim',
+      cond = function()
+        return not vim.g.neovide
+      end,
       config = function()
         require 'krivah.fzf-tmux'
       end,

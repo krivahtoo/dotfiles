@@ -18,6 +18,40 @@ vim.fn.sign_define('LightBulbSign', {
   texthl = 'DiagnosticSignInfo',
   numhl = '',
 })
+vim.diagnostic.config {
+  underline = {
+    severity = { min = vim.diagnostic.severity.WARN },
+  },
+  virtual_text = {
+    spacing = 4,
+    prefix = function(diag, i, total)
+      if i > 1 then
+        return ""
+      end
+      if total > 1 then
+        return string.format('%d', total)
+      end
+      return '◈ '
+    end,
+    format = function(diag)
+      local sign = signs[severity_names[diag.severity]] or signs.Hint
+      return string.format('%s %s', sign, diag.message)
+    end,
+  },
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = signs.Error,
+      [vim.diagnostic.severity.WARN] = signs.Warn,
+      [vim.diagnostic.severity.INFO] = signs.Info,
+      [vim.diagnostic.severity.HINT] = signs.Hint,
+    },
+  },
+  float = {
+    source = 'if_many',
+    border = 'single',
+  },
+  severity_sort = true,
+}
 
 vim.api.nvim_create_autocmd('LspAttach', {
   once = true,
@@ -28,13 +62,32 @@ vim.api.nvim_create_autocmd('LspAttach', {
       },
       virtual_text = {
         spacing = 4,
-        prefix = '',
+        prefix = function(diag, i, total)
+          if i > 1 then
+            return ""
+          end
+          if total > 1 then
+            return string.format('%d', total)
+          end
+          return '◈ '
+        end,
         format = function(diag)
           local sign = signs[severity_names[diag.severity]] or signs.Hint
           return string.format('%s %s', sign, diag.message)
         end,
       },
-      signs = true,
+      virtual_lines = {
+        severity = { min = vim.diagnostic.severity.WARN },
+        current_line = true,
+      },
+      signs = {
+        text = {
+          [vim.diagnostic.severity.ERROR] = signs.Error,
+          [vim.diagnostic.severity.WARN] = signs.Warn,
+          [vim.diagnostic.severity.INFO] = signs.Info,
+          [vim.diagnostic.severity.HINT] = signs.Hint,
+        },
+      },
       float = {
         source = 'if_many',
         border = 'single',
@@ -49,26 +102,10 @@ local map = vim.keymap.set
 map('n', '<F8>', function()
   if vim.g.lsp_virtual_text == nil or vim.g.lsp_virtual_text == true then
     vim.g.lsp_virtual_text = false
-    vim.diagnostic.config {
-      underline = false,
-      virtual_text = false,
-      signs = false,
-    }
+    vim.diagnostic.hide()
   else
     vim.g.lsp_virtual_text = true
-    vim.diagnostic.config {
-      underline = {
-        severity = { min = vim.diagnostic.severity.WARN },
-      },
-      virtual_text = {
-        prefix = '', -- ⛬ ► ◉ ◈
-        format = function(diag)
-          local sign = signs[severity_names[diag.severity]] or signs.Hint
-          return string.format('%s %s', sign, diag.message)
-        end,
-      },
-      signs = true,
-    }
+    vim.diagnostic.show()
   end
 end, { desc = 'Toggle virtual text' })
 -- Diagnostics

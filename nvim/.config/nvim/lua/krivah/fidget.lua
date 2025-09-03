@@ -1,6 +1,6 @@
 require('fidget').setup {
   text = {
-    spinner = 'dots_negative', -- animation shown when tasks are ongoing
+    spinner = 'dots_pulse', -- animation shown when tasks are ongoing
     done = '', -- character shown when all tasks are complete
     commenced = 'Started', -- message shown when task starts
     completed = 'Done', -- message shown when task completes

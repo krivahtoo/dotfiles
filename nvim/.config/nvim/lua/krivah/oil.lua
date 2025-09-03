@@ -20,7 +20,7 @@ require('oil').setup {
     spell = false,
     list = false,
     conceallevel = 3,
-    concealcursor = 'n',
+    concealcursor = 'nvic',
   },
   -- Restore window options to previous values when leaving an oil buffer
   restore_win_options = true,
@@ -53,10 +53,15 @@ require('oil').setup {
   use_default_keymaps = true,
   view_options = {
     -- Show files and directories that start with "."
-    show_hidden = false,
+    show_hidden = true,
     -- This function defines what is considered a "hidden" file
     is_hidden_file = function(name, bufnr)
-      return vim.startswith(name, '.')
+      local m = name:match("^%.")
+      return m ~= nil
+    end,
+    -- This function defines what will never be shown, even when `show_hidden` is set
+    is_always_hidden = function(name, bufnr)
+      return name == ".." or name == ".git"
     end,
   },
   -- Configuration for the floating window in oil.open_float
@@ -68,6 +73,7 @@ require('oil').setup {
     border = 'rounded',
     win_options = {
       winblend = 0,
+      -- style = 'minimal',
     },
   },
   -- Configuration for the actions floating preview window

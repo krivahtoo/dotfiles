@@ -4,7 +4,29 @@ vim.cmd [[syntax enable]]
 
 vim.g.do_filetype_lua = 1
 
-o.guifont = 'FantasqueSansM Nerd Font:h12,codicon:h12,JoyPixels:h12'
+vim.o.sessionoptions="buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+if vim.g.neovide then
+  -- Put anything you want to happen only in Neovide here
+  o.guifont = 'FantasqueSansM Nerd Font,codicon,JoyPixels:h12'
+
+  vim.g.neovide_scroll_animation_far_lines = 10
+  vim.g.neovide_cursor_vfx_mode = "railgun"
+
+  vim.g.neovide_hide_mouse_when_typing = true
+
+  -- Helper function for transparency formatting
+  local alpha = function()
+    return string.format("%x", math.floor(255 * (vim.g.transparency or 0.8)))
+  end
+  -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
+  vim.g.neovide_transparency = 0.6
+  vim.g.transparency = 0.9
+  vim.g.neovide_background_color = "#011627" .. alpha()
+  vim.g.neovide_scale_factor = 1.0
+end
+
+-- o.guifont = 'FantasqueSansM Nerd Font:h12,codicon:h12,JoyPixels:h12'
 o.number = true
 o.relativenumber = true
 o.numberwidth = 3
@@ -35,7 +57,7 @@ o.wildignore = {
 o.list = false
 o.listchars = {
   eol = '¬',
-  tab = ' ',
+  tab = '󰌒 ',
   trail = '~',
   extends = '→',
   precedes = '←',
@@ -87,10 +109,19 @@ o.omnifunc='v:lua.vim.lua_omnifunc'
 o.spell = false
 o.spelllang = { 'en_us' }
 
+-- Neovim v0.10
+-- https://github.com/JoosepAlviste/nvim-ts-context-commentstring/issues/109#issue-2305134958
+local get_option = vim.filetype.get_option
+vim.filetype.get_option = function(filetype, option)
+  return option == "commentstring"
+    and require("ts_context_commentstring.internal").calculate_commentstring()
+    or get_option(filetype, option)
+end
+
 --- @return string fold_text a neat template for the summary of what is on a fold
 function NeatFoldText()
   return string.format(
-    '╒═╡    %s  %s  (%d lines)╞',
+    '╒═╡    %s  %s  (%d lines)╞',
     vim.api.nvim_buf_get_lines(
       0,
       vim.v.foldstart - 1,

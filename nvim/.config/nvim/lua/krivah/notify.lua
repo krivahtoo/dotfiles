@@ -36,4 +36,5 @@ require('notify').setup {
 
 require('telescope').load_extension 'notify'
 
-vim.notify = require 'notify'
+-- vim.notify = require 'notify'
+vim.notify = vim.schedule_wrap(require("notify"))

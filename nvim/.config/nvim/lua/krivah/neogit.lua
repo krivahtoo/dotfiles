@@ -21,9 +21,9 @@ neogit.setup {
   -- customize displayed signs
   signs = {
     -- { CLOSED, OPENED }
-    section = { '⏵', '⏷' },
-    item = { '⏵', '⏷' },
-    hunk = { '▹', '▿' },
+    section = { '', '' },
+    item = { '', '' },
+    hunk = { '', '' },
   },
   integrations = {
     -- Neogit only provides inline diffs. If you want a more traditional way to look at diffs, you can use `sindrets/diffview.nvim`.
@@ -34,34 +34,43 @@ neogit.setup {
   sections = {
     untracked = {
       folded = false,
+      hidden = false,
     },
     unstaged = {
       folded = false,
+      hidden = false,
     },
     staged = {
       folded = false,
+      hidden = false,
     },
     stashes = {
       folded = true,
+      hidden = false,
     },
     unpulled = {
       folded = true,
+      hidden = false,
     },
     unmerged = {
       folded = false,
+      hidden = false,
     },
     recent = {
       folded = true,
+      hidden = false,
     },
   },
   -- override/add mappings
   mappings = {
     -- modify status buffer mappings
     status = {
-      -- Adds a mapping with "B" as key that does the "BranchPopup" command
-      ['B'] = 'BranchPopup',
       -- Removes the default mapping of "s"
       -- ["s"] = "",
+    },
+    popup = {
+      -- Adds a mapping with "B" as key that does the "BranchPopup" command
+      ['B'] = 'BranchPopup',
     },
   },
 }
