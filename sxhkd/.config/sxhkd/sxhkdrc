@@ -276,15 +276,18 @@ XF86Calculator
 
 # Volume
 {_,shift + ,super + }XF86Audio{LowerVolume,RaiseVolume}
-  pamixer {-d 5,-d 1,-d 10,-i 5,-i 1,-i 10} && \
-  dunstify -a "Volume" "Volume" -h int:value:`pamixer --get-volume` \
-  -h string:category:volume -i volume-level-high -r 100
+  pamixer {-d 5,-d 1,-d 10,-i 5,-i 1,-i 10}
+# using quickshell
+#  && \
+#  dunstify -a "Volume" "Volume" -h int:value:`pamixer --get-volume` \
+#  -h string:category:volume -i volume-level-high -r 100
+
 XF86AudioMute
   pamixer -t
 
 # Screen brightness
 {_,shift + ,super + }XF86MonBrightness{Down,Up}
-  light {-U 1,-U 10,-S 5,-A 1,-A 10,-S 100}
+  light {-U 5,-U 1,-S 5,-A 5,-A 1,-S 100}
 
 # Power button
 # Make sure to change
