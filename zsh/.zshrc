@@ -144,6 +144,24 @@ alias ip='ip -color=auto'
 alias grep='grep --color=auto'
 alias ls='exa --icons'
 
+alias -g NE='2>/dev/null'
+alias -g DN='> /dev/null'
+alias -g NUL='> /dev/null 2>&1'
+
+alias -g C='| xsel -b'
+
+######
+# KEY BINDINGS
+#
+
+# Copy command
+copy-command() {
+  echo -n $BUFFER | xsel -b
+  zle -M 'Copied to clipboard'
+}
+zle -N copy-command
+bindkey '^y' copy-command
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 #[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -164,6 +182,13 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p --paging always'"
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 export GPG_TTY=$(tty)
+
+alias -s json='jless'
+alias -s go='$EDITOR'
+alias -s rs='$EDITOR'
+alias -s js='$EDITOR'
+alias -s yaml='$EDITOR'
+alias -s toml='$EDITOR'
 
 eval "$(zoxide init zsh)"
 
